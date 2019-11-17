@@ -75,6 +75,13 @@ void draw(){
   }
 }
 
+void mousePressed(){
+  int h = newGameButton.height;
+  int w = newGameButton.width;
+  if(541 <= mouseX && mouseX <= 541+w && height-22-h <= mouseY && mouseY <= height-22 && transition > 1)
+    exit();
+}
+
 void loadResources(){
   bg = loadImage("main_menu_bg.png");
   nbLoaded++;
