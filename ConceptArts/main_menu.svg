@@ -16,7 +16,10 @@
    version="1.1"
    id="svg8"
    inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
-   sodipodi:docname="main_menu.svg">
+   sodipodi:docname="main_menu.svg"
+   inkscape:export-filename="C:\Users\Pierre\Desktop\main_menu.png"
+   inkscape:export-xdpi="64.24649"
+   inkscape:export-ydpi="64.24649">
   <defs
      id="defs2">
     <linearGradient
@@ -424,8 +427,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.49497475"
-     inkscape:cx="819.50993"
-     inkscape:cy="570.10155"
+     inkscape:cx="1004.2071"
+     inkscape:cy="548.57888"
      inkscape:document-units="px"
      inkscape:current-layer="g3759"
      showgrid="false"
