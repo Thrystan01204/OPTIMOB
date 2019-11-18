@@ -9,10 +9,12 @@ PImage cloud2;
 PImage newGameButton;
 PImage loadGameButton;
 PImage quitGameButton;
+PImage creditsButton;
 
 PImage newGameHoverButton;
 PImage loadGameHoverButton;
 PImage quitGameHoverButton;
+PImage creditsHoverButton;
 
 int nbLoaded = 0;
 
@@ -28,14 +30,14 @@ void setup(){
 }
 
 void draw(){
-  if(nbLoaded != 10) {
+  if(nbLoaded != 12) {
     background(50, 50, 50);
     textSize(24);
     fill(255);
     textAlign(CENTER, CENTER);
     text("Loading...", width/2, 64);
     fill(255, 0, 0);
-    float w = map(nbLoaded, 0, 7, 0, width);
+    float w = map(nbLoaded, 0, 12, 0, width);
     rect(0, height/2+64, w, 50);
   } else {
     background(bg);
@@ -51,21 +53,26 @@ void draw(){
     
     int h = newGameButton.height;
     int w = newGameButton.width;
-    //tint(255, 50, 50);
-    if(541 <= mouseX && mouseX <= 541+w && height-164-h <= mouseY && mouseY <= height-164 && transition > 1)
+    
+    if(541 <= mouseX && mouseX <= 541+w && height-164-h <= mouseY && mouseY <= height-164 && transition > 0.75)
       image(newGameHoverButton, 541, height-164-h);
     else
       image(newGameButton, 541, height-164-h);
       
-    if(541 <= mouseX && mouseX <= 541+w && height-93-h <= mouseY && mouseY <= height-93 && transition > 1)
+    if(541 <= mouseX && mouseX <= 541+w && height-93-h <= mouseY && mouseY <= height-93 && transition > 0.75)
       image(loadGameHoverButton, 541, height-93-h);
     else
       image(loadGameButton, 541, height-93-h);
       
-    if(541 <= mouseX && mouseX <= 541+w && height-22-h <= mouseY && mouseY <= height-22 && transition > 1)
+    if(541 <= mouseX && mouseX <= 541+w && height-22-h <= mouseY && mouseY <= height-22 && transition > 0.75)
       image(quitGameHoverButton, 541, height-22-h);
     else
       image(quitGameButton, 541, height-22-h);
+      
+    if(88 <= mouseX && mouseX <= 88+w && height-22-h <= mouseY && mouseY <= height-22 && transition > 0.75)
+      image(creditsHoverButton, 88, height-22-h);
+    else
+      image(creditsButton, 88, height-22-h);
 
     if(transition <= 1){
        fill(0, map(transition, 0, 1, 255, 0));
@@ -98,16 +105,20 @@ void loadResources(){
   quitGameButton = loadImage("quit_game_button.png");
   nbLoaded++;
   
+  creditsButton = loadImage("credits_button.png");
+  nbLoaded++;
+  
   quitGameHoverButton = loadImage("quit_game_hover_button.png");
   nbLoaded++;
   loadGameHoverButton = loadImage("load_game_hover_button.png");
   nbLoaded++;
   newGameHoverButton = loadImage("new_game_hover_button.png");
   nbLoaded++;
+  creditsHoverButton = loadImage("credits_hover_button.png");
+  nbLoaded++;
   
   titleMusic = new SoundFile(this, "adventure.wav");
   nbLoaded++;
-  titleMusic.loop();
   titleMusic.jump(12);
-  
+  titleMusic.loop();
 }
