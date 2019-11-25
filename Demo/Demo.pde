@@ -119,6 +119,7 @@ void loadResources(){
   
   titleMusic = new SoundFile(this, "adventure.wav");
   nbLoaded++;
-  titleMusic.jump(12);
+  
   titleMusic.loop();
+  titleMusic.jump(12);
 }
