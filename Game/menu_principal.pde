@@ -36,9 +36,6 @@ class MenuPrincipal{
     //On charge l'image associée aux nuages
     petitNuage.chargeImage("MenuPrincipal/petit_nuage.png");
     grosNuage.chargeImage("MenuPrincipal/gros_nuage.png");
-    
-    //On lance la musique de fond et on la répète indéfiniment
-    musique.loop();
   }
   
   
@@ -68,6 +65,7 @@ class MenuPrincipal{
     if(transparence > 0){
       // On affiche un rectangle noir d'opacité "transition" pour créer un effet de "fade in"
       fill(0, 0, 0, transparence);
+      rectMode(CORNER);
       rect(0, 0, width, height);
       
       //On veut que la transition s'accelère pour donner plus rapidement accès a l'interface

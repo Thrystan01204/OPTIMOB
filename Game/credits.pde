@@ -7,7 +7,7 @@ class Credits{
   float y = height-32;
   
   //Crédits
-  String texte = "OPTIMOB\n\nRéalisé par:\n Pierre JAFFUER,\nBilly RONICO,\nOlivier Vee,\nIbnou ISSOUFFA,\nMathieu,\nTristan";
+  String texte = "OPTIMOB\n\nRéalisé par:\n Pierre Jaffuer,\nRonico Billy,\nOlivier Vee,\nIbnou Issouffa,\nMatthieu Mehon Shit Li,\nTristan Le Lidec";
   
   // la musique de fond
   SoundFile musique;
