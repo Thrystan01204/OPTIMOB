@@ -4,7 +4,7 @@ import processing.sound.*;  // Bibliothèque pour gérer les musiques.
 
 //-------------------------------------------------- AIDE AU DEBUGAGE ---------------------------------------------------------
 // Si cette variable est vraie, on affiche à l'écran les aides de débugage, à désactivé lors de la sortie du jeu
-boolean debug = false; 
+boolean debug = true; 
 //-----------------------------------------------------------------------------------------------------------------------------
 
 

@@ -17,6 +17,7 @@ class Joueur{
   boolean enAttaqueLongue = false;
   
   Joueur(){
+    sprite = new Sprite(x, y, true);
   }
  
  void update(){
@@ -39,7 +40,6 @@ class Joueur{
  
  // Permet de bouger le joueur lorsque l'on appuie sur une touche
  void keyPressed(){
-   
      char k = Character.toUpperCase((char) key);
      if(k == 'Z' && surPlateforme){
        vy = -600;
