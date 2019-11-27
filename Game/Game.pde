@@ -18,9 +18,16 @@ int niveau = 0; // permet de savoir dans quel niveau on se trouve
 //5 = niveau village
 //6 = Boss final
 //7 = cinématique de fin
+//8 = niveau de test (seulement pour le debugage)
 
+float dt = 1.0/60; // Pas de temps pour l'intégration du mouvement pour le système de physique 
+
+Joueur joueur;
 MenuPrincipal menuPrincipal; // Objet contenant le code du menu principal.
 Credits credits; // Objet contenant le code des credits.
+
+NiveauTest niveauTest;
+
 //------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -40,6 +47,12 @@ void chargerNiveaux(){
   
   // Création des crédits.
   credits = new Credits();
+  
+  // Création d'un niveau de test
+  niveauTest = new NiveauTest();
+  
+  // Création du joueur
+  joueur = new Joueur();
   
   // On indique que le chargement est fini, pour pouvoir passer de l'écran de chargement au menu principal.
   chargementDuJeu = false;
@@ -92,9 +105,14 @@ void draw(){
   } else if(niveau == 0){
     // Actualisation du menu principal
     menuPrincipal.update();
+    menuPrincipal.afficher();
   } else if (niveau == 1){
     // Actualisation des crédits
     credits.update();
+    credits.afficher();
+  } else if(niveau == 8){
+    niveauTest.update();
+    niveauTest.afficher();
   }
   
   //************** DEBUGAGE ************//
@@ -115,6 +133,13 @@ void mousePressed(){
   }
 }
 
+void keyReleased(){
+  if(!chargementDuJeu){
+    if(niveau == 8)
+      niveauTest.keyReleased();
+  }
+}
+
 void keyPressed(){
   // Cas spécial Si on appuie sur la touche "echap"
   if(key == ESC){
@@ -124,5 +149,7 @@ void keyPressed(){
   if(!chargementDuJeu){
     if(niveau == 1)
       credits.retourMenuPrincipal();
+    else if (niveau == 8)
+      niveauTest.keyPressed();
   }
 }

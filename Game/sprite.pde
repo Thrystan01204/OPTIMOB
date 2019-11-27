@@ -5,9 +5,9 @@ class Sprite {
   int frameActuelle = 0;
   int nbFrames = 1; // Nombre d'image pour l'animation
   int compteur = 0; // permet de compter le nombre de millis secondes écoulées (pour pouvoir déterminer quand on change d'image)
-  float x, y;
+  int x, y;
   
-  Sprite(float tx, float ty, boolean tanime){
+  Sprite(int tx, int ty, boolean tanime){
     x = tx;
     y = ty;
     anime = tanime;
@@ -31,7 +31,15 @@ class Sprite {
   }
   
   void afficher(){
-    image(frames.get(frameActuelle), (int) x, (int) y);  
+    image(frames.get(frameActuelle), x, y);
+    if(debug){
+      int w = frames.get(frameActuelle).width;
+      int h = frames.get(frameActuelle).height;
+      noFill();
+      stroke(255, 0, 0);
+      rectMode(CORNER);
+      rect(x, y, w, h);
+    }
   }
   
 }

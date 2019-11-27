@@ -39,9 +39,8 @@ class MenuPrincipal{
   }
   
   
-  //C'est ici que toute la logique + la gestion de l'affichage du menu est gérée (un peu comme la fonction "draw")
+  //C'est ici que toute la logique du menu est gérée
   void update(){
-    
     // On déplace les nuages
     petitNuage.x -= 1;
     grosNuage.x -= 1;
@@ -52,6 +51,15 @@ class MenuPrincipal{
     if(grosNuage.x+grosNuage.width() < 0)
       grosNuage.x = width;
       
+    //On veut que la transition s'accelère pour donner plus rapidement accès a l'interface
+      if(transparence < 100)
+        transparence -= 4;
+      else
+        transparence -=2;
+  }
+  
+  //C'est ici que tout affichage du menu est gérée 
+  void afficher(){
     // on affiche les différents éléments
     background(fond);
     grosNuage.afficher();
@@ -64,17 +72,11 @@ class MenuPrincipal{
     // Si on est encore en transition (fade in) alors c'est que la transparence est > 0
     if(transparence > 0){
       // On affiche un rectangle noir d'opacité "transition" pour créer un effet de "fade in"
+      noStroke();
       fill(0, 0, 0, transparence);
       rectMode(CORNER);
       rect(0, 0, width, height);
-      
-      //On veut que la transition s'accelère pour donner plus rapidement accès a l'interface
-      if(transparence < 100)
-        transparence -= 4;
-      else
-        transparence -=2;
     }
-    
   }
   
   //Méthode pour afficher un bouton, avec changement de couleur si la souris le survole
@@ -85,9 +87,17 @@ class MenuPrincipal{
     // on teste si la souris survole le bouton et que la transition est "fade in" est finie
     if(sourisDansRectangle(x,y,x+w,y+h) && transparence <= 0)
       tint(255, 0, 0); // si oui on bascule les couleurs vers le rouge
-      
+    
     image(bouton, x, y); // On affiche le bouton
     noTint(); // On s'assure que l'on ne modifie plus la coloration
+    
+    // On affiche la hitbox en cas de debugage
+    if(debug){
+      noFill();
+      stroke(255, 0, 0);
+      rectMode(CORNER);
+      rect(x, y, w, h);
+    }
   }
   
   //Méthode pour gérer de façon évènementiel lorsque l'on clique avec la souris
@@ -104,8 +114,11 @@ class MenuPrincipal{
         credits.reinitialiser();
         niveau = 1; //On vas aux crédits
       } else if(sourisDansRectangle(541,492,541+w,492+h)){ // Bouton nouvelle partie
-
+        pause();
+        niveau = 8;
+        niveauTest.relancer();
       } else if(sourisDansRectangle(541,633,541+w,633+h)){ // Bouton quitter
+        pause();
         exit();
       }
     }

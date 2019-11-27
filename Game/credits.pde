@@ -18,6 +18,9 @@ class Credits{
   
   void update(){
     y -= speed;
+  }
+  
+  void afficher(){
     background(50);
     fill(255);
     textAlign(CENTER, CENTER);
