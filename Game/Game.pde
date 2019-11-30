@@ -12,10 +12,10 @@ boolean debug = true;
 int niveau = 0; // permet de savoir dans quel niveau on se trouve
 //0 = menu principal
 //1 = crédits
-//2 = cinématique de début
+//2 = niveau ville
 //3 = niveau plage
 //4 = niveau volcan
-//5 = niveau village
+//5 = cinématique de début
 //6 = Boss final
 //7 = cinématique de fin
 //8 = niveau de test (seulement pour le debugage)
@@ -27,6 +27,7 @@ Camera camera; // Objet Camera, permet le "scrolling" des niveaux lors du dépla
 
 MenuPrincipal menuPrincipal; // Objet contenant le code du menu principal.
 Credits credits; // Objet contenant le code des credits.
+NiveauVille niveauVille; // Objet content le code du niveau de la ville.
 NiveauTest niveauTest; // Objet contenant un niveau de test, uniquement pour le debugage.
 
 //------------------------------------------------------------------------------------------------------------------------------
@@ -58,6 +59,9 @@ void chargerNiveaux() {
 
   // Création d'un niveau de test
   niveauTest = new NiveauTest();
+  
+  // Création du niveau ville
+  niveauVille = new NiveauVille();
 
   // On indique que le chargement est fini, pour pouvoir passer de l'écran de chargement au menu principal.
   chargementDuJeu = false;
@@ -84,9 +88,6 @@ void collisionLimites(){
       joueur.vy = 0;
       joueur.y = 4*height/5-joueur.h/2;
       joueur.surPlateforme = true;
-  } else if(joueur.y-joueur.h/2 <= -height){
-    joueur.vy *= -1;
-    joueur.y = -height+joueur.h/2;
   }
 }
 
@@ -249,7 +250,7 @@ void afficheMursDebug(ArrayList<Mur> murs) {
 
 void setup() {
   // Le jeu est écrit pour une résolution fixe de 1280x720 pixels (HD).
-  size(1280, 720);
+  size(1280, 720, P2D);
   logo = loadImage("chargement.png");
   // On charge tous les niveaux au début du jeu sur un autre thread pour pouvoir afficher une animation pendant le chargement.
   // Remarque: la fonction "thread" créé un thread et execute une méthode sur celui-ci, une fois la méthode executée, processing tue en automatique le thread.
@@ -284,7 +285,12 @@ void draw() {
     // Actualisation des crédits
     credits.actualiser();
     credits.afficher();
+  } else if (niveau == 2) {
+    // Actualisation du niveau de la ville (niveau 1)
+    niveauVille.actualiser();
+    niveauVille.afficher();
   } else if (niveau == 8) {
+    // Actualisation du niveau de test
     niveauTest.actualiser();
     niveauTest.afficher();
   }
@@ -309,7 +315,9 @@ void mousePressed() {
 
 void keyReleased() {
   if (!chargementDuJeu) {
-    if (niveau == 8)
+    if (niveau == 2)
+      niveauVille.keyReleased();
+    else if (niveau == 8)
       niveauTest.keyReleased();
   }
 }
@@ -323,6 +331,8 @@ void keyPressed() {
   if (!chargementDuJeu) {
     if (niveau == 1)
       credits.retourMenuPrincipal();
+    else if (niveau == 2)
+      niveauVille.keyPressed();
     else if (niveau == 8)
       niveauTest.keyPressed();
   }

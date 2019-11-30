@@ -9,10 +9,11 @@ class Plateforme {
 
 
   // Initialisation
-  Plateforme(float tx, float ty, float tw) {
+  Plateforme(float tx, float ty, float tw, boolean toujoursActive) {
     x = tx;
     y = ty;
     w = tw;
+    collisionPermanente = toujoursActive;
   }
   
   // Permet de savoir si la hitbox du joueur et la plateforme sont superposées.

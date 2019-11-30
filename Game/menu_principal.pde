@@ -115,8 +115,10 @@ class MenuPrincipal {
         niveau = 1; //On vas aux crédits
       } else if (sourisDansRectangle(541, 492, 541+w, 492+h)) { // Bouton nouvelle partie
         pause();
-        niveau = 8;
-        niveauTest.relancer();
+        niveau = 2;
+        niveauVille.relancer();
+        //niveau = 8;
+        //niveauTest.relancer();
       } else if (sourisDansRectangle(541, 633, 541+w, 633+h)) { // Bouton quitter
         pause();
         exit();
