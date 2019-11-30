@@ -27,6 +27,7 @@ class NiveauVille{
     plateformes.add(new Plateforme(289.7365, -373, 562.556,false)); // p1
     plateformes.add(new Plateforme(963.5, -80.368, 215.748,false)); // p4
     plateformes.add(new Plateforme(1773.375, 47.557, 682, false)); // p7
+    
     plateformes.add(new Plateforme(3202, 252, 215.75, false));
     plateformes.add(new Plateforme(2651, 30, 682, false));
   }

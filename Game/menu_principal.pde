@@ -111,11 +111,14 @@ class MenuPrincipal {
       //On teste si la souris survole un des boutons lors du clique
       if (sourisDansRectangle(541, 563, 541+w, 563+h)) { // Bouton crédits
         pause();
-        credits.relancer();
         niveau = 1; //On vas aux crédits
+        infoChargeNiveau();
+        credits.relancer(); // On relance le niveau
+        
       } else if (sourisDansRectangle(541, 492, 541+w, 492+h)) { // Bouton nouvelle partie
         pause();
         niveau = 2;
+        infoChargeNiveau();
         niveauVille.relancer();
         //niveau = 8;
         //niveauTest.relancer();

@@ -76,6 +76,20 @@ boolean sourisDansRectangle(float x1, float y1, float x2, float y2) {
   return (x1 <= mouseX && mouseX <= x2 && y1 <= mouseY && mouseY <= y2);
 }
 
+// Permet d'afficher un écran de chargement du niveau, normalement ceci n'est pas nécéssaire car les niveaux sont déja préchargés lors du chargement du jeu.
+// Cependant, sur certaines machine, le moteur de rendu P2D (OPENGL) peu mettre beaucoup de temps à déterminer les ressources qui sont utilisées dans un niveau, donnant l'impression
+// que le jeu plante, ce qui est faux d'où cette fonction d'indication de chargement.
+// Sur un core m3, le changement de niveau prend environ 30 secondes.
+void infoChargeNiveau(){
+  background(50);
+  textAlign(CENTER, CENTER);
+  textSize(72);
+  fill(255);
+  text("CHARGEMENT DU NIVEAU", width/2, height/2);
+  textSize(24);
+  text("Cette opération peu prendre quelques secondes...ou minutes en fonction de votre matériel.", width/2, 3*height/4);
+}
+
 void collisionLimites(){
   if(joueur.x-joueur.w/2 <= 0){
     joueur.vx = 0;
@@ -249,7 +263,15 @@ void afficheMursDebug(ArrayList<Mur> murs) {
 //************************************************************* Gestion du jeu ****************************************************************************//
 
 void setup() {
+  
   // Le jeu est écrit pour une résolution fixe de 1280x720 pixels (HD).
+  // En général, P2D (opengl) est le plus stable, mais sur certains appareils, il peut mettre beaucoup de temps a s'initialiser ou a changer de niveau.
+  // L'autre option est le moteur FX2D qui est aussi un moteur qui utilise l'accélération matérielle, il est basé sur JAVAFX, un système de rendu spécialisé dans la 2d,
+  // Cependant, il peut y avoir des "saut de frames" ou des coupures du son. Sont chargement est instantané.
+  // Il est recommander d' utiliser P2D.
+  
+  // Remarque, P2D est le seul mode a implémenter correctement le comportement de keyPressed(), en effet, dans tout les autres modes, si l'on garde la touche enfoncée,
+  // la méthode est continuellement exécutée.
   size(1280, 720, P2D);
   logo = loadImage("chargement.png");
   // On charge tous les niveaux au début du jeu sur un autre thread pour pouvoir afficher une animation pendant le chargement.
@@ -268,8 +290,7 @@ void draw() {
     fill(255);
     textSize(72);
     textAlign(CENTER, CENTER);
-    String texte = "CHARGEMENT";
-    text(texte, width/2, height/4);
+    text("CHARGEMENT", width/2, height/4);
 
     //On change de repère temporairement pour facilité la rotation
     pushMatrix();
