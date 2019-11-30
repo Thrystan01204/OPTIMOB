@@ -1,0 +1,5 @@
+name;author;source;licence;
+adventure;syncopika;https://opengameart.org/content/adventure;https://creativecommons.org/licenses/by/3.0/
+Valiant Genericus (Effort Noises);tinsin;https://opengameart.org/content/generic-hero-effort-noises;https://creativecommons.org/licenses/by/3.0/
+Law in the City;Alexandr Zhelanov https://soundcloud.com/alexandr-zhelanov;https://opengameart.org/content/law-in-the-city;https://creativecommons.org/licenses/by/4.0/
+Cafofo - MUSIC - Love (Sad);estudiocafofo http://estudiocafofo.com; https://creativecommons.org/licenses/by/3.0/
