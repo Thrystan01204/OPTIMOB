@@ -344,11 +344,6 @@ void keyReleased() {
 }
 
 void keyPressed() {
-  // Cas spécial Si on appuie sur la touche "echap"
-  if (key == ESC) {
-    key = 0; // cela permet de faire croire à processing que l'on a pas appuié sur la touche "echap" et donc l'empêche de fermer le jeu
-  }
-
   if (!chargementDuJeu) {
     if (niveau == 1)
       credits.retourMenuPrincipal();
@@ -356,5 +351,9 @@ void keyPressed() {
       niveauVille.keyPressed();
     else if (niveau == 8)
       niveauTest.keyPressed();
+  }
+  // Cas spécial Si on appuie sur la touche "echap"
+  if (key == ESC) {
+    key = 0; // cela permet de faire croire à processing que l'on a pas appuié sur la touche "echap" et donc l'empêche de fermer le jeu
   }
 }
