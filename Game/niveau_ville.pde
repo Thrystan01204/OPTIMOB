@@ -38,7 +38,7 @@ class NiveauVille{
     plateformes.add(new Plateforme(3202, 252, 215.75, false)); // p10
     
     musique = new SoundFile(Game.this, "NiveauVille/musique.wav");
-    musique.amp(0.125);
+    musique.amp(0.125); // La musique étant trop forte, on baisse le volume.
   }
   
   // Gestion de la logique du niveau.
