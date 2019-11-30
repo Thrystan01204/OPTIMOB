@@ -33,8 +33,9 @@ class Credits {
   // Permet de revenir au menu principal.
   void retourMenuPrincipal() {
     pause(); // On pause ce niveau.
+    niveau = 0; // //On indique au système de gestion des niveaux que l'on se trouve maintenant au menu principal.
+    infoChargeNiveau();  // On indique que le niveau charge.
     menuPrincipal.relancer(); // On relance le niveau : menu principal.
-    niveau = 0; // On indique que l'on se trouve maintenant au menu principal.
   }
 
   // Relance le niveau.

@@ -280,11 +280,10 @@ void setup() {
 }
 
 
-// Boucle du jeu, cette fonction est exécutée le plus rapidement possible
+// Boucle du jeu, cette fonction est exécutée le plus rapidement possible (limité à 60 fois par secondes).
 void draw() {
   // Gestion de l'actualisation (et de l'affichage) des différents niveaux.
   if (chargementDuJeu) {
-
     // On affiche une animation indiquant que le jeu n'a pas planté et qu'il continue de se charger.
     background(50);
     fill(255);
@@ -292,12 +291,12 @@ void draw() {
     textAlign(CENTER, CENTER);
     text("CHARGEMENT", width/2, height/4);
 
-    //On change de repère temporairement pour facilité la rotation
+    //On change de repère temporairement pour facilité la rotation.
     pushMatrix();
     translate(width/2, height/2+106);
     rotate(millis()/1000.0); // la rotation dépend du temps écoulé et elle est 2PI périodique, d'où l'animation.
     image(logo, -106, -106);
-    popMatrix(); // On se replace dans le repère original
+    popMatrix(); // On se replace dans le repère original.
   } else if (niveau == 0) {
     // Actualisation du menu principal
     menuPrincipal.actualiser();

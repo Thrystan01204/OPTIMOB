@@ -30,7 +30,7 @@ class Sprite {
   // n = nombre d'image - 1 (le format généré par blender est de 1 à n)
   // format = le nombre de chiffres du format du nom des images (ex: format = 4 => 0001, 0002, ... 0016)
   void chargeAnimation(String chemin, int n, int format) {
-    frames.clear();
+    frames.clear(); // On efface toutes les images précédentes.
     nbFrames = n;
     for (int i=1; i <= nbFrames; i++) {
       // nf(i, format) formate le nombre "i" pour un affichage à "format" chiffres.
@@ -67,26 +67,26 @@ class Sprite {
           frameActuelle++;
         } else if (loop) { // Si on boucle l'animation.
           frameActuelle = 0;
-        } else {
+        } else { // Si non, l'animation se termine.
           anime = false;
         }
       }
     }
 
     //************ Affichage de l'image actuelle ***************** //
-
     int demiW = width()/2;
     int demiH = height()/2;
+    
+    // Si il faut inverser l'image sur son axe y:
     if (mirroir) {
-      // On inverse le repère selon l'axe y
-      pushMatrix();
-      scale(-1, 1);
-      // Comme les coordonnées x sont elles aussi inversée, on inverse x grâce à "-x"
-      image(frames.get(frameActuelle), (int) -x - demiW, (int) y - demiH);
-      popMatrix(); // On revient dans le repère classique de l'écran
+      pushMatrix(); // On conserve l'ancien repère de coordonnées.
+      scale(-1, 1); // On inverse le repère selon l'axe y
+      // Comme les coordonnées x sont elles aussi inversée, alors "x" devient "-x".
+      image(frames.get(frameActuelle), -x - demiW, y - demiH);
+      popMatrix(); // On restore l'ancien repère.
     } else {
       // Si non pas besoin de retourner l'image
-      image(frames.get(frameActuelle), (int) x - demiW, (int) y - demiH);
+      image(frames.get(frameActuelle), x - demiW, y - demiH);
     }
 
     //************** DEBUGAGE ************//

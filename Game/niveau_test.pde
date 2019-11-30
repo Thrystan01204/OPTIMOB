@@ -1,5 +1,9 @@
-class NiveauTest {
+//*********************************************** IMPORTANT ***************************************************
+// Ce niveau existe que pour tester les différents éléments du jeu, il n'est pas présent dans le rendu final. *
+// Ainsi, son code ne sera pas détaillé.                                                                      *
+//*************************************************************************************************************
 
+class NiveauTest {
   ArrayList<Plateforme> plateformes;
   ArrayList<Mur> murs;
 
@@ -48,7 +52,7 @@ class NiveauTest {
 
   void keyPressed() {
     if (key == ESC) {
-      key = 0; // cela permet de faire croire à processing que l'on a pas appuié sur la touche "echap" et donc l'empêche de fermer le jeu
+      key = 0;
       niveau = 0;
       pause();
       menuPrincipal.relancer();

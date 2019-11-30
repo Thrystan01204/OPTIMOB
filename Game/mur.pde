@@ -13,7 +13,8 @@ class Mur {
     y = ty;
     h = th;
   }
-
+  
+  // Permet de savoir si la hitbox du joueur et le mur sont superposées.
   boolean collisionPotentielle() {
     boolean faceHaut = joueur.y-joueur.h/2 <= y+h/2 && joueur.y-joueur.h/2 >= y-h/2;
     boolean faceBas= joueur.y+joueur.h/2 <= y+h/2 && joueur.y+joueur.h/2 >= y-h/2;
