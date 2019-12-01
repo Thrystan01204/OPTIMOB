@@ -9,7 +9,7 @@ boolean debug = true;
 
 
 //----------------------------------- Variables globales pour la gestion des niveaux ------------------------------------------
-int niveau = 8; // permet de savoir dans quel niveau on se trouve
+int niveau = 2; // permet de savoir dans quel niveau on se trouve
 //0 = menu principal
 //1 = crédits
 //2 = niveau ville
@@ -19,16 +19,19 @@ int niveau = 8; // permet de savoir dans quel niveau on se trouve
 //6 = Boss final
 //7 = cinématique de fin
 //8 = niveau de test (seulement pour le debugage)
+//9 = game over
 
 float dt = 1.0/60; // Pas de temps pour l'intégration du mouvement du joueur.
 Joueur joueur; // Objet joueur.
 
 Camera camera; // Objet Camera, permet le "scrolling" des niveaux lors du déplacement du joueur.
+HUD hud; // Le HUD.
 
 MenuPrincipal menuPrincipal; // Objet contenant le code du menu principal.
 Credits credits; // Objet contenant le code des credits.
 NiveauVille niveauVille; // Objet content le code du niveau de la ville.
 NiveauTest niveauTest; // Objet contenant un niveau de test, uniquement pour le debugage.
+GameOver gameOver; // Ecrant de fin du jeu.
 
 //------------------------------------------------------------------------------------------------------------------------------
 
@@ -50,6 +53,9 @@ void chargerNiveaux() {
 
   // Création de la caméra.
   camera = new Camera();
+  
+  //Création du HUD.
+  hud = new HUD();
 
   // Création du menu principal.
   menuPrincipal = new MenuPrincipal();
@@ -57,11 +63,15 @@ void chargerNiveaux() {
   // Création des crédits.
   credits = new Credits();
 
-  // Création d'un niveau de test
+  // Création d'un niveau de test.
   niveauTest = new NiveauTest();
   
-  // Création du niveau ville
+  // Création du niveau ville.
   niveauVille = new NiveauVille();
+  
+  //Création du game over.
+  gameOver = new GameOver();
+  
 
   // On indique que le chargement est fini, pour pouvoir passer de l'écran de chargement au menu principal.
   chargementDuJeu = false;
@@ -322,7 +332,11 @@ void draw() {
     // Actualisation du niveau de la ville (niveau 1)
     niveauVille.actualiser();
     niveauVille.afficher();
-  } else if (niveau == 8) {
+  } else if (niveau == 9) {
+    // Actualisation du game over
+    gameOver.actualiser();
+    gameOver.afficher();
+  }else if (niveau == 8) {
     // Actualisation du niveau de test
     niveauTest.actualiser();
     niveauTest.afficher();

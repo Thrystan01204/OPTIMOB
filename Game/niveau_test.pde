@@ -7,7 +7,7 @@ class NiveauTest {
   ArrayList<Plateforme> plateformes;
   ArrayList<Mur> murs;
   
-  Horloge flash = new Horloge(2000);
+  Horloge flash = new Horloge(2000); // Test de la classe horloge
  
   
   // la musique de fond.
@@ -15,6 +15,8 @@ class NiveauTest {
   
   // Ennemis du niveau:
   Mercenaire mercenaire;
+  Mercenaire mercenaireImmobile;
+  Mercenaire mercenairePistolet;
 
   NiveauTest() {
     plateformes = new ArrayList<Plateforme>();
@@ -24,6 +26,16 @@ class NiveauTest {
     
     mercenaire = new Mercenaire(400, 420, 200, 3);
     plateformes.add(new Plateforme(400, 420, 400, false));
+    
+    mercenaireImmobile = new Mercenaire(1280, 420, 200, 1);
+    
+    mercenairePistolet = new Mercenaire(900, 420, 200, 2);
+    plateformes.add(new Plateforme(1280, 420, 400, false));
+    
+    plateformes.add(new Plateforme(900, 420, 400, false));
+    
+    
+    
     murs.add(new Mur(250, 495, 149));
     
     flash.lancer();
@@ -32,22 +44,25 @@ class NiveauTest {
   void actualiser() {
     trouverPlateformeCandidate(plateformes);
     trouverMursCandidats(murs);
+    
     mercenaire.actualiser();
+    mercenaireImmobile.actualiser();
+    mercenairePistolet.actualiser();
+    
     joueur.actualiser();
     
-    
-    
-    collisionPlateformes();
-    
-    
+    collisionPlateformes();    
     collisionMurs();
     collisionLimites();
-    
-    
     
     camera.actualiser();
     
     flash.actualiser();
+    
+    if(joueur.vie <= 0){
+      niveau = 9;
+      pause();
+    }
   }
 
   void afficher() {
@@ -58,8 +73,11 @@ class NiveauTest {
     rectMode(CORNER);
     fill(0, 200, 0);
     rect(0, 4*height/5, width, height/4);
-    joueur.afficher();
     mercenaire.afficher();
+    mercenaireImmobile.afficher();
+    mercenairePistolet.afficher();
+    joueur.afficher();
+    
     
     
     //********** DEBUGAGE *********//
@@ -68,6 +86,7 @@ class NiveauTest {
       afficheMursDebug(murs);
     }
     popMatrix();
+    hud.afficher();
     if(!flash.tempsEcoule){
       rectMode(CORNER);
       float t = -(0.016/127.0)*(flash.compteur-1000)*(flash.compteur-1000)+127.0;

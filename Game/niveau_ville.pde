@@ -1,6 +1,7 @@
 class NiveauVille{
   ArrayList<Plateforme> plateformes; // Liste qui contient toutes les plateformes du niveau.
   ArrayList<Mur> murs; // Liste qui contient tous les murs du niveau.
+  ArrayList<Mercenaire> ennemis; // Liste des ennemis.
   
   PImage fond; // Image de fond (bâtiments et plateformes).
   PImage montagnes; // Image pour le parallax.

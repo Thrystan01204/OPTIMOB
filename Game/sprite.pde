@@ -1,7 +1,7 @@
 class Sprite {
   ArrayList<PImage> frames; // Liste d'images
   boolean anime = false; // permet de savoir si on joue l'animation
-  boolean loop = true; // Permet de rejouer l'animation en automatique
+  boolean loop = false; // Permet de rejouer l'animation en automatique
   int vitesseAnimation = 0; // vitesse d'animation (en ms), c'est le temps d'attente entre chaque image
   int frameActuelle = 0;
   int nbFrames = 1; // Nombre d'image -1 pour l'animation
@@ -23,6 +23,12 @@ class Sprite {
   void changeCoordonnee(float tx, float ty) {
     x = (int) tx;
     y = (int) ty;
+  }
+  
+  // Permet de relancer une animation finie.
+  void reinitialiser(){
+    frameActuelle = 0;
+    anime = true;
   }
 
   // Pemet de chager une séquence d'images.
