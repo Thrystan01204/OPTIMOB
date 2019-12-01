@@ -6,7 +6,9 @@ class NiveauVille{
   PImage montagnes; // Image pour le parallax.
   float positionMontagesX = 0; // Position des montages pour l'effet parallax.
   
-  SoundFile musique;
+  SoundFile musique; // Musique de fond.
+  
+  // Ennemis du niveau:
   
   // Initialisation du niveau.
   NiveauVille() {

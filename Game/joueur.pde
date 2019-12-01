@@ -1,4 +1,6 @@
 class Joueur {
+  int compteurTemps = 0; // Permet de créer des évennements dans le temps.
+  
   float x, y; // Positions du joueur
   float vx = 0; // Vitesse du joueur sur l'axe x (en pixels par secondes)
   float vy = 0; // Vitesse du joueur sur l'axe y (en pixels par secondes)
@@ -123,7 +125,9 @@ class Joueur {
       // On affiche l'animation par défaut
       spriteImmobile.afficher();
     }
-
+    
+    //*************** HUD ***************//
+    
 
     //************** DEBUGAGE ************//
     if (debug) {

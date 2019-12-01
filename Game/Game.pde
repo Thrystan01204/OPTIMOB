@@ -9,7 +9,7 @@ boolean debug = true;
 
 
 //----------------------------------- Variables globales pour la gestion des niveaux ------------------------------------------
-int niveau = 0; // permet de savoir dans quel niveau on se trouve
+int niveau = 8; // permet de savoir dans quel niveau on se trouve
 //0 = menu principal
 //1 = crédits
 //2 = niveau ville
@@ -67,7 +67,11 @@ void chargerNiveaux() {
   chargementDuJeu = false;
 
   // Puis on lance le menu principal.
-  menuPrincipal.relancer();
+  if(niveau == 0)
+    menuPrincipal.relancer();
+  else if (niveau == 8)
+    niveauTest.relancer();
+    
 }
 
 
