@@ -25,7 +25,7 @@ class MenuPrincipal {
     boutonQuitter = loadImage("MenuPrincipal/bouton_quitter.png");
     boutonNouvellePartie = loadImage("MenuPrincipal/bouton_nouvelle_partie.png");
     boutonCredits = loadImage("MenuPrincipal/bouton_credits.png");
-    musique = new SoundFile(Game.this, "MenuPrincipal/adventure.wav");
+    musique = new SoundFile(Game.this, "MenuPrincipal/musique.wav");
 
     //On initialise les nuages.
     petitNuage = new Sprite(288, 167);
@@ -50,10 +50,12 @@ class MenuPrincipal {
       grosNuage.x = width+grosNuage.width()/2;
 
     //On veut que la transition s'accelère pour donner plus rapidement accès a l'interface.
-    if (transparence < 100)
-      transparence -= 4;
-    else
-      transparence -=2;
+    if(transparence > 0){
+      if (transparence < 100)
+        transparence -= 4;
+      else
+        transparence -=2;
+    }
   }
 
   //C'est ici que l' affichage du menu est gérée.
