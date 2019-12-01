@@ -8,8 +8,9 @@ class Joueur {
   float forceSaut = 1500; // En pixel par secondes
   float vitesseDeplacement = 400;  // En pixel par secondes
   float gravite = 4000; // En pixels par secondes carrés
-  int xp = 0; // Le niveau du personnage
-  int vieMax = 10; // Le nombre maximum de points de vie au début du jeu.
+  int xp = 1; // Le niveau du personnage, ses dégats y sont proportionnels. Tout comme sa résistance.
+  int xpMax = 10; // Xp maximum du joueur.
+  int vieMax = 100; // Le nombre maximum de points de vie au début du jeu.
   int vie = vieMax; // Le nombre de points de vie.
 
   Sprite spriteCourse; // Animation de déplacement
@@ -34,6 +35,12 @@ class Joueur {
   
   // Permet d'indiquer au système de collision que l'on veut descendre de la plateforme en passant au travers.
   boolean descendPlateforme = false;
+  
+  // Permet de corriger un bug de dépalcement lorsque le joueur a été poussé.
+  boolean estPousse = false; 
+  float oldVx = 0;
+  
+  Horloge horlogeBlesse; // Lorsque le joueur est blessé il est invulnérable pendant un court instant.
 
   // Initialisation
   Joueur(float x, float y) {
@@ -60,6 +67,8 @@ class Joueur {
     spriteSaut.chargeImage("Martin/saut.png");
     
     sonSaut = new SoundFile(Game.this, "Martin/saut.wav");
+    
+    horlogeBlesse = new Horloge(1000); // On défini le chrono à 1 secondes.
   }
 
   // Gestion de la logique du joueur.
@@ -80,6 +89,9 @@ class Joueur {
     if (surPlateforme && !enDeplacement) {
       vx *= friction;
     }
+    
+    // On actualise les compteurs.
+    horlogeBlesse.actualiser();
   }
 
   // Gestion de l'affichage du joueur.
@@ -150,16 +162,18 @@ class Joueur {
       surPlateforme = false; // On quite la plateforme.
       sonSaut.play(); // On lance le son du saut.
     } 
-    // Gestion du déplacement vers la droite.
-    else if (k == 'D') {
+    // Gestion du déplacement vers la droite. Si le joueur a été poussé, on ne peut pas modifier sa trajectoire.
+    else if (k == 'D' && !estPousse) {
       enDeplacement = true; // On est en train de se déplacer.
       vx = vitesseDeplacement; // On se déplace à une vitesse constante vers la droite.
+      oldVx = vitesseDeplacement;
       aligneDroite = true; // Le joueur est tourné vers la droite.
     } 
-    // Gestion du déplacment vers la gauche
-    else if (k == 'Q') {
+    // Gestion du déplacment vers la gauche. Si le joueur a été poussé, on ne peut pas modifier sa trajectoire.
+    else if (k == 'Q' && !estPousse) {
       enDeplacement = true; // On est en train de se déplacer. 
       vx = -vitesseDeplacement; // On se déplace à une vitesse constante vers la gauche.
+      oldVx = -vitesseDeplacement;
       aligneDroite = false; // Le joueur est tourné vers la gauche.
     } 
     // Le joueur veut descendre de la plateforme.
@@ -167,7 +181,7 @@ class Joueur {
       descendPlateforme = true;  
     } 
     // ************************************ DEBUGAGE **************************//
-    else if(k == 'E'){
+    else if(k == 'A' && debug){
       joueur.vy = -forceSaut/2;
       joueur.vx = aligneDroite ? -vitesseDeplacement : vitesseDeplacement; 
       surPlateforme = false;
@@ -186,6 +200,19 @@ class Joueur {
     // Le joueur ne veut plus descendre des plateformes.
     else if(k == 'S'){
       descendPlateforme = false;  
+    }
+  }
+  
+  // Le joueur reçoit des dégats.
+  void degatsRecu(int degats, float force){
+    // On reçoit des dégats que si le temps de latence est écoulé.
+    if(horlogeBlesse.tempsEcoule){
+      vie -= degats*1.0/xp;
+      joueur.vy = -forceSaut/2;
+      joueur.vx = force;
+      surPlateforme = false;
+      horlogeBlesse.lancer(); // On relance le chrono.
+      estPousse = true;
     }
   }
 

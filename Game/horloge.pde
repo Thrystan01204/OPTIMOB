@@ -2,7 +2,7 @@ class Horloge {
   private int tempsDebut;
   int temps;
   int compteur = 0;
-  boolean tempsEcoule = false;
+  boolean tempsEcoule = true;
   
   Horloge(int temps){
       this.temps = temps;

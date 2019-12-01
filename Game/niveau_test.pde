@@ -22,7 +22,7 @@ class NiveauTest {
     musique = new SoundFile(Game.this, "NiveauTest/musique.wav");
     musique.amp(0.5);
     
-    mercenaire = new Mercenaire(400, 420, 200);
+    mercenaire = new Mercenaire(400, 420, 200, 3);
     plateformes.add(new Plateforme(400, 420, 400, false));
     murs.add(new Mur(250, 495, 149));
     
@@ -32,13 +32,19 @@ class NiveauTest {
   void actualiser() {
     trouverPlateformeCandidate(plateformes);
     trouverMursCandidats(murs);
+    mercenaire.actualiser();
     joueur.actualiser();
     
-    mercenaire.actualiser();
+    
     
     collisionPlateformes();
+    
+    
     collisionMurs();
     collisionLimites();
+    
+    
+    
     camera.actualiser();
     
     flash.actualiser();

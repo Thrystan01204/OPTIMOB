@@ -80,6 +80,11 @@ boolean sourisDansRectangle(float x1, float y1, float x2, float y2) {
   return (x1 <= mouseX && mouseX <= x2 && y1 <= mouseY && mouseY <= y2);
 }
 
+boolean collisionRectangles(float x1, float y1, float w1, float h1, float x2, float y2, float w2, float h2){
+   return !((x2-w2/2 >= x1 + w1/2) || (x2 + w2/2 <= x1-w1/2) || (y2-h2/2 >= y1 + h1/2) || (y2 + h2/2 <= y1-h1/2));
+}
+ 
+
 // Permet d'afficher un écran de chargement du niveau, normalement ceci n'est pas nécéssaire car les niveaux sont déja préchargés lors du chargement du jeu.
 // Cependant, sur certaines machine, le moteur de rendu P2D (OPENGL) peu mettre beaucoup de temps à déterminer les ressources qui sont utilisées dans un niveau, donnant l'impression
 // que le jeu plante, ce qui est faux d'où cette fonction d'indication de chargement.
@@ -106,6 +111,8 @@ void collisionLimites(){
       joueur.vy = 0;
       joueur.y = 4*height/5-joueur.h/2;
       joueur.surPlateforme = true;
+      if(joueur.estPousse)
+        joueur.estPousse = false;
   }
 }
 
@@ -160,6 +167,8 @@ void collisionPlateformes() {
         joueur.vy = 0;
         joueur.y = plateformeCandidate.y - joueur.h/2;
         joueur.surPlateforme = true;
+        if(joueur.estPousse)
+          joueur.estPousse = false;
         return; // On arrête la fonction qui a fini son travail.
       }
     }
