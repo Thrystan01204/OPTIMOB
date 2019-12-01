@@ -9,7 +9,7 @@ class Joueur {
   float vitesseDeplacement = 400;  // En pixel par secondes
   float gravite = 4000; // En pixels par secondes carrés
   int xp = 0; // Quantité d'xp récupérée.
-  int xpMax = 10; // Nombre d'xp pour monter de niveau.
+  int xpMax = 9; // Nombre d'xp pour monter de niveau.
   int level = 1; // Le niveau du personnage, ses dégats y sont proportionnels. Tout comme sa résistance.
   int levelMax = 10; // Niveau maximum du joueur.
   int vieMax = 100; // Le nombre maximum de points de vie au début du jeu.
@@ -84,7 +84,7 @@ class Joueur {
 
     spriteFrappe = new Sprite(x, y);
     spriteFrappe.chargeAnimation("Martin/Frappe/", 8, 4);
-    spriteFrappe.vitesseAnimation = 40;
+    spriteFrappe.vitesseAnimation = 45;
 
     spriteTombe = new Sprite(x, y);
     spriteTombe.chargeImage("Martin/tombe.png");
@@ -94,7 +94,7 @@ class Joueur {
     
     spriteTire = new Sprite(x,y);
     spriteTire.chargeAnimation("Martin/Tire/",8,4);
-    spriteFrappe.vitesseAnimation = 45;
+    spriteTire.vitesseAnimation = 45;
 
     sonSaut = new SoundFile(Game.this, "Martin/saut.wav");
     sonFrappe = new SoundFile(Game.this, "Martin/frappe.wav");

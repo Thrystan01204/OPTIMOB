@@ -9,7 +9,7 @@ boolean debug = true;
 
 
 //----------------------------------- Variables globales pour la gestion des niveaux ------------------------------------------
-int niveau = 2; // permet de savoir dans quel niveau on se trouve
+int niveau = 0; // permet de savoir dans quel niveau on se trouve
 //0 = menu principal
 //1 = crédits
 //2 = niveau ville
@@ -31,6 +31,7 @@ MenuPrincipal menuPrincipal; // Objet contenant le code du menu principal.
 Credits credits; // Objet contenant le code des credits.
 NiveauVille niveauVille; // Objet content le code du niveau de la ville.
 NiveauTest niveauTest; // Objet contenant un niveau de test, uniquement pour le debugage.
+NiveauIntro niveauIntro; // L'introduction du jeu.
 GameOver gameOver; // Ecrant de fin du jeu.
 
 //------------------------------------------------------------------------------------------------------------------------------
@@ -59,6 +60,9 @@ void chargerNiveaux() {
 
   // Création du menu principal.
   menuPrincipal = new MenuPrincipal();
+  
+  // Création du niveau d'introduction.
+  niveauIntro = new NiveauIntro();
 
   // Création des crédits.
   credits = new Credits();
@@ -72,15 +76,11 @@ void chargerNiveaux() {
   //Création du game over.
   gameOver = new GameOver();
   
-
   // On indique que le chargement est fini, pour pouvoir passer de l'écran de chargement au menu principal.
   chargementDuJeu = false;
 
   // Puis on lance le menu principal.
-  if(niveau == 0)
-    menuPrincipal.relancer();
-  else if (niveau == 8)
-    niveauTest.relancer();
+  menuPrincipal.relancer();
     
 }
 
@@ -336,6 +336,10 @@ void draw() {
     // Actualisation du game over
     gameOver.actualiser();
     gameOver.afficher();
+  } else if(niveau == 5){
+    //Actualisation du niveau d'introduction.
+    niveauIntro.actualiser();
+    niveauIntro.afficher();
   }else if (niveau == 8) {
     // Actualisation du niveau de test
     niveauTest.actualiser();
@@ -364,6 +368,8 @@ void keyReleased() {
   if (!chargementDuJeu) {
     if (niveau == 2)
       niveauVille.keyReleased();
+    else if(niveau == 5)
+      niveauIntro.keyReleased();
     else if (niveau == 8)
       niveauTest.keyReleased();
   }
@@ -373,6 +379,8 @@ void keyPressed() {
   if (!chargementDuJeu) {
     if (niveau == 1)
       credits.retourMenuPrincipal();
+    else if(niveau == 5)
+      niveauIntro.keyPressed();
     else if (niveau == 2)
       niveauVille.keyPressed();
     else if (niveau == 8)

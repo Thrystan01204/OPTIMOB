@@ -49,10 +49,10 @@ class Mercenaire {
   Mercenaire(float tx, float ty, float tdw, int type) {
     // Dimension de la hitbox de l'ennemi.
     w = 35; // épaisseur
-    h = 50; // largeur
+    h = 120; // largeur
     // Placement
     x = tx;
-    y = ty-(h+70)/2;
+    y = ty-h/2;
     // Limites des déplacements.
     l1 = x-tdw/2;
     l2 = x+tdw/2;
@@ -126,7 +126,7 @@ class Mercenaire {
           vie -=(int) (float(joueur.degats*joueur.level) * 2.0/float(level)); // On perd de la vie
           estBlesse = true;
           if (vie <= 0){ // Si on est mort alors le joueur gagne de l'xp.
-            joueur.gagneXp(level*2);
+            joueur.gagneXp(level*3);
             sonMeurt.play();
           }
         }
