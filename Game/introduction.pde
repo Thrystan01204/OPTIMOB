@@ -27,6 +27,8 @@ class NiveauIntro {
   SoundFile musiqueIntro; // Musique lors de l'histoire principale.
   SoundFile applaudissements; // Musique avant le ligne d'arrivée.
   SoundFile action; // Musique de transition vers le tuto.
+  
+  Item bonus; // de la vie pour les noobs.
 
 
 
@@ -76,6 +78,8 @@ class NiveauIntro {
     ennemis.add(m);
     ennemis.add(new Mercenaire(3394, 477, 0, 1));
     ennemis.add(new Mercenaire(2658.35, 576, 328.7, 2));
+    
+    bonus = new PainBouchon(2879.5, 539.4);
 
     fade = new Horloge(2000);
     fade.tempsEcoule = true;
@@ -108,6 +112,7 @@ class NiveauIntro {
       infoChargeNiveau(); // On charge le niveau;
       niveauVille.relancer(true);
     }
+    bonus.actualiser();
     fade.actualiser();
 
     // Si le joueur est mort.
@@ -191,6 +196,7 @@ class NiveauIntro {
       pushMatrix();
       camera.deplaceRepere();
       image(fond, 0, 0);
+      bonus.afficher();
       for (Mercenaire m : ennemis) {
         m.afficher();
       }

@@ -14,7 +14,7 @@ class HUD {
       rect(0, 0, width/2, 24);
       // Barre de vie.
       fill(255, 0, 0);
-      float valeur = map(joueur.vie, 0, joueur.vieMax, 0, width/2);
+      float valeur = map(joueur.vie, 0, 100, 0, width/2);
       rect(0, 0, valeur, 24);
       // Affichage du nombre de pv.
       textSize(20);
@@ -42,6 +42,15 @@ class HUD {
         text("Invulnérable à la lave", 49, 49);
         fill(255);
         text("Invulnérable à la lave", 48, 48);
+      }
+      if(joueur.superSaut){
+        // Affichage de la capacité de super saut.
+        textSize(20);
+        textAlign(LEFT, TOP);
+        fill(0);
+        text("Super saut", 49, 71);
+        fill(255);
+        text("Super saut", 48, 70);
       }
 
       textSize(20);

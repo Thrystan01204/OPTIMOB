@@ -1,8 +1,13 @@
 class NiveauErmitage {
-  
+
   ArrayList<Plateforme> plateformes; // Liste qui contient toutes les plateformes du niveau.
   ArrayList<Mur> murs; // Liste qui contient tous les murs du niveau.
   ArrayList<Mercenaire> ennemis; // Liste des ennemis.
+  
+  Item bonus1;
+  Item bonus2;
+  Item savate;
+  
 
   PImage fond; // Image de fond.
   PImage infoSavate; // Description des savates magiques.
@@ -14,7 +19,7 @@ class NiveauErmitage {
   boolean dialogueSavate = false;
 
   boolean changeNiveauVille= false;
-  
+
 
 
   // Initialisation du niveau.
@@ -24,13 +29,53 @@ class NiveauErmitage {
     ennemis = new ArrayList<Mercenaire>();
 
     fond = loadImage("NiveauErmitage/fond.png");
+    infoSavate = loadImage("NiveauErmitage/dialogue.png");
 
     //*************Mise en place des plateformes et murs *****************//
 
     musique = new SoundFile(Game.this, "NiveauErmitage/musique.wav");
+    plateformes.add(new Plateforme(3060, 382, 210, false)); //P1
+    plateformes.add(new Plateforme(2724, 292, 288, false)); //P2
+    Mercenaire m2 = new Mercenaire(2724, 292, 288, 3);
+    m2.level = 1;
+    ennemis.add(m2);
+    plateformes.add(new Plateforme(2304.5, 163, 561.5, false)); //P3
+    plateformes.add(new Plateforme(1785, -29, 552, false)); //P4
+    Mercenaire m4 = new Mercenaire(1785, -29, 552, 2);
+    m4.level = 4;
+    ennemis.add(m4);
+    plateformes.add(new Plateforme(1259, -271.5, 480, false)); //P5
+    Mercenaire m5 = new Mercenaire(1259, -271.5, 480, 2);
+    m5.level = 5;
+    ennemis.add(m5);
+    plateformes.add(new Plateforme(1803.5, -435, 486, false)); //P6
+    Mercenaire m6 = new Mercenaire(1803.5, -435, 486, 3);
+    m6.level = 6;
+    ennemis.add(m6);
+    plateformes.add(new Plateforme(2538.5, -270.5, 481, false)); //P7
+    plateformes.add(new Plateforme(607.5, -153, 485, false)); //P8
+    Mercenaire m8 = new Mercenaire(607.5, -153, 485, 1);
+    m8.level = 4;
+    ennemis.add(m8);
+    plateformes.add(new Plateforme(822.5, 381.5, 206, false)); //P9
     
-    //Ennemis.
+    Mercenaire m9 = new Mercenaire(2158, 4*height/5, 10, 1);
+    m9.level = 1;
+    ennemis.add(m9);
     
+    Mercenaire m10 = new Mercenaire(1211, 4*height/5, 549, 2);
+    m10.level = 2;
+    ennemis.add(m10);
+    
+    Mercenaire m11 = new Mercenaire(170, 4*height/5, 10, 1);
+    m9.level = 2;
+    ennemis.add(m11);
+    
+    bonus1 = new PainBouchon(820.25, 360.5);
+    bonus2 = new PainBouchon(1999.5, -461.5);
+    savate = new SavateMagique(2541.5, -327.8);
+
+
     fade = new Horloge(2000);
     fade.tempsEcoule = true;
   }
@@ -62,20 +107,22 @@ class NiveauErmitage {
       infoChargeNiveau(); // On charge le niveau;
       niveauVille.relancer(true);
     }
-    
+
     fade.actualiser();
+    
+    bonus1.actualiser();
+    bonus2.actualiser();
+    savate.actualiser();
 
     // Si le joueur est mort.
     if (joueur.vie <= 0) {
       niveau = 9;
       pause();
     }
-    
   }
 
   // Gestion de l'affichage du niveau.
   void afficher() {
-    background(170, 204, 255); // affichage du ciel.
 
     // On vas effectuer l'affichage des éléments du niveau dans le repère de la caméra.
     pushMatrix(); // On conserve en mémoire l'ancien repère.
@@ -87,12 +134,16 @@ class NiveauErmitage {
     // Remarque 2: le repère initial est (0, 0) or les coordonnées de la boîte englobante du niveau dans ce repère sont: (0, -height) et (3*width, height);
 
     image(fond, 0, -height); // Affichage des bâtiments et des plateformes.
-    
+
     // Affichage des ennemis.
     for (Mercenaire m : ennemis) {
-        m.afficher();
+      m.afficher();
     }
     
+    bonus1.afficher();
+    bonus2.afficher();
+    savate.afficher();
+
     joueur.afficher(); // On affiche le joueur.
 
     //********** DEBUGAGE *********//
@@ -102,7 +153,7 @@ class NiveauErmitage {
     }
 
     boolean versNiveauVille = collisionRectangles(joueur.x, joueur.y, joueur.w, joueur.h, 3764, 537, 130, 158);
-    
+
     if (versNiveauVille)
       image(infoDialogue, 3722, 373);
 
@@ -142,22 +193,21 @@ class NiveauErmitage {
   // Gestion des touches appuyées.
   void keyPressed() {
     if (key == ' ') {
-    // Pemier dialogue.
-    if (dialogueSavate) {
-      dialogueSavate = false;
-    } 
+      // Pemier dialogue.
+      if (dialogueSavate) {
+        dialogueSavate = false;
+      }
     } else if (fade.tempsEcoule && !dialogueSavate && !changeNiveauVille) {
       joueur.keyPressed();
     }
 
-    // On réaffiche les dialogues.
     if (!dialogueSavate && !changeNiveauVille) {
       char k = Character.toUpperCase((char) key);
       boolean versNiveauVille = collisionRectangles(joueur.x, joueur.y, joueur.w, joueur.h, 3764, 537, 130, 158);
       if (k == 'E' && versNiveauVille) {
         fade.lancer();
         changeNiveauVille = true;
-      } 
+      }
     }
   }
 

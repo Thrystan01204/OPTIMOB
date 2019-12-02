@@ -9,7 +9,7 @@ boolean debug = true;
 
 
 //----------------------------------- Variables globales pour la gestion des niveaux ------------------------------------------
-int niveau = 0; // permet de savoir dans quel niveau on se trouve
+int niveau = 4; // permet de savoir dans quel niveau on se trouve
 //0 = menu principal
 //1 = crédits
 //2 = niveau ville
@@ -33,6 +33,7 @@ NiveauVille niveauVille; // Objet content le code du niveau de la ville.
 NiveauTest niveauTest; // Objet contenant un niveau de test, uniquement pour le debugage.
 NiveauIntro niveauIntro; // L'introduction du jeu.
 NiveauErmitage niveauErmitage;
+NiveauVolcan niveauVolcan;
 GameOver gameOver; // Ecrant de fin du jeu.
 
 //------------------------------------------------------------------------------------------------------------------------------
@@ -77,15 +78,30 @@ void chargerNiveaux() {
   // Création du niveau ermitage.
   niveauErmitage = new NiveauErmitage();
   
+  //Création du niveau volcan.
+  niveauVolcan = new NiveauVolcan();
+  
   //Création du game over.
   gameOver = new GameOver();
   
   // On indique que le chargement est fini, pour pouvoir passer de l'écran de chargement au menu principal.
   chargementDuJeu = false;
 
-  // Puis on lance le menu principal.
-  menuPrincipal.relancer();
-    
+  //On lance le niveau
+  if(niveau == 4)
+    niveauVolcan.relancer();
+  else if(niveau == 0)
+    menuPrincipal.relancer();
+  else if(niveau == 1)
+    credits.relancer();
+  else if(niveau == 2)
+    niveauVille.relancer(true);
+  else if(niveau == 3)
+    niveauErmitage.relancer();
+  else if(niveau == 5)
+    niveauIntro.relancer();
+  else if(niveau == 9)
+    gameOver.lancer();
 }
 
 
@@ -348,6 +364,10 @@ void draw() {
     //Actualisation du niveau ermitage.
     niveauErmitage.actualiser();
     niveauErmitage.afficher();
+  }else if(niveau == 4){
+    //Actualisation du niveau volcan.
+    niveauVolcan.actualiser();
+    niveauVolcan.afficher();
   }else if (niveau == 8) {
     // Actualisation du niveau de test
     niveauTest.actualiser();
@@ -380,6 +400,8 @@ void keyReleased() {
       niveauIntro.keyReleased();
     else if(niveau == 3)
       niveauErmitage.keyReleased();
+    else if(niveau == 4)
+      niveauVolcan.keyReleased();
     else if (niveau == 8)
       niveauTest.keyReleased();
   }
@@ -395,6 +417,8 @@ void keyPressed() {
       niveauVille.keyPressed();
     else if (niveau == 3)
       niveauErmitage.keyPressed();
+    else if (niveau == 4)
+      niveauVolcan.keyPressed();
     else if (niveau == 8)
       niveauTest.keyPressed();
   }

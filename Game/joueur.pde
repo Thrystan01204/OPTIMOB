@@ -1,5 +1,6 @@
 class Joueur {
-  boolean invulnerableLave = false; // Pour pouvoir avancer dans le jeu.
+  boolean invulnerableLave = true; // Pour pouvoir avancer dans le jeu.
+  boolean superSaut = false; // Pour pouvoir avancer dans le jeu.
   int compteurTemps = 0; // Permet de créer des évennements dans le temps.
   float x, y; // Positions du joueur
   float vx = 0; // Vitesse du joueur sur l'axe x (en pixels par secondes)
@@ -12,8 +13,7 @@ class Joueur {
   int xpMax = 10; // Nombre d'xp pour monter de niveau.
   int level = 1; // Le niveau du personnage, ses dégats y sont proportionnels. Tout comme sa résistance.
   int levelMax = 10; // Niveau maximum du joueur.
-  int vieMax = 100; // Le nombre maximum de points de vie au début du jeu.
-  int vie = vieMax; // Le nombre de points de vie.
+  int vie = 100; // Le nombre de points de vie.
   int degats = 10; // Dégats de base au corps à corps.
 
   Sprite spriteCourse; // Animation de déplacement
@@ -237,8 +237,13 @@ class Joueur {
     char k = Character.toUpperCase((char) key);
 
     // Gestion du saut si le joueur se trouve sur une plateforme.
-    if (k == 'Z' && surPlateforme) { 
-      vy = -forceSaut; // On applique une force verticale pour propulser le joueur en l'air.
+    if (k == 'Z' && surPlateforme) {
+      // On applique une force verticale pour propulser le joueur en l'air.
+      if(superSaut)
+        vy = -forceSaut*1.25; 
+      else
+        vy = -forceSaut;
+        
       surPlateforme = false; // On quite la plateforme.
       sonSaut.play(); // On lance le son du saut.
     } 

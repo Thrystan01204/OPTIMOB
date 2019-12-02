@@ -1,0 +1,24 @@
+plateformes.add(new Plateforme(3060,382,210,false)); //P1
+plateformes.add(new Plateforme(2724,292,288,false)); //P2
+Mercenaire m2 = new Mercenaire(2724,292,288,3);
+m2.level = 1;
+ennemis.add(m2);
+plateformes.add(new Plateforme(2304.5,163,561.5,false)); //P3
+plateformes.add(new Plateforme(1785,-29,552,false)); //P4
+Mercenaire m4 = new Mercenaire(1785,-29,552,2);
+m4.level = 3;
+ennemis.add(m4);
+plateformes.add(new Plateforme(1259,-271.5,480,false)); //P5
+Mercenaire m5 = new Mercenaire(1259,-271.5,480,2);
+m5.level = 3;
+ennemis.add(m5);
+plateformes.add(new Plateforme(1803.5,-435,486,false)); //P6
+Mercenaire m6 = new Mercenaire(1803.5,-435,486,3);
+m6.level = 4;
+ennemis.add(m6);
+plateformes.add(new Plateforme(2538.5,-270.5,481,false)); //P7
+plateformes.add(new Plateforme(607.5,-153,485,false)); //P8
+Mercenaire m8 = new Mercenaire(607.5,-153,485,1);
+m8.level = 4;
+ennemis.add(m8);
+plateformes.add(new Plateforme(822.5,381.5,206,false)); //P9

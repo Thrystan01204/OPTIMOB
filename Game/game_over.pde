@@ -24,4 +24,8 @@ class GameOver{
     text("Le jeu se fermera automatiquement, relancer le si vous l'osez !", width/2, 3*height/4);
   }
   
+  void lancer(){
+    temps.lancer();
+  }
+  
 }

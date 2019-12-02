@@ -23,7 +23,16 @@ class NiveauVille {
 
   boolean changeNiveauErmitage = false;
   boolean changeNiveauVolcan = false;
+
+  boolean dialogueCombinaison = false;
+  PImage infoCombinaison;
+
+  Item combinaison;
   
+  Item bonus1;
+  Item bonus2;
+  Item bonus3;
+
 
 
   // Initialisation du niveau.
@@ -31,10 +40,17 @@ class NiveauVille {
     plateformes = new ArrayList<Plateforme>();
     murs = new ArrayList<Mur>();
     ennemis = new ArrayList<Mercenaire>();
-    
+
     dialogues = new PImage[2];
     dialogues[0] = loadImage("NiveauVille/thibault1.png");
     dialogues[1] = loadImage("NiveauVille/thibault2.png");
+    
+    bonus1 = new PainBouchon(922, 219.5);
+    bonus2 = new PainBouchon(2087, -337.5);
+    bonus3 = new PainBouchon(3216, 227.9);
+
+    infoCombinaison = loadImage("NiveauVille/dialogueCombinaison.png");
+    combinaison = new Combinaison(1209.5, -562.5);
 
     fond = loadImage("NiveauVille/fond.png");
     montagnes = loadImage("NiveauVille/montagnes.png");
@@ -62,7 +78,7 @@ class NiveauVille {
 
     musique = new SoundFile(Game.this, "NiveauVille/musique.wav");
     musique.amp(0.5); // La musique étant trop forte, on baisse le volume.
-    
+
     //Ennemis.
     Mercenaire m1 = new Mercenaire(2478, 574, 784, 3);
     m1.level = 1;
@@ -70,32 +86,32 @@ class NiveauVille {
     Mercenaire m2 = new Mercenaire(289.7365, -174, 562.556, 1);
     m1.level = 1;
     ennemis.add(m2);
-    Mercenaire m3 = new Mercenaire(367.574,63.249, 562.556, 2);
+    Mercenaire m3 = new Mercenaire(367.574, 63.249, 562.556, 2);
     m3.level = 2;
     ennemis.add(m3);
-    Mercenaire m4 = new Mercenaire(1404,429, 561, 3);
+    Mercenaire m4 = new Mercenaire(1404, 429, 561, 3);
     m4.level = 2;
     ennemis.add(m4);
-    Mercenaire m5 = new Mercenaire(1999,-311, 584, 3);
+    Mercenaire m5 = new Mercenaire(1999, -311, 584, 3);
     m5.level = 7;
     ennemis.add(m5);
-    
-    Mercenaire m6 = new Mercenaire(2651,30, 682, 2);
+
+    Mercenaire m6 = new Mercenaire(2651, 30, 682, 2);
     m6.level = 2;
     ennemis.add(m6);
-    
-    Mercenaire m7 = new Mercenaire(3435.5,429, 561, 1);
+
+    Mercenaire m7 = new Mercenaire(3435.5, 429, 561, 1);
     m7.level = 1;
     ennemis.add(m7);
-    
-    
+
+
     fade = new Horloge(2000);
     fade.tempsEcoule = true;
   }
 
   // Gestion de la logique du niveau.
   void actualiser() {
-    if (!changeNiveauErmitage && ! changeNiveauVolcan && !lanceDialogue1 && !lanceDialogue2) {
+    if (!changeNiveauErmitage && ! changeNiveauVolcan && !lanceDialogue1 && !lanceDialogue2 && !dialogueCombinaison) {
       // Estimation des collisions.
       trouverPlateformeCandidate(plateformes); // On cherche un plateforme qui pourrait potentiellement enter en collision avec le joueur.
       trouverMursCandidats(murs); // De même pour les murs a gauches et à droites du joueur.
@@ -123,7 +139,12 @@ class NiveauVille {
       pause();
       niveau = 4; // On lance le niveau volcan.
       infoChargeNiveau(); // On charge le niveau.
+      niveauVolcan.relancer();
     }
+    combinaison.actualiser();
+    bonus1.actualiser();
+    bonus2.actualiser();
+    bonus3.actualiser();
     fade.actualiser();
 
     // Si le joueur est mort.
@@ -148,9 +169,13 @@ class NiveauVille {
 
     image(montagnes, positionMontagesX, -height); // Affichage des montagnes.
     image(fond, 0, -height); // Affichage des bâtiments et des plateformes.
+    bonus1.afficher();
+    bonus2.afficher();
+    bonus3.afficher();
     for (Mercenaire m : ennemis) {
-        m.afficher();
+      m.afficher();
     }
+    combinaison.afficher();
     joueur.afficher(); // On affiche le joueur.
 
     //********** DEBUGAGE *********//
@@ -192,6 +217,19 @@ class NiveauVille {
       text("Appuyer sur espace pour continuer", width/2, 32);
       image(dialogues[numDialogue], 215, 535);
     }
+    if (dialogueCombinaison) {
+      fill(50);
+      noStroke();
+      rectMode(CENTER);
+      rect(width/2, 35, 500, 32);
+      textSize(24);
+      textAlign(CENTER, CENTER);
+      fill(0);
+      text("Appuyer sur espace pour continuer", width/2+1, 33);
+      fill(255);
+      text("Appuyer sur espace pour continuer", width/2, 32);
+      image(infoCombinaison, 215, 535);
+    }
 
     // Transition.
     if (!fade.tempsEcoule) {
@@ -201,7 +239,7 @@ class NiveauVille {
       if (changeNiveauErmitage || changeNiveauVolcan) {
         transparence = map(fade.compteur, 0, fade.temps, 0, 255);
         fill(0, 0, 0, transparence);
-      } else if(changeNiveauErmitage || changeNiveauVolcan){
+      } else if (changeNiveauErmitage || changeNiveauVolcan) {
         background(0);
       }
       rectMode(CORNER);
@@ -212,29 +250,34 @@ class NiveauVille {
   // Gestion des touches appuyées
   void keyPressed() {
     if (key == ' ') {
-    // Pemier dialogue.
-    if (lanceDialogue1) {
-      numDialogue += 1;
-      if (numDialogue  == 1 ) {
-        finDialogue1 = true;
-        lanceDialogue1 = false;
+      // Pemier dialogue.
+      if (lanceDialogue1) {
+        numDialogue += 1;
+        if (numDialogue  == 1 ) {
+          finDialogue1 = true;
+          lanceDialogue1 = false;
+        }
+      } 
+      // 2ème dialogue.
+      else if (lanceDialogue2) {
+        numDialogue += 1;
+        if (numDialogue == 2) {
+          numDialogue = 1; // Evite les bugs.
+          finDialogue2 = true;
+          lanceDialogue2 = false;
+        }
+      } 
+      // Info combinaison
+      else if (dialogueCombinaison) {
+      dialogueCombinaison = false;
       }
     } 
-    // 2ème dialogue.
-    else if (lanceDialogue2) {
-      numDialogue += 1;
-      if (numDialogue == 2) {
-        numDialogue = 1; // Evite les bugs.
-        finDialogue2 = true;
-        lanceDialogue2 = false;
-      }
-     }
-    } else if (fade.tempsEcoule && !lanceDialogue1 && !lanceDialogue2) {
+     else if (fade.tempsEcoule && !lanceDialogue1 && !lanceDialogue2 && !dialogueCombinaison) {
       joueur.keyPressed();
     }
 
     // On réaffiche les dialogues.
-    if (finDialogue1 && finDialogue2 && !lanceDialogue1 && !lanceDialogue2 && !changeNiveauVolcan && !changeNiveauErmitage) {
+    if (finDialogue1 && finDialogue2 && !lanceDialogue1 && !lanceDialogue2 && !changeNiveauVolcan && !changeNiveauErmitage && !dialogueCombinaison) {
       char k = Character.toUpperCase((char) key);
 
       boolean declancheurDialogue1 = collisionRectangles(joueur.x, joueur.y, joueur.w, joueur.h, 965, 503.5, 118, 235);
@@ -281,5 +324,7 @@ class NiveauVille {
     changeNiveauVolcan = false;
     if (gauche) // Si on arrive de la gauche.
       joueur.initNiveau(210, 4*height/5-joueur.h/2); // On replace le joueur dans le niveau.
+    else
+      joueur.initNiveau(3770,4*height/5-joueur.h/2);
   }
 }
