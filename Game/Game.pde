@@ -13,7 +13,7 @@ int niveau = 0; // permet de savoir dans quel niveau on se trouve
 //0 = menu principal
 //1 = crédits
 //2 = niveau ville
-//3 = niveau plage
+//3 = niveau ermitage
 //4 = niveau volcan
 //5 = introduction
 //6 = Boss final
@@ -23,7 +23,7 @@ int niveau = 0; // permet de savoir dans quel niveau on se trouve
 
 float dt = 1.0/60; // Pas de temps pour l'intégration du mouvement du joueur.
 Joueur joueur; // Objet joueur.
-
+PImage infoDialogue;
 Camera camera; // Objet Camera, permet le "scrolling" des niveaux lors du déplacement du joueur.
 HUD hud; // Le HUD.
 
@@ -32,6 +32,7 @@ Credits credits; // Objet contenant le code des credits.
 NiveauVille niveauVille; // Objet content le code du niveau de la ville.
 NiveauTest niveauTest; // Objet contenant un niveau de test, uniquement pour le debugage.
 NiveauIntro niveauIntro; // L'introduction du jeu.
+NiveauErmitage niveauErmitage;
 GameOver gameOver; // Ecrant de fin du jeu.
 
 //------------------------------------------------------------------------------------------------------------------------------
@@ -47,8 +48,8 @@ PImage logo; // Image affichée lors du chargement
 
 // Fonction qui permet d'initialiser tout les niveaux en mémoire.
 void chargerNiveaux() {
-
-
+  // indicateur de dialogues.
+  infoDialogue = loadImage("dialogue_info.png");
   // Création du joueur.
   joueur = new Joueur(-100, -100);
 

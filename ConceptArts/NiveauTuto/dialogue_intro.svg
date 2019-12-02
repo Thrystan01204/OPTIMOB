@@ -25,11 +25,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.7"
-     inkscape:cx="711.4028"
-     inkscape:cy="81.739493"
+     inkscape:zoom="0.49497475"
+     inkscape:cx="611.91147"
+     inkscape:cy="355.61177"
      inkscape:document-units="mm"
-     inkscape:current-layer="g4856"
+     inkscape:current-layer="layer6"
      showgrid="false"
      units="px"
      inkscape:snap-bbox="true"
@@ -289,7 +289,7 @@
      inkscape:groupmode="layer"
      id="layer6"
      inkscape:label="dialogue4"
-     style="display:none"
+     style="display:inline"
      sodipodi:insensitive="true">
     <rect
        style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2.5;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -299,7 +299,7 @@
        x="58.208309"
        y="156.10417"
        ry="4.762495"
-       inkscape:export-filename="D:\Workspaces\GitHub\OPTIMOB\Game\data\NiveauTuto\Dialogues\thibault2.png"
+       inkscape:export-filename="C:\Users\pjaff\Documents\Workspace\GitHub\OPTIMOB\Game\data\NiveauTuto\Dialogues\thibault2.png"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96" />
     <path
@@ -308,7 +308,7 @@
        id="rect1424-6-3-5"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ssssscccss"
-       inkscape:export-filename="D:\Workspaces\GitHub\OPTIMOB\Game\data\NiveauTuto\Dialogues\thibault2.png"
+       inkscape:export-filename="C:\Users\pjaff\Documents\Workspace\GitHub\OPTIMOB\Game\data\NiveauTuto\Dialogues\thibault2.png"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96" />
     <text
@@ -317,7 +317,7 @@
        x="63.205872"
        y="151.91812"
        id="text1865-5"
-       inkscape:export-filename="D:\Workspaces\GitHub\OPTIMOB\Game\data\NiveauTuto\Dialogues\thibault2.png"
+       inkscape:export-filename="C:\Users\pjaff\Documents\Workspace\GitHub\OPTIMOB\Game\data\NiveauTuto\Dialogues\thibault2.png"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96"><tspan
          sodipodi:role="line"
@@ -331,7 +331,7 @@
        x="64.279106"
        y="156.71136"
        id="text1897-3"
-       inkscape:export-filename="D:\Workspaces\GitHub\OPTIMOB\Game\data\NiveauTuto\Dialogues\thibault2.png"
+       inkscape:export-filename="C:\Users\pjaff\Documents\Workspace\GitHub\OPTIMOB\Game\data\NiveauTuto\Dialogues\thibault2.png"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96"><tspan
          sodipodi:role="line"
@@ -348,7 +348,7 @@
          x="64.279106"
          y="173.01927"
          style="stroke-width:0.12045074"
-         id="tspan1977">Fait attention à toi, il n'y a pas de points de sauvegrade comme dans tes jeux ! Ici</tspan><tspan
+         id="tspan1977">Fait attention à toi, il n'y a pas de points de sauvegarde comme dans tes jeux ! Ici</tspan><tspan
          sodipodi:role="line"
          x="64.279106"
          y="179.04181"
@@ -356,10 +356,11 @@
          id="tspan1979">une différence de 1 ou 2 niveaux te sera fatal ! </tspan></text>
   </g>
   <g
-     style="display:inline"
+     style="display:none"
      inkscape:label="dialogue5"
      id="g4856"
-     inkscape:groupmode="layer">
+     inkscape:groupmode="layer"
+     sodipodi:insensitive="true">
     <rect
        inkscape:export-ydpi="96"
        inkscape:export-xdpi="96"

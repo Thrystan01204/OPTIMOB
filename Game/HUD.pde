@@ -32,6 +32,17 @@ class HUD {
       fill(0, 0, 255);
       valeur = map(joueur.xp, 0, joueur.xpMax, 0, width/4);
       rect(0, 24, valeur, 24);
+      
+      
+      if (joueur.invulnerableLave) {
+        // Affichage de l'invulnérabilité à la lave.
+        textSize(20);
+        textAlign(LEFT, TOP);
+        fill(0);
+        text("Invulnérable à la lave", 1, 1);
+        fill(255);
+        text("Invulnérable à la lave", 0, 0);
+      }
 
       textSize(20);
       if (joueur.level < joueur.levelMax) {

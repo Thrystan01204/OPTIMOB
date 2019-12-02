@@ -126,7 +126,7 @@ class Mercenaire {
           vie -=(int) (float(joueur.degats*joueur.level) * 2.0/float(level)); // On perd de la vie
           estBlesse = true;
           if (vie <= 0){ // Si on est mort alors le joueur gagne de l'xp.
-            joueur.gagneXp(level*3);
+            joueur.gagneXp(level);
             sonMeurt.play();
           }
         }
@@ -141,7 +141,7 @@ class Mercenaire {
             vie -=(int) (float(joueur.degats*joueur.level) * 2.0/float(level)); // On perd de la vie
             joueur.ennemiTouche = true;
             if (vie <= 0){ // Si on est mort alors le joueur gagne de l'xp.
-            joueur.gagneXp(level*2);
+            joueur.gagneXp(level);
             sonMeurt.play();
           }
         }
