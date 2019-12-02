@@ -25,18 +25,18 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.98994949"
-     inkscape:cx="664.1528"
-     inkscape:cy="362.31124"
+     inkscape:zoom="0.7"
+     inkscape:cx="711.4028"
+     inkscape:cy="81.739493"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer5"
+     inkscape:current-layer="g4856"
      showgrid="false"
      units="px"
      inkscape:snap-bbox="true"
      showguides="false"
-     inkscape:window-width="1858"
-     inkscape:window-height="1057"
-     inkscape:window-x="1974"
+     inkscape:window-width="1366"
+     inkscape:window-height="705"
+     inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:snap-global="false">
@@ -52,7 +52,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -186,7 +186,8 @@
      inkscape:groupmode="layer"
      id="layer5"
      inkscape:label="dialogue3"
-     style="display:inline">
+     style="display:none"
+     sodipodi:insensitive="true">
     <rect
        style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2.5;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect1382-6-4"
@@ -232,7 +233,7 @@
            height="50"
            x="560"
            y="590" /></flowRegion><flowPara
-         id="flowPara1885"></flowPara></flowRoot>    <flowRoot
+         id="flowPara1885" /></flowRoot>    <flowRoot
        xml:space="preserve"
        id="flowRoot1887"
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
@@ -243,7 +244,7 @@
            height="320"
            x="20"
            y="20" /></flowRegion><flowPara
-         id="flowPara1893"></flowPara></flowRoot>    <text
+         id="flowPara1893" /></flowRoot>    <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:4.8180294px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.12045074"
        x="62.942753"
@@ -283,7 +284,7 @@
            height="278.57141"
            x="237.14285"
            y="181.42857" /></flowRegion><flowPara
-         id="flowPara1915"></flowPara></flowRoot>  </g>
+         id="flowPara1915" /></flowRoot>  </g>
   <g
      inkscape:groupmode="layer"
      id="layer6"
@@ -335,23 +336,106 @@
        inkscape:export-ydpi="96"><tspan
          sodipodi:role="line"
          x="64.279106"
-         y="161.10699"
+         y="160.9742"
          style="stroke-width:0.12045074"
          id="tspan1971" /><tspan
          sodipodi:role="line"
          x="64.279106"
-         y="167.12953"
+         y="166.99673"
          style="stroke-width:0.12045074"
          id="tspan1973">Il faut les arrêter ! Je t'expliquerais la puissance de cette relique plus tard.</tspan><tspan
          sodipodi:role="line"
          x="64.279106"
-         y="173.15207"
+         y="173.01927"
          style="stroke-width:0.12045074"
          id="tspan1977">Fait attention à toi, il n'y a pas de points de sauvegrade comme dans tes jeux ! Ici</tspan><tspan
          sodipodi:role="line"
          x="64.279106"
-         y="179.17461"
+         y="179.04181"
          style="stroke-width:0.12045074"
          id="tspan1979">une différence de 1 ou 2 niveaux te sera fatal ! </tspan></text>
+  </g>
+  <g
+     style="display:inline"
+     inkscape:label="dialogue5"
+     id="g4856"
+     inkscape:groupmode="layer">
+    <rect
+       inkscape:export-ydpi="96"
+       inkscape:export-xdpi="96"
+       inkscape:export-filename="C:\Users\pjaff\Documents\Workspace\GitHub\OPTIMOB\Game\data\NiveauTuto\Dialogues\thibault3.png"
+       ry="4.762495"
+       y="156.10417"
+       x="58.208309"
+       height="31.750006"
+       width="222.25002"
+       id="rect4838"
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2.5;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       inkscape:export-ydpi="96"
+       inkscape:export-xdpi="96"
+       inkscape:export-filename="C:\Users\pjaff\Documents\Workspace\GitHub\OPTIMOB\Game\data\NiveauTuto\Dialogues\thibault3.png"
+       sodipodi:nodetypes="ssssscccss"
+       inkscape:connector-curvature="0"
+       id="path4840"
+       d="m 60.854157,142.78819 h 37.041665 c 1.46579,0 2.645838,1.18004 2.645838,2.64584 v 7.93749 c 0,1.46579 -1.180048,2.64584 -2.645838,2.64584 H 59.531241 l -1.322917,4.05555 -5e-6,-6.70139 v -7.93749 c 0,-1.4658 1.180043,-2.64584 2.645838,-2.64584 z"
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2.5;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <text
+       inkscape:export-ydpi="96"
+       inkscape:export-xdpi="96"
+       inkscape:export-filename="C:\Users\pjaff\Documents\Workspace\GitHub\OPTIMOB\Game\data\NiveauTuto\Dialogues\thibault3.png"
+       id="text4844"
+       y="151.91812"
+       x="63.205872"
+       style="font-style:normal;font-weight:normal;font-size:8.16898155px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.20422453"
+       xml:space="preserve"><tspan
+         style="stroke-width:0.20422453"
+         y="151.91812"
+         x="63.205872"
+         id="tspan4842"
+         sodipodi:role="line">Thibault</tspan></text>
+    <text
+       inkscape:export-ydpi="96"
+       inkscape:export-xdpi="96"
+       inkscape:export-filename="D:\Workspaces\GitHub\OPTIMOB\Game\data\NiveauTuto\Dialogues\thibault2.png"
+       id="text4854"
+       y="156.71136"
+       x="64.279106"
+       style="font-style:normal;font-weight:normal;font-size:4.8180294px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.12045074"
+       xml:space="preserve"><tspan
+         id="tspan4852"
+         style="stroke-width:0.12045074"
+         y="160.9742"
+         x="64.279106"
+         sodipodi:role="line" /></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:4.8180294px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.12045074"
+       x="70.580597"
+       y="158.31984"
+       id="text1897-3-5"
+       inkscape:export-filename="C:\Users\pjaff\Documents\Workspace\GitHub\OPTIMOB\Game\data\NiveauTuto\Dialogues\thibault3.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"><tspan
+         sodipodi:role="line"
+         x="70.580597"
+         y="162.58267"
+         style="stroke-width:0.12045074"
+         id="tspan1971-3" /><tspan
+         sodipodi:role="line"
+         x="70.580597"
+         y="168.60521"
+         style="stroke-width:0.12045074"
+         id="tspan1979-9">On se retrouve en ville. Appuie sur E près d'un panneau pour changer de niveau.</tspan><tspan
+         sodipodi:role="line"
+         x="70.580597"
+         y="174.62775"
+         style="stroke-width:0.12045074"
+         id="tspan4903">Ton niveau d'xp, ta vie restante et les effets actifs sont affichés en haut a gauche</tspan><tspan
+         sodipodi:role="line"
+         x="70.580597"
+         y="180.65028"
+         style="stroke-width:0.12045074"
+         id="tspan4905">de l'écran. Bonne chance ! </tspan></text>
   </g>
 </svg>
