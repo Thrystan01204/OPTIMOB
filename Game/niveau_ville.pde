@@ -41,7 +41,7 @@ class NiveauVille{
     plateformes.add(new Plateforme(3202, 252, 215.75, false)); // p10
     
     musique = new SoundFile(Game.this, "NiveauVille/musique.wav");
-    musique.amp(0.125); // La musique étant trop forte, on baisse le volume.
+    musique.amp(0.5); // La musique étant trop forte, on baisse le volume.
   }
   
   // Gestion de la logique du niveau.
@@ -115,8 +115,9 @@ class NiveauVille{
   }
   
   // Lorsque l'on revient dans ce niveau, on s'assure de reprendre ses actions misent en pause.
-  void relancer() {
+  void relancer(boolean gauche) {
     musique.loop(); // On relance la musique de fond.
-    joueur.initNiveau(210, 4*height/5-joueur.h/2); // On replace le joueur dans le niveau.
+    if(gauche) // Si on arrive de la gauche.
+      joueur.initNiveau(210, 4*height/5-joueur.h/2); // On replace le joueur dans le niveau.
   }
 }

@@ -23,4 +23,5 @@ class Horloge {
     tempsDebut = millis();
     compteur = 0;
   }
+  
 }
