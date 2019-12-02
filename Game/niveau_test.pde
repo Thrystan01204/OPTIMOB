@@ -96,12 +96,6 @@ class NiveauTest {
   }
 
   void keyPressed() {
-    if (key == ESC) {
-      key = 0;
-      niveau = 0;
-      pause();
-      menuPrincipal.relancer();
-    }
     joueur.keyPressed();
   }
 

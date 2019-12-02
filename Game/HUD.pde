@@ -39,9 +39,9 @@ class HUD {
         textSize(20);
         textAlign(LEFT, TOP);
         fill(0);
-        text("Invulnérable à la lave", 1, 1);
+        text("Invulnérable à la lave", 49, 49);
         fill(255);
-        text("Invulnérable à la lave", 0, 0);
+        text("Invulnérable à la lave", 48, 48);
       }
 
       textSize(20);

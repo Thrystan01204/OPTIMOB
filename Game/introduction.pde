@@ -118,15 +118,6 @@ class NiveauIntro {
   }
 
   void keyPressed() {
-    if (key == ESC) {
-      key = 0; // cela permet de faire croire à processing que l'on a pas appuié sur la touche "echap" et donc l'empêche de fermer le jeu.
-      // On revient au menu principal.
-      pause(); // On met le niveau en pause.
-      niveau = 0; // //On indique au système de gestion des niveaux que l'on se trouve maintenant au menu principal.
-      infoChargeNiveau();  // On indique que le niveau charge.
-      menuPrincipal.relancer(); // On relance le niveau : menu principal.
-    }
-    
     if (key == ' ') {
       if (enIntroduction) {
         numDialogue += 1;

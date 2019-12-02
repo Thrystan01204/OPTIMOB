@@ -74,6 +74,9 @@ void chargerNiveaux() {
   // Création du niveau ville.
   niveauVille = new NiveauVille();
   
+  // Création du niveau ermitage.
+  niveauErmitage = new NiveauErmitage();
+  
   //Création du game over.
   gameOver = new GameOver();
   
@@ -341,6 +344,10 @@ void draw() {
     //Actualisation du niveau d'introduction.
     niveauIntro.actualiser();
     niveauIntro.afficher();
+  } else if(niveau == 3){
+    //Actualisation du niveau ermitage.
+    niveauErmitage.actualiser();
+    niveauErmitage.afficher();
   }else if (niveau == 8) {
     // Actualisation du niveau de test
     niveauTest.actualiser();
@@ -371,6 +378,8 @@ void keyReleased() {
       niveauVille.keyReleased();
     else if(niveau == 5)
       niveauIntro.keyReleased();
+    else if(niveau == 3)
+      niveauErmitage.keyReleased();
     else if (niveau == 8)
       niveauTest.keyReleased();
   }
@@ -384,11 +393,9 @@ void keyPressed() {
       niveauIntro.keyPressed();
     else if (niveau == 2)
       niveauVille.keyPressed();
+    else if (niveau == 3)
+      niveauErmitage.keyPressed();
     else if (niveau == 8)
       niveauTest.keyPressed();
-  }
-  // Cas spécial Si on appuie sur la touche "echap"
-  if (key == ESC) {
-    key = 0; // cela permet de faire croire à processing que l'on a pas appuié sur la touche "echap" et donc l'empêche de fermer le jeu
   }
 }

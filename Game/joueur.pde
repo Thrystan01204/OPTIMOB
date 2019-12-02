@@ -1,11 +1,10 @@
 class Joueur {
-  boolean invulnerableLave = true; // Pour pouvoir avancer dans le jeu.
+  boolean invulnerableLave = false; // Pour pouvoir avancer dans le jeu.
   int compteurTemps = 0; // Permet de créer des évennements dans le temps.
-
   float x, y; // Positions du joueur
   float vx = 0; // Vitesse du joueur sur l'axe x (en pixels par secondes)
   float vy = 0; // Vitesse du joueur sur l'axe y (en pixels par secondes)
-  float friction = 0.80; // Coefficient
+  float friction = 0.80; // Coefficient.
   float forceSaut = 1500; // En pixel par secondes
   float vitesseDeplacement = 400;  // En pixel par secondes
   float gravite = 4000; // En pixels par secondes carrés
@@ -29,7 +28,7 @@ class Joueur {
   float balleX;
   float balleY;
   float balleMaxDistance = 300;
-  float balleVitesse = 5;
+  float balleVitesse = 10;
   int balleDirection = 1; // Direction de la balle lorsqu'elle a été tirée.
   
   // Dimension de la balle.
@@ -128,6 +127,9 @@ class Joueur {
     if(aTire){
         balleX += balleVitesse * balleDirection;
       if(abs(balleXInitiale-balleX) > balleMaxDistance){
+        ennemiTouche = true;
+      }
+      if(abs(balleXInitiale-balleX) > balleMaxDistance*2){
         ennemiTouche = true;
         aTire = false;
       }

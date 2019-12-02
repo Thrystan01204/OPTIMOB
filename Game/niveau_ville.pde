@@ -116,12 +116,13 @@ class NiveauVille {
     // Après la transition on change de niveau.
     if (fade.tempsEcoule && changeNiveauErmitage) {
       pause();
-      niveau = 3; // On lance le niveau ville.
-      infoChargeNiveau(); // On charge le niveau;
+      niveau = 3; // On lance le niveau Ermitage.
+      infoChargeNiveau(); // On charge le niveau.
+      niveauErmitage.relancer(); // On relance le niveau ermitage.
     } else if (fade.tempsEcoule && changeNiveauVolcan) {
       pause();
-      niveau = 4; // On lance le niveau ville.
-      infoChargeNiveau(); // On charge le niveau;
+      niveau = 4; // On lance le niveau volcan.
+      infoChargeNiveau(); // On charge le niveau.
     }
     fade.actualiser();
 
@@ -198,8 +199,10 @@ class NiveauVille {
       float transparence = 255;
       fill(0, 0, 0, 255);
       if (changeNiveauErmitage || changeNiveauVolcan) {
-        transparence = map(fade.compteur, 0, fade.temps, 255, 0);
+        transparence = map(fade.compteur, 0, fade.temps, 0, 255);
         fill(0, 0, 0, transparence);
+      } else if(changeNiveauErmitage || changeNiveauVolcan){
+        background(0);
       }
       rectMode(CORNER);
       rect(0, 0, width, height);
@@ -208,14 +211,6 @@ class NiveauVille {
 
   // Gestion des touches appuyées
   void keyPressed() {
-    if (key == ESC) {
-      key = 0; // cela permet de faire croire à processing que l'on a pas appuié sur la touche "echap" et donc l'empêche de fermer le jeu.
-      // On revient au menu principal.
-      pause(); // On met le niveau en pause.
-      niveau = 0; // //On indique au système de gestion des niveaux que l'on se trouve maintenant au menu principal.
-      infoChargeNiveau();  // On indique que le niveau charge.
-      menuPrincipal.relancer(); // On relance le niveau : menu principal.
-    }
     if (key == ' ') {
     // Pemier dialogue.
     if (lanceDialogue1) {
@@ -281,6 +276,9 @@ class NiveauVille {
   // Lorsque l'on revient dans ce niveau, on s'assure de reprendre ses actions misent en pause.
   void relancer(boolean gauche) {
     musique.loop(); // On relance la musique de fond.
+    changeNiveauErmitage = false;
+    fade.tempsEcoule = false;
+    changeNiveauVolcan = false;
     if (gauche) // Si on arrive de la gauche.
       joueur.initNiveau(210, 4*height/5-joueur.h/2); // On replace le joueur dans le niveau.
   }
