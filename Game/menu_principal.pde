@@ -118,9 +118,10 @@ class MenuPrincipal {
         
       } else if (sourisDansRectangle(541, 492, 541+w, 492+h)) { // Bouton nouvelle partie
         pause(); // On met en pause le menu.
-        niveau = 2; //On indique au système de gestion des niveaux que l'on va aux niveau de la ville.
+        niveau = 5; //On indique au système de gestion des niveaux que l'on va au niveau d'introduction.
         infoChargeNiveau();  // On indique que le niveau charge.
-        niveauVille.relancer(); // On relance le niveau ville.
+        niveauIntro.relancer(); // On relance le tuto
+        
       } else if (sourisDansRectangle(541, 633, 541+w, 633+h)) { // Bouton quitter
         pause(); // On met en pause le menu.
         exit(); // On quitte le jeu.

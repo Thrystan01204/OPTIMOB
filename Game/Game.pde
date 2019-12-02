@@ -19,16 +19,20 @@ int niveau = 0; // permet de savoir dans quel niveau on se trouve
 //6 = Boss final
 //7 = cinématique de fin
 //8 = niveau de test (seulement pour le debugage)
+//9 = game over
 
 float dt = 1.0/60; // Pas de temps pour l'intégration du mouvement du joueur.
 Joueur joueur; // Objet joueur.
 
 Camera camera; // Objet Camera, permet le "scrolling" des niveaux lors du déplacement du joueur.
+HUD hud; // Le HUD.
 
 MenuPrincipal menuPrincipal; // Objet contenant le code du menu principal.
 Credits credits; // Objet contenant le code des credits.
 NiveauVille niveauVille; // Objet content le code du niveau de la ville.
 NiveauTest niveauTest; // Objet contenant un niveau de test, uniquement pour le debugage.
+NiveauIntro niveauIntro; // L'introduction du jeu.
+GameOver gameOver; // Ecrant de fin du jeu.
 
 //------------------------------------------------------------------------------------------------------------------------------
 
@@ -50,24 +54,34 @@ void chargerNiveaux() {
 
   // Création de la caméra.
   camera = new Camera();
+  
+  //Création du HUD.
+  hud = new HUD();
 
   // Création du menu principal.
   menuPrincipal = new MenuPrincipal();
+  
+  // Création du niveau d'introduction.
+  niveauIntro = new NiveauIntro();
 
   // Création des crédits.
   credits = new Credits();
 
-  // Création d'un niveau de test
+  // Création d'un niveau de test.
   niveauTest = new NiveauTest();
   
-  // Création du niveau ville
+  // Création du niveau ville.
   niveauVille = new NiveauVille();
-
+  
+  //Création du game over.
+  gameOver = new GameOver();
+  
   // On indique que le chargement est fini, pour pouvoir passer de l'écran de chargement au menu principal.
   chargementDuJeu = false;
 
   // Puis on lance le menu principal.
   menuPrincipal.relancer();
+    
 }
 
 
@@ -75,6 +89,11 @@ void chargerNiveaux() {
 boolean sourisDansRectangle(float x1, float y1, float x2, float y2) {
   return (x1 <= mouseX && mouseX <= x2 && y1 <= mouseY && mouseY <= y2);
 }
+
+boolean collisionRectangles(float x1, float y1, float w1, float h1, float x2, float y2, float w2, float h2){
+   return !((x2-w2/2 >= x1 + w1/2) || (x2 + w2/2 <= x1-w1/2) || (y2-h2/2 >= y1 + h1/2) || (y2 + h2/2 <= y1-h1/2));
+}
+ 
 
 // Permet d'afficher un écran de chargement du niveau, normalement ceci n'est pas nécéssaire car les niveaux sont déja préchargés lors du chargement du jeu.
 // Cependant, sur certaines machine, le moteur de rendu P2D (OPENGL) peu mettre beaucoup de temps à déterminer les ressources qui sont utilisées dans un niveau, donnant l'impression
@@ -102,6 +121,8 @@ void collisionLimites(){
       joueur.vy = 0;
       joueur.y = 4*height/5-joueur.h/2;
       joueur.surPlateforme = true;
+      if(joueur.estPousse)
+        joueur.estPousse = false;
   }
 }
 
@@ -156,6 +177,8 @@ void collisionPlateformes() {
         joueur.vy = 0;
         joueur.y = plateformeCandidate.y - joueur.h/2;
         joueur.surPlateforme = true;
+        if(joueur.estPousse)
+          joueur.estPousse = false;
         return; // On arrête la fonction qui a fini son travail.
       }
     }
@@ -309,7 +332,15 @@ void draw() {
     // Actualisation du niveau de la ville (niveau 1)
     niveauVille.actualiser();
     niveauVille.afficher();
-  } else if (niveau == 8) {
+  } else if (niveau == 9) {
+    // Actualisation du game over
+    gameOver.actualiser();
+    gameOver.afficher();
+  } else if(niveau == 5){
+    //Actualisation du niveau d'introduction.
+    niveauIntro.actualiser();
+    niveauIntro.afficher();
+  }else if (niveau == 8) {
     // Actualisation du niveau de test
     niveauTest.actualiser();
     niveauTest.afficher();
@@ -337,6 +368,8 @@ void keyReleased() {
   if (!chargementDuJeu) {
     if (niveau == 2)
       niveauVille.keyReleased();
+    else if(niveau == 5)
+      niveauIntro.keyReleased();
     else if (niveau == 8)
       niveauTest.keyReleased();
   }
@@ -346,6 +379,8 @@ void keyPressed() {
   if (!chargementDuJeu) {
     if (niveau == 1)
       credits.retourMenuPrincipal();
+    else if(niveau == 5)
+      niveauIntro.keyPressed();
     else if (niveau == 2)
       niveauVille.keyPressed();
     else if (niveau == 8)
