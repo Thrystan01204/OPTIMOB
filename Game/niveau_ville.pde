@@ -235,7 +235,7 @@ class NiveauVille {
       rectMode(CORNER);
       rect(0, 0, width, height);
     } else if (changeNiveauVolcan || changeNiveauErmitage) {
-      background(0);
+      infoChargeNiveau(); // On charge le niveau;
     }
   }
 

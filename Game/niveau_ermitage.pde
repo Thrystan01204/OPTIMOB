@@ -197,7 +197,7 @@ class NiveauErmitage {
       rectMode(CORNER);
       rect(0, 0, width, height);
     } else if (changeNiveauVille) {
-      background(0);
+      infoChargeNiveau(); // On charge le niveau;
     }
   }
 

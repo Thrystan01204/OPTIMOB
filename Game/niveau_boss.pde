@@ -175,7 +175,7 @@ class NiveauBoss {
       }
     } 
     else
-      background(50);
+      infoChargeNiveau(); // On charge le niveau;
    if(dialogue4)
       background(50);
 

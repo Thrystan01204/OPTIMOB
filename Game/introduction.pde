@@ -169,7 +169,6 @@ class NiveauIntro {
         numDialogue = 4;
       } else if (k == 'E' && versNiveauVille) {
         fade.lancer();
-        infoChargeNiveau();
         changeNiveauVille = true;
       }
     }
@@ -255,7 +254,7 @@ class NiveauIntro {
       rectMode(CORNER);
       rect(0, 0, width, height);
     } else if (changeNiveauVille) {
-      background(0);
+      infoChargeNiveau(); // On charge le niveau;
     }
   }
 
