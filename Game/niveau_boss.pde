@@ -45,17 +45,13 @@ class NiveauBoss {
     imgDialogue3 = loadImage("NiveauBoss/thibault3.png");
     imgDialogue4 = loadImage("NiveauBoss/fin.png");
     thibault = loadImage("thibault.png");
-
     fond = loadImage("NiveauBoss/fond.png");
     plateformes.add(new Plateforme(355, 410, 398, false));
     plateformes.add(new Plateforme(325.5, 193, 246, false));
-
     plateformes.add(new Plateforme(966, 410, 398, false));
     plateformes.add(new Plateforme(1006, 193, 246, false));
     boss = new Sprite(1038, 382.5);
     boss.chargeImage("NiveauBoss/boss.png");
-    joueur.balleMaxDistance = 720;
-    joueur.vie = 100;
     fade = new Horloge(2000);
     fade.tempsEcoule = true;
   }
@@ -67,7 +63,7 @@ class NiveauBoss {
         phase2 = true;
         musiquePhase1.stop();
         musiquePhase2.loop();
-        vx = 6;
+        vx = 6.5;
       }
       // Estimation des collisions.
       trouverPlateformeCandidate(plateformes); // On cherche un plateforme qui pourrait potentiellement enter en collision avec le joueur.
@@ -291,6 +287,8 @@ class NiveauBoss {
     dialogue3 = true;
     joueur.initNiveau(197, 4*height/5-joueur.h/2); // On replace le joueur dans le niveau.
     joueur.aligneDroite = true;
+    joueur.balleMaxDistance = 720;
+    joueur.vie = 100;
   }
   
   void reinitialiser(){

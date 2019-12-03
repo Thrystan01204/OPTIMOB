@@ -113,12 +113,13 @@ class NiveauVolcan {
       pause();
       niveau = 6; // On lance le niveau du boss;
       infoChargeNiveau(); // On charge le niveau;
+      niveauBoss.lancer();
     }
 
     fade.actualiser();
 
     bonus1.actualiser();
-    bonus2.actualiser();
+    bonus2.actualiser(); 
     bonus3.actualiser();
     bonus4.actualiser();
 

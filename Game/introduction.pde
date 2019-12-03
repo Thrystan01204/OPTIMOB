@@ -169,6 +169,7 @@ class NiveauIntro {
         numDialogue = 4;
       } else if (k == 'E' && versNiveauVille) {
         fade.lancer();
+        infoChargeNiveau();
         changeNiveauVille = true;
       }
     }
