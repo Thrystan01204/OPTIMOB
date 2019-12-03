@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1280"
+   height="720"
+   viewBox="0 0 338.66666 190.50001"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   sodipodi:docname="dialogue.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="488.5771"
+     inkscape:cy="228.77161"
+     inkscape:document-units="mm"
+     inkscape:current-layer="g892"
+     showgrid="false"
+     units="px"
+     inkscape:snap-bbox="true"
+     showguides="false"
+     inkscape:window-width="1858"
+     inkscape:window-height="1057"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:snap-global="false">
+    <inkscape:grid
+       type="xygrid"
+       id="grid1368" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer5"
+     inkscape:label="dialogue1"
+     style="display:none">
+    <rect
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2.5;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect1382-6-4"
+       width="222.25002"
+       height="31.750006"
+       x="58.208309"
+       y="156.10417"
+       ry="4.762495"
+       inkscape:export-filename="D:\Workspaces\GitHub\OPTIMOB\Game\data\NiveauVolcan\thibault1.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <path
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2.5;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 60.854157,142.78819 h 37.041662 c 1.465795,0 2.645841,1.18004 2.645841,2.64584 v 7.93749 c 0,1.46579 -1.180046,2.64584 -2.645841,2.64584 H 59.53124 l -1.322917,4.05555 -5e-6,-6.70139 v -7.93749 c 0,-1.4658 1.180044,-2.64584 2.645839,-2.64584 z"
+       id="rect1424-6-3"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ssssscccss"
+       inkscape:export-filename="D:\Workspaces\GitHub\OPTIMOB\Game\data\NiveauVolcan\thibault1.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:8.16898155px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.20422453"
+       x="63.205872"
+       y="151.91812"
+       id="text1865"
+       inkscape:export-filename="D:\Workspaces\GitHub\OPTIMOB\Game\data\NiveauVolcan\thibault1.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"><tspan
+         sodipodi:role="line"
+         id="tspan1863"
+         x="63.205872"
+         y="151.91812"
+         style="stroke-width:0.20422453">Thibault</tspan></text>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot1879"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       transform="scale(0.26458333)"><flowRegion
+         id="flowRegion1881"><rect
+           id="rect1883"
+           width="60"
+           height="50"
+           x="560"
+           y="590" /></flowRegion><flowPara
+         id="flowPara1885" /></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot1887"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       transform="scale(0.26458333)"><flowRegion
+         id="flowRegion1889"><rect
+           id="rect1891"
+           width="1120"
+           height="320"
+           x="20"
+           y="20" /></flowRegion><flowPara
+         id="flowPara1893" /></flowRoot>    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:4.8180294px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.12045074"
+       x="62.942753"
+       y="164.46217"
+       id="text1897"
+       inkscape:export-filename="D:\Workspaces\GitHub\OPTIMOB\Game\data\NiveauVolcan\thibault1.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"><tspan
+         sodipodi:role="line"
+         x="62.942753"
+         y="164.46217"
+         style="stroke-width:0.12045074"
+         id="tspan862">Il faut continuer, la base se trouve dans une grotte tout à droite. Mais fais attention, </tspan><tspan
+         sodipodi:role="line"
+         x="62.942753"
+         y="170.48471"
+         style="stroke-width:0.12045074"
+         id="tspan834">les ennemis ici sont très forts... tu devrais augmenter ton niveau avant de les attaquer.</tspan></text>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot1909"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       transform="scale(0.26458333)"><flowRegion
+         id="flowRegion1911"><rect
+           id="rect1913"
+           width="822.85718"
+           height="278.57141"
+           x="237.14285"
+           y="181.42857" /></flowRegion><flowPara
+         id="flowPara1915" /></flowRoot>  </g>
+  <g
+     style="display:none"
+     inkscape:label="dialogue2"
+     id="g875"
+     inkscape:groupmode="layer">
+    <rect
+       inkscape:export-ydpi="96"
+       inkscape:export-xdpi="96"
+       inkscape:export-filename="D:\Workspaces\GitHub\OPTIMOB\Game\data\NiveauVolcan\thibault2.png"
+       ry="4.762495"
+       y="156.10417"
+       x="58.208309"
+       height="31.750006"
+       width="222.25002"
+       id="rect836"
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2.5;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       inkscape:export-ydpi="96"
+       inkscape:export-xdpi="96"
+       inkscape:export-filename="D:\Workspaces\GitHub\OPTIMOB\Game\data\NiveauVolcan\thibault2.png"
+       sodipodi:nodetypes="ssssscccss"
+       inkscape:connector-curvature="0"
+       id="path838"
+       d="m 60.854157,142.78819 h 37.041662 c 1.465795,0 2.645841,1.18004 2.645841,2.64584 v 7.93749 c 0,1.46579 -1.180046,2.64584 -2.645841,2.64584 H 59.53124 l -1.322917,4.05555 -5e-6,-6.70139 v -7.93749 c 0,-1.4658 1.180044,-2.64584 2.645839,-2.64584 z"
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2.5;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <text
+       inkscape:export-ydpi="96"
+       inkscape:export-xdpi="96"
+       inkscape:export-filename="D:\Workspaces\GitHub\OPTIMOB\Game\data\NiveauVolcan\thibault2.png"
+       id="text842"
+       y="151.91812"
+       x="63.205872"
+       style="font-style:normal;font-weight:normal;font-size:8.16898155px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.20422453"
+       xml:space="preserve"><tspan
+         style="stroke-width:0.20422453"
+         y="151.91812"
+         x="63.205872"
+         id="tspan840"
+         sodipodi:role="line">Thibault</tspan></text>
+    <flowRoot
+       transform="scale(0.26458333)"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       id="flowRoot850"
+       xml:space="preserve"><flowRegion
+         id="flowRegion846"><rect
+           y="590"
+           x="560"
+           height="50"
+           width="60"
+           id="rect844" /></flowRegion><flowPara
+         id="flowPara848" /></flowRoot>    <flowRoot
+       transform="scale(0.26458333)"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       id="flowRoot858"
+       xml:space="preserve"><flowRegion
+         id="flowRegion854"><rect
+           y="20"
+           x="20"
+           height="320"
+           width="1120"
+           id="rect852" /></flowRegion><flowPara
+         id="flowPara856" /></flowRoot>    <text
+       inkscape:export-ydpi="96"
+       inkscape:export-xdpi="96"
+       inkscape:export-filename="D:\Workspaces\GitHub\OPTIMOB\Game\data\NiveauVolcan\thibault2.png"
+       id="text865"
+       y="164.46217"
+       x="62.942753"
+       style="font-style:normal;font-weight:normal;font-size:4.8180294px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.12045074"
+       xml:space="preserve"><tspan
+         id="tspan863"
+         style="stroke-width:0.12045074"
+         y="164.46217"
+         x="62.942753"
+         sodipodi:role="line">La lave nous coupe le passage ! Il faut trouver un moyen de traverser... peut être</tspan><tspan
+         style="stroke-width:0.12045074"
+         y="170.48471"
+         x="62.942753"
+         sodipodi:role="line"
+         id="tspan879">qu'il y a ce que l'on cherche en ville...</tspan></text>
+    <flowRoot
+       transform="scale(0.26458333)"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       id="flowRoot873"
+       xml:space="preserve"><flowRegion
+         id="flowRegion869"><rect
+           y="181.42857"
+           x="237.14285"
+           height="278.57141"
+           width="822.85718"
+           id="rect867" /></flowRegion><flowPara
+         id="flowPara871" /></flowRoot>  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="g892"
+     inkscape:label="dialogue3"
+     style="display:inline">
+    <rect
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2.5;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect853"
+       width="222.25002"
+       height="31.750006"
+       x="58.208309"
+       y="156.10417"
+       ry="4.762495"
+       inkscape:export-filename="D:\Workspaces\GitHub\OPTIMOB\Game\data\NiveauVolcan\martin.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <path
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2.5;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 60.854157,142.78819 h 37.041662 c 1.465795,0 2.645841,1.18004 2.645841,2.64584 v 7.93749 c 0,1.46579 -1.180046,2.64584 -2.645841,2.64584 H 59.53124 l -1.322917,4.05555 -5e-6,-6.70139 v -7.93749 c 0,-1.4658 1.180044,-2.64584 2.645839,-2.64584 z"
+       id="path855"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ssssscccss"
+       inkscape:export-filename="D:\Workspaces\GitHub\OPTIMOB\Game\data\NiveauVolcan\martin.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:8.16898155px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.20422453"
+       x="63.205872"
+       y="151.91812"
+       id="text859"
+       inkscape:export-filename="D:\Workspaces\GitHub\OPTIMOB\Game\data\NiveauVolcan\martin.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"><tspan
+         sodipodi:role="line"
+         id="tspan857"
+         x="63.205872"
+         y="151.91812"
+         style="stroke-width:0.20422453">Martin</tspan></text>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot867"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       transform="scale(0.26458333)"><flowRegion
+         id="flowRegion863"><rect
+           id="rect861"
+           width="60"
+           height="50"
+           x="560"
+           y="590" /></flowRegion><flowPara
+         id="flowPara865" /></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot875"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       transform="scale(0.26458333)"><flowRegion
+         id="flowRegion871"><rect
+           id="rect869"
+           width="1120"
+           height="320"
+           x="20"
+           y="20" /></flowRegion><flowPara
+         id="flowPara873" /></flowRoot>    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:4.8180294px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.12045074"
+       x="62.942753"
+       y="164.46217"
+       id="text882"
+       inkscape:export-filename="D:\Workspaces\GitHub\OPTIMOB\Game\data\NiveauVolcan\martin.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"><tspan
+         sodipodi:role="line"
+         x="62.942753"
+         y="164.46217"
+         style="stroke-width:0.12045074"
+         id="tspan896">Je ne suis pas encore assez fort, je dois monter de niveau... quand je serais niveau 10  </tspan><tspan
+         sodipodi:role="line"
+         x="62.942753"
+         y="170.48471"
+         style="stroke-width:0.12045074"
+         id="tspan900">j'aurais peut-être une chance...</tspan></text>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot890"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       transform="scale(0.26458333)"><flowRegion
+         id="flowRegion886"><rect
+           id="rect884"
+           width="822.85718"
+           height="278.57141"
+           x="237.14285"
+           y="181.42857" /></flowRegion><flowPara
+         id="flowPara888" /></flowRoot>  </g>
+</svg>

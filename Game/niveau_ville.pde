@@ -101,7 +101,7 @@ class NiveauVille {
     ennemis.add(m6);
 
     Mercenaire m7 = new Mercenaire(3435.5, 429, 561, 1);
-    m7.level = 1;
+    m7.level = 3;
     ennemis.add(m7);
 
 
@@ -204,7 +204,7 @@ class NiveauVille {
 
     hud.afficher();
 
-    if (lanceDialogue1 || lanceDialogue2) {
+    if (lanceDialogue1 || lanceDialogue2 || dialogueCombinaison) {
       fill(50);
       noStroke();
       rectMode(CENTER);
@@ -215,20 +215,10 @@ class NiveauVille {
       text("Appuyer sur espace pour continuer", width/2+1, 33);
       fill(255);
       text("Appuyer sur espace pour continuer", width/2, 32);
-      image(dialogues[numDialogue], 215, 535);
-    }
-    if (dialogueCombinaison) {
-      fill(50);
-      noStroke();
-      rectMode(CENTER);
-      rect(width/2, 35, 500, 32);
-      textSize(24);
-      textAlign(CENTER, CENTER);
-      fill(0);
-      text("Appuyer sur espace pour continuer", width/2+1, 33);
-      fill(255);
-      text("Appuyer sur espace pour continuer", width/2, 32);
-      image(infoCombinaison, 215, 535);
+      if(dialogueCombinaison)
+        image(infoCombinaison, 215, 535);
+      else
+        image(dialogues[numDialogue], 215, 535);
     }
 
     // Transition.
@@ -244,6 +234,8 @@ class NiveauVille {
       }
       rectMode(CORNER);
       rect(0, 0, width, height);
+    } else if (changeNiveauVolcan || changeNiveauErmitage) {
+      background(0);
     }
   }
 

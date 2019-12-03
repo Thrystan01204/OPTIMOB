@@ -11,12 +11,14 @@ class NiveauErmitage {
 
   PImage fond; // Image de fond.
   PImage infoSavate; // Description des savates magiques.
+  PImage imgDialogue1;
 
   SoundFile musique; // Musique de fond.
 
   Horloge fade; // Transition vers les niveaux.
 
   boolean dialogueSavate = false;
+  boolean dialogue1 = false;
 
   boolean changeNiveauVille= false;
 
@@ -30,6 +32,7 @@ class NiveauErmitage {
 
     fond = loadImage("NiveauErmitage/fond.png");
     infoSavate = loadImage("NiveauErmitage/dialogue.png");
+    imgDialogue1 = loadImage("NiveauErmitage/dialogue2.png");
 
     //*************Mise en place des plateformes et murs *****************//
 
@@ -68,7 +71,7 @@ class NiveauErmitage {
     ennemis.add(m10);
     
     Mercenaire m11 = new Mercenaire(170, 4*height/5, 10, 1);
-    m9.level = 2;
+    m9.level = 3;
     ennemis.add(m11);
     
     bonus1 = new PainBouchon(820.25, 360.5);
@@ -82,7 +85,7 @@ class NiveauErmitage {
 
   // Gestion de la logique du niveau.
   void actualiser() {
-    if (!changeNiveauVille && !dialogueSavate) {
+    if (!changeNiveauVille && !dialogueSavate && !dialogue1) {
       // Estimation des collisions.
       trouverPlateformeCandidate(plateformes); // On cherche un plateforme qui pourrait potentiellement enter en collision avec le joueur.
       trouverMursCandidats(murs); // De même pour les murs a gauches et à droites du joueur.
@@ -153,16 +156,19 @@ class NiveauErmitage {
     }
 
     boolean versNiveauVille = collisionRectangles(joueur.x, joueur.y, joueur.w, joueur.h, 3764, 537, 130, 158);
+    boolean declancheurDialogue1 = collisionRectangles(joueur.x, joueur.y, joueur.w, joueur.h, 3279, 497, 130, 158);
 
     if (versNiveauVille)
       image(infoDialogue, 3722, 373);
+    if(declancheurDialogue1)
+      image(infoDialogue, 3237, 334);
 
     // Une fois l'affichage qui dépend de la position de la caméra est fini, on se replace dans l'ancien repère de coordonnées.
     popMatrix();
 
     hud.afficher();
 
-    if (dialogueSavate) {
+    if (dialogueSavate || dialogue1) {
       fill(50);
       noStroke();
       rectMode(CENTER);
@@ -173,7 +179,10 @@ class NiveauErmitage {
       text("Appuyer sur espace pour continuer", width/2+1, 33);
       fill(255);
       text("Appuyer sur espace pour continuer", width/2, 32);
-      image(infoSavate, 215, 535);
+      if(dialogueSavate)
+        image(infoSavate, 215, 535);
+      else if(dialogue1)
+        image(imgDialogue1, 215, 535);
     }
 
     // Transition.
@@ -187,6 +196,8 @@ class NiveauErmitage {
       }
       rectMode(CORNER);
       rect(0, 0, width, height);
+    } else if (changeNiveauVille) {
+      background(0);
     }
   }
 
@@ -196,17 +207,22 @@ class NiveauErmitage {
       // Pemier dialogue.
       if (dialogueSavate) {
         dialogueSavate = false;
+      } else if(dialogue1){
+        dialogue1 = false; 
       }
-    } else if (fade.tempsEcoule && !dialogueSavate && !changeNiveauVille) {
+    } else if (fade.tempsEcoule && !dialogueSavate && !changeNiveauVille && !dialogue1) {
       joueur.keyPressed();
     }
 
-    if (!dialogueSavate && !changeNiveauVille) {
+    if (!dialogueSavate && !changeNiveauVille && !dialogue1) {
       char k = Character.toUpperCase((char) key);
       boolean versNiveauVille = collisionRectangles(joueur.x, joueur.y, joueur.w, joueur.h, 3764, 537, 130, 158);
+      boolean declancheurDialogue1 = collisionRectangles(joueur.x, joueur.y, joueur.w, joueur.h, 3279, 497, 130, 158);
       if (k == 'E' && versNiveauVille) {
         fade.lancer();
         changeNiveauVille = true;
+      } if (k == 'E' && declancheurDialogue1) {
+        dialogue1 = true;
       }
     }
   }

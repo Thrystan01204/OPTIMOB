@@ -4,12 +4,12 @@ import processing.sound.*;  // Bibliothèque pour gérer les musiques.
 
 //-------------------------------------------------- AIDE AU DEBUGAGE ---------------------------------------------------------
 // Si cette variable est vraie, on affiche à l'écran les aides de débugage, à désactivé lors de la sortie du jeu
-boolean debug = true; 
+boolean debug = false; 
 //-----------------------------------------------------------------------------------------------------------------------------
 
 
 //----------------------------------- Variables globales pour la gestion des niveaux ------------------------------------------
-int niveau = 4; // permet de savoir dans quel niveau on se trouve
+int niveau = 0; // permet de savoir dans quel niveau on se trouve
 //0 = menu principal
 //1 = crédits
 //2 = niveau ville
@@ -17,7 +17,6 @@ int niveau = 4; // permet de savoir dans quel niveau on se trouve
 //4 = niveau volcan
 //5 = introduction
 //6 = Boss final
-//7 = cinématique de fin
 //8 = niveau de test (seulement pour le debugage)
 //9 = game over
 
@@ -34,6 +33,7 @@ NiveauTest niveauTest; // Objet contenant un niveau de test, uniquement pour le 
 NiveauIntro niveauIntro; // L'introduction du jeu.
 NiveauErmitage niveauErmitage;
 NiveauVolcan niveauVolcan;
+NiveauBoss niveauBoss;
 GameOver gameOver; // Ecrant de fin du jeu.
 
 //------------------------------------------------------------------------------------------------------------------------------
@@ -81,6 +81,9 @@ void chargerNiveaux() {
   //Création du niveau volcan.
   niveauVolcan = new NiveauVolcan();
   
+  //Création du niveau boss.
+  niveauBoss = new NiveauBoss();
+  
   //Création du game over.
   gameOver = new GameOver();
   
@@ -102,6 +105,8 @@ void chargerNiveaux() {
     niveauIntro.relancer();
   else if(niveau == 9)
     gameOver.lancer();
+  else if(niveau == 6)
+    niveauBoss.lancer();
 }
 
 
@@ -368,6 +373,10 @@ void draw() {
     //Actualisation du niveau volcan.
     niveauVolcan.actualiser();
     niveauVolcan.afficher();
+  }else if(niveau == 6){
+    //Actualisation du niveau volcan.
+    niveauBoss.actualiser();
+    niveauBoss.afficher();
   }else if (niveau == 8) {
     // Actualisation du niveau de test
     niveauTest.actualiser();
@@ -402,6 +411,8 @@ void keyReleased() {
       niveauErmitage.keyReleased();
     else if(niveau == 4)
       niveauVolcan.keyReleased();
+    else if(niveau == 6)
+      niveauBoss.keyReleased();
     else if (niveau == 8)
       niveauTest.keyReleased();
   }
@@ -419,6 +430,8 @@ void keyPressed() {
       niveauErmitage.keyPressed();
     else if (niveau == 4)
       niveauVolcan.keyPressed();
+    else if (niveau == 6)
+      niveauBoss.keyPressed();
     else if (niveau == 8)
       niveauTest.keyPressed();
   }

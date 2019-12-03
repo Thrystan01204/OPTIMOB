@@ -7,7 +7,7 @@ class Credits {
   float y = height-32;
 
   //Crédits
-  String texte = "OPTIMOB\n\nRéalisé par:\n Pierre Jaffuer,\nRonico Billy,\nOlivier Vee,\nIbnou Issouffa,\nMatthieu Mehon Shit Li,\nTristan Le Lidec";
+  String texte = "OPTIMOB\n\nRéalisé par:\n Pierre Jaffuer,\nOlivier Vee,\nIbnou Issouffa,\nTristan Le Lidec,\nMatthieu Mehon Shit Li,\nRonico Billy";
   
   // Entier qui représente l'opacité du cache de l'écran, c'est la transition "fade out" vers les crédits.
   int transparence = 255;
@@ -49,6 +49,7 @@ class Credits {
   void retourMenuPrincipal() {
     pause(); // On pause ce niveau.
     niveau = 0; // //On indique au système de gestion des niveaux que l'on se trouve maintenant au menu principal.
+    exit();
     infoChargeNiveau();  // On indique que le niveau charge.
     menuPrincipal.relancer(); // On relance le niveau : menu principal.
   }

@@ -30,7 +30,10 @@ class HUD {
       rect(0, 24, width/4, 24);
       // Barre d'xp.
       fill(0, 0, 255);
-      valeur = map(joueur.xp, 0, joueur.xpMax, 0, width/4);
+      if(joueur.level < 10)
+        valeur = map(joueur.xp, 0, joueur.xpMax, 0, width/4);
+      else
+        valeur = width/4;
       rect(0, 24, valeur, 24);
       
       

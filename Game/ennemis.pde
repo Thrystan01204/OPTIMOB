@@ -232,7 +232,7 @@ class Mercenaire {
             balleCollision = true;
             float direction = (joueur.x-balleX)/abs(joueur.x-balleX);
             float repousse = 200 * direction;
-            joueur.degatsRecu(degats*level, repousse);
+            joueur.degatsRecu((int) (degats*level/1.5), repousse);
           }
         }
       }

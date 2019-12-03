@@ -1,5 +1,5 @@
 class Joueur {
-  boolean invulnerableLave = true; // Pour pouvoir avancer dans le jeu.
+  boolean invulnerableLave = false; // Pour pouvoir avancer dans le jeu.
   boolean superSaut = false; // Pour pouvoir avancer dans le jeu.
   int compteurTemps = 0; // Permet de créer des évennements dans le temps.
   float x, y; // Positions du joueur
@@ -10,7 +10,7 @@ class Joueur {
   float vitesseDeplacement = 400;  // En pixel par secondes
   float gravite = 4000; // En pixels par secondes carrés
   int xp = 0; // Quantité d'xp récupérée.
-  int xpMax = 10; // Nombre d'xp pour monter de niveau.
+  int xpMax = 7; // Nombre d'xp pour monter de niveau.
   int level = 1; // Le niveau du personnage, ses dégats y sont proportionnels. Tout comme sa résistance.
   int levelMax = 10; // Niveau maximum du joueur.
   int vie = 100; // Le nombre de points de vie.
