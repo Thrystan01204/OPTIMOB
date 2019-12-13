@@ -22,19 +22,20 @@ class Joueur {
   Sprite spriteSaut; // Animation lorsque le joueur saute (une seule image pour le moment)
   Sprite spriteFrappe; // Animation lorsque le joueur frappe.
   Sprite spriteTire; // Animation lorsque le joueur tire;
-  
+
   // Positions de la balle.
   float balleXInitiale;
   float balleX;
   float balleY;
   float balleMaxDistance = 300;
+  float balleMaxDistanceWait = balleMaxDistance*2.7;
   float balleVitesse = 10;
   int balleDirection = 1; // Direction de la balle lorsqu'elle a été tirée.
-  
+
   // Dimension de la balle.
   float balleW = 16;
   float balleH = 8;
-  
+
   boolean aTire = false; // Permet de savoir quand pouvoir re tirer.
   boolean ennemiTouche = false; // Permet de désactiver le collision avec la balle et son affiche si elle a touchée un ennemi.
 
@@ -91,9 +92,9 @@ class Joueur {
 
     spriteSaut = new Sprite(x, y);
     spriteSaut.chargeImage("Martin/saut.png");
-    
-    spriteTire = new Sprite(x,y);
-    spriteTire.chargeAnimation("Martin/Tire/",8,4);
+
+    spriteTire = new Sprite(x, y);
+    spriteTire.chargeAnimation("Martin/Tire/", 8, 4);
     spriteTire.vitesseAnimation = 45;
 
     sonSaut = new SoundFile(Game.this, "Martin/saut.wav");
@@ -122,14 +123,14 @@ class Joueur {
     if (surPlateforme && !enDeplacement) {
       vx *= friction;
     }
-    
-    
-    if(aTire){
-        balleX += balleVitesse * balleDirection;
-      if(abs(balleXInitiale-balleX) > balleMaxDistance){
+
+
+    if (aTire) {
+      balleX += balleVitesse * balleDirection;
+      if (abs(balleXInitiale-balleX) > balleMaxDistance) {
         ennemiTouche = true;
       }
-      if(abs(balleXInitiale-balleX) > balleMaxDistance*2){
+      if (abs(balleXInitiale-balleX) > balleMaxDistanceWait) {
         ennemiTouche = true;
         aTire = false;
       }
@@ -161,7 +162,7 @@ class Joueur {
     // On clignote en rouge quand on est blessé.
     if (!horlogeBlesse.tempsEcoule) {
       float valeur = horlogeBlesse.compteur % 255;
-      tint(255, 255-valeur, 255-valeur);
+      cv.tint(255, 255-valeur, 255-valeur);
     }
 
     // Chute libre.
@@ -171,10 +172,10 @@ class Joueur {
       spriteFrappe.afficher();
     } 
     // Le joueur Tire.
-    else if(spriteTire.anime) {
+    else if (spriteTire.anime) {
       spriteTire.changeCoordonnee(x, y);
       spriteTire.afficher();
-    }else if (vy > 0) {
+    } else if (vy > 0) {
       // On actualise les coordonnées du sprite sur celle du joueur.
       // Cela permet de séparer l'actualisation de la physique et l'actualisation de l'affichage.
       // La class Sprite n'est ni plus ni moins un sytème d'animation/affichage d'images,
@@ -201,32 +202,32 @@ class Joueur {
       // On affiche l'animation par défaut
       spriteImmobile.afficher();
     }
-    tint(255, 255, 255);
-    
+    cv.tint(255, 255, 255);
+
     // Affichage de la balle.
-      if (aTire && !ennemiTouche) {
-        rectMode(CENTER);
-        fill(100, 255, 0);
-        noStroke();
-        rect(balleX, balleY, balleW, balleH);
-      }
+    if (aTire && !ennemiTouche) {
+      cv.rectMode(CENTER);
+      cv.fill(100, 255, 0);
+      cv.noStroke();
+      cv.rect(balleX, balleY, balleW, balleH);
+    }
 
     //************** DEBUGAGE ************//
     if (debug) {
       // Affichage de la hitbox du joueur
-      noFill();
-      stroke(255, 0, 0);
-      rectMode(CENTER);
-      rect(x, y, w, h);
+      cv.noFill();
+      cv.stroke(255, 0, 0);
+      cv.rectMode(CENTER);
+      cv.rect(x, y, w, h);
       if (spriteFrappe.anime) {
         //Hitbox de la frappe.
-        fill(255, 0, 0, 100);
-        stroke(255, 0, 0);
-        rectMode(CENTER);
-        if(aligneDroite)
-          rect(x+w, y, 3*w, h);
+        cv.fill(255, 0, 0, 100);
+        cv.stroke(255, 0, 0);
+        cv.rectMode(CENTER);
+        if (aligneDroite)
+          cv.rect(x+w, y, 3*w, h);
         else
-          rect(x-w, y, 3*w, h);
+          cv.rect(x-w, y, 3*w, h);
       }
     }
   }
@@ -239,11 +240,11 @@ class Joueur {
     // Gestion du saut si le joueur se trouve sur une plateforme.
     if (k == 'Z' && surPlateforme) {
       // On applique une force verticale pour propulser le joueur en l'air.
-      if(superSaut)
+      if (superSaut)
         vy = -forceSaut*1.25; 
       else
         vy = -forceSaut;
-        
+
       surPlateforme = false; // On quite la plateforme.
       sonSaut.play(); // On lance le son du saut.
     } 
@@ -266,7 +267,7 @@ class Joueur {
       //Le joueur frappe.
       sonFrappe.play();
       spriteFrappe.reinitialiser();
-    } else if(k == 'L' && !spriteTire.anime && !aTire){
+    } else if (k == 'L' && !spriteTire.anime && !aTire) {
       balleXInitiale = x;
       balleDirection = aligneDroite ? 1 : -1;
       balleX = x;
@@ -313,14 +314,14 @@ class Joueur {
       sonBlesse.play();
     }
   }
-  
-  void gagneXp(int quantite){
+
+  void gagneXp(int quantite) {
     xp += quantite;
-    if(xp > xpMax){
+    if (xp > xpMax) {
       level += xp / xpMax;
       xp = xp  % xpMax;
     }
-    if(level > levelMax){
+    if (level > levelMax) {
       level = levelMax;
       xp = xpMax;
     }
@@ -345,5 +346,27 @@ class Joueur {
     estPousse = false;
     horlogeBlesse.tempsEcoule = true;
     sonSaut.stop();
+  }
+
+  void reinitialiser() {
+    invulnerableLave = false; // Pour pouvoir avancer dans le jeu.
+    superSaut = false; // Pour pouvoir avancer dans le jeu.
+    compteurTemps = 0; // Permet de créer des évennements dans le temps.
+    xp = 0; // Quantité d'xp récupérée.
+    level = 1; // Le niveau du personnage, ses dégats y sont proportionnels. Tout comme sa résistance.
+    vie = 100; // Le nombre de points de vie.
+    balleMaxDistance = 300;
+    aTire = false; // Permet de savoir quand pouvoir re tirer.
+    ennemiTouche = false; // Permet de désactiver le collision avec la balle et son affiche si elle a touchée un ennemi.
+    aligneDroite = true; // Permet de savoir quand il faut retourner les sprites et dans quelle direction il faut tirer les projectiles.
+    surPlateforme = false; // Permet de savoir si le joueur ne doit plus tomber car il est sur une plateforme.
+    // Les différents états du joueur
+    enDeplacement = false;
+    enAttaqueProche = false;
+    enAttaqueLongue = false;
+    // Permet d'indiquer au système de collision que l'on veut descendre de la plateforme en passant au travers.
+    descendPlateforme = false;
+    // Permet de corriger un bug de dépalcement lorsque le joueur a été poussé.
+    estPousse = false;
   }
 }

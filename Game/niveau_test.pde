@@ -59,20 +59,23 @@ class NiveauTest {
     
     flash.actualiser();
     
-    if(joueur.vie <= 0){
+    // Si le joueur est mort.
+    if (joueur.vie <= 0) {
       niveau = 9;
+      gameOver.relancer();
       pause();
+      infoChargeNiveau();
     }
   }
 
   void afficher() {
-    background(0, 200, 255);
-    pushMatrix();
+    cv.background(0, 200, 255);
+    cv.pushMatrix();
     camera.deplaceRepere();
-    noStroke();
-    rectMode(CORNER);
-    fill(0, 200, 0);
-    rect(0, 4*height/5, width, height/4);
+    cv.noStroke();
+    cv.rectMode(CORNER);
+    cv.fill(0, 200, 0);
+    cv.rect(0, 4*cv.height/5, cv.width, cv.height/4);
     mercenaire.afficher();
     mercenaireImmobile.afficher();
     mercenairePistolet.afficher();
@@ -85,13 +88,13 @@ class NiveauTest {
       affichePlateformesDebug(plateformes);
       afficheMursDebug(murs);
     }
-    popMatrix();
+    cv.popMatrix();
     hud.afficher();
     if(!flash.tempsEcoule){
-      rectMode(CORNER);
+      cv.rectMode(CORNER);
       float t = -(0.016/127.0)*(flash.compteur-1000)*(flash.compteur-1000)+127.0;
-      fill(255, 255, 255, t);
-      rect(0, 0, width, height);
+      cv.fill(255, 255, 255, t);
+      cv.rect(0, 0, cv.width, cv.height);
     }
   }
 
@@ -108,7 +111,7 @@ class NiveauTest {
   }
 
   void relancer() {
-    joueur.initNiveau(width/2, height/4);
+    joueur.initNiveau(cv.width/2, cv.height/4);
     musique.loop();
   }
 }

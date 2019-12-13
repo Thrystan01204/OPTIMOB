@@ -3,11 +3,11 @@ class NiveauErmitage {
   ArrayList<Plateforme> plateformes; // Liste qui contient toutes les plateformes du niveau.
   ArrayList<Mur> murs; // Liste qui contient tous les murs du niveau.
   ArrayList<Mercenaire> ennemis; // Liste des ennemis.
-  
+
   Item bonus1;
   Item bonus2;
   Item savate;
-  
+
 
   PImage fond; // Image de fond.
   PImage infoSavate; // Description des savates magiques.
@@ -37,6 +37,7 @@ class NiveauErmitage {
     //*************Mise en place des plateformes et murs *****************//
 
     musique = new SoundFile(Game.this, "NiveauErmitage/musique.wav");
+    musique.amp(0.5);
     plateformes.add(new Plateforme(3060, 382, 210, false)); //P1
     plateformes.add(new Plateforme(2724, 292, 288, false)); //P2
     Mercenaire m2 = new Mercenaire(2724, 292, 288, 3);
@@ -61,19 +62,19 @@ class NiveauErmitage {
     m8.level = 4;
     ennemis.add(m8);
     plateformes.add(new Plateforme(822.5, 381.5, 206, false)); //P9
-    
-    Mercenaire m9 = new Mercenaire(2158, 4*height/5, 10, 1);
+
+    Mercenaire m9 = new Mercenaire(2158, 4*cv.height/5, 10, 1);
     m9.level = 1;
     ennemis.add(m9);
-    
-    Mercenaire m10 = new Mercenaire(1211, 4*height/5, 549, 2);
+
+    Mercenaire m10 = new Mercenaire(1211, 4*cv.height/5, 549, 2);
     m10.level = 2;
     ennemis.add(m10);
-    
-    Mercenaire m11 = new Mercenaire(170, 4*height/5, 10, 1);
+
+    Mercenaire m11 = new Mercenaire(170, 4*cv.height/5, 10, 1);
     m9.level = 3;
     ennemis.add(m11);
-    
+
     bonus1 = new PainBouchon(820.25, 360.5);
     bonus2 = new PainBouchon(1999.5, -461.5);
     savate = new SavateMagique(2541.5, -327.8);
@@ -112,7 +113,7 @@ class NiveauErmitage {
     }
 
     fade.actualiser();
-    
+
     bonus1.actualiser();
     bonus2.actualiser();
     savate.actualiser();
@@ -120,7 +121,9 @@ class NiveauErmitage {
     // Si le joueur est mort.
     if (joueur.vie <= 0) {
       niveau = 9;
+      gameOver.relancer();
       pause();
+      infoChargeNiveau();
     }
   }
 
@@ -128,7 +131,7 @@ class NiveauErmitage {
   void afficher() {
 
     // On vas effectuer l'affichage des éléments du niveau dans le repère de la caméra.
-    pushMatrix(); // On conserve en mémoire l'ancien repère.
+    cv.pushMatrix(); // On conserve en mémoire l'ancien repère.
 
     camera.deplaceRepere(); // On déplace le repère courant pour se placer dans le repère de la caméra, ce qui permet de "bouger" les éléments à afficher. Voir la classe "Camera".
 
@@ -136,13 +139,13 @@ class NiveauErmitage {
     // précédente.
     // Remarque 2: le repère initial est (0, 0) or les coordonnées de la boîte englobante du niveau dans ce repère sont: (0, -height) et (3*width, height);
 
-    image(fond, 0, -height); // Affichage des bâtiments et des plateformes.
+    cv.image(fond, 0, -cv.height); // Affichage des bâtiments et des plateformes.
 
     // Affichage des ennemis.
     for (Mercenaire m : ennemis) {
       m.afficher();
     }
-    
+
     bonus1.afficher();
     bonus2.afficher();
     savate.afficher();
@@ -159,43 +162,43 @@ class NiveauErmitage {
     boolean declancheurDialogue1 = collisionRectangles(joueur.x, joueur.y, joueur.w, joueur.h, 3279, 497, 130, 158);
 
     if (versNiveauVille)
-      image(infoDialogue, 3722, 373);
-    if(declancheurDialogue1)
-      image(infoDialogue, 3237, 334);
+      cv.image(infoDialogue, 3722, 373);
+    if (declancheurDialogue1)
+      cv.image(infoDialogue, 3237, 334);
 
     // Une fois l'affichage qui dépend de la position de la caméra est fini, on se replace dans l'ancien repère de coordonnées.
-    popMatrix();
+    cv.popMatrix();
 
     hud.afficher();
 
     if (dialogueSavate || dialogue1) {
-      fill(50);
-      noStroke();
-      rectMode(CENTER);
-      rect(width/2, 35, 500, 32);
-      textSize(24);
-      textAlign(CENTER, CENTER);
-      fill(0);
-      text("Appuyer sur espace pour continuer", width/2+1, 33);
-      fill(255);
-      text("Appuyer sur espace pour continuer", width/2, 32);
-      if(dialogueSavate)
-        image(infoSavate, 215, 535);
-      else if(dialogue1)
-        image(imgDialogue1, 215, 535);
+      cv.fill(50);
+      cv.noStroke();
+      cv.rectMode(CENTER);
+      cv.rect(cv.width/2, 35, 500, 32);
+      cv.textSize(24);
+      cv.textAlign(CENTER, CENTER);
+      cv.fill(0);
+      cv.text("Appuyez sur espace pour continuer", cv.width/2+1, 33);
+      cv.fill(255);
+      cv.text("Appuyez sur espace pour continuer", cv.width/2, 32);
+      if (dialogueSavate)
+        cv.image(infoSavate, 215, 535);
+      else if (dialogue1)
+        cv.image(imgDialogue1, 215, 535);
     }
 
     // Transition.
     if (!fade.tempsEcoule) {
-      noStroke();
+      cv.noStroke();
       float transparence = 255;
-      fill(0, 0, 0, 255);
+      cv.fill(0, 0, 0, 255);
       if (changeNiveauVille) {
         transparence = map(fade.compteur, 0, fade.temps, 0, 255);
-        fill(0, 0, 0, transparence);
+        cv.fill(0, 0, 0, transparence);
       }
-      rectMode(CORNER);
-      rect(0, 0, width, height);
+      cv.rectMode(CORNER);
+      cv.rect(0, 0, cv.width, cv.height);
     } else if (changeNiveauVille) {
       infoChargeNiveau(); // On charge le niveau;
     }
@@ -207,8 +210,8 @@ class NiveauErmitage {
       // Pemier dialogue.
       if (dialogueSavate) {
         dialogueSavate = false;
-      } else if(dialogue1){
-        dialogue1 = false; 
+      } else if (dialogue1) {
+        dialogue1 = false;
       }
     } else if (fade.tempsEcoule && !dialogueSavate && !changeNiveauVille && !dialogue1) {
       joueur.keyPressed();
@@ -221,7 +224,8 @@ class NiveauErmitage {
       if (k == 'E' && versNiveauVille) {
         fade.lancer();
         changeNiveauVille = true;
-      } if (k == 'E' && declancheurDialogue1) {
+      } 
+      if (k == 'E' && declancheurDialogue1) {
         dialogue1 = true;
       }
     }
@@ -241,9 +245,22 @@ class NiveauErmitage {
   // Lorsque l'on revient dans ce niveau, on s'assure de reprendre ses actions misent en pause.
   void relancer() {
     musique.loop(); // On relance la musique de fond.
-    joueur.initNiveau(3488, 4*height/5-joueur.h/2); // On replace le joueur dans le niveau.
+    joueur.initNiveau(3488, 4*cv.height/5-joueur.h/2); // On replace le joueur dans le niveau.
     changeNiveauVille = false;
     fade.tempsEcoule = true;
     joueur.aligneDroite = false;
+  }
+
+  void reinitialiser() {
+    dialogueSavate = false;
+    dialogue1 = false;
+    fade.tempsEcoule = true;
+    changeNiveauVille= false;
+    bonus1.reinitialiser();
+    bonus2.reinitialiser();
+    savate.reinitialiser();
+    for(Mercenaire m : ennemis){
+      m.reinitialiser();  
+    }
   }
 }

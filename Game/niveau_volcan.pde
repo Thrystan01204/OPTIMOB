@@ -113,7 +113,7 @@ class NiveauVolcan {
       pause();
       niveau = 6; // On lance le niveau du boss;
       infoChargeNiveau(); // On charge le niveau;
-      niveauBoss.lancer();
+      niveauBoss.relancer();
     }
 
     fade.actualiser();
@@ -126,7 +126,9 @@ class NiveauVolcan {
     // Si le joueur est mort.
     if (joueur.vie <= 0) {
       niveau = 9;
+      gameOver.relancer();
       pause();
+      infoChargeNiveau();
     }
   }
 
@@ -134,7 +136,7 @@ class NiveauVolcan {
   void afficher() {
 
     // On vas effectuer l'affichage des éléments du niveau dans le repère de la caméra.
-    pushMatrix(); // On conserve en mémoire l'ancien repère.
+    cv.pushMatrix(); // On conserve en mémoire l'ancien repère.
 
     camera.deplaceRepere(); // On déplace le repère courant pour se placer dans le repère de la caméra, ce qui permet de "bouger" les éléments à afficher. Voir la classe "Camera".
 
@@ -142,7 +144,7 @@ class NiveauVolcan {
     // précédente.
     // Remarque 2: le repère initial est (0, 0) or les coordonnées de la boîte englobante du niveau dans ce repère sont: (0, -height) et (3*width, height);
 
-    image(fond, 0, -height); // Affichage des bâtiments et des plateformes.
+    cv.image(fond, 0, -cv.height); // Affichage des bâtiments et des plateformes.
     bonus1.afficher();
     bonus2.afficher();
     bonus3.afficher();
@@ -152,7 +154,7 @@ class NiveauVolcan {
       m.afficher();
     }
 
-    
+
 
     joueur.afficher(); // On affiche le joueur.
 
@@ -168,49 +170,49 @@ class NiveauVolcan {
     boolean declangeurDialogue2 = collisionRectangles(joueur.x, joueur.y, joueur.w, joueur.h, 2629, 496, 141, 147);
 
     if (versNiveauVille)
-      image(infoDialogue, 71, 393);
+      cv.image(infoDialogue, 71, 393);
     else if (versNiveauBoss)
-      image(infoDialogue, 3600, 362);
+      cv.image(infoDialogue, 3600, 362);
     else if (declangeurDialogue1)
-      image(infoDialogue, 466, 342);
+      cv.image(infoDialogue, 466, 342);
     else if (declangeurDialogue2)
-      image(infoDialogue, 2592, 348);
+      cv.image(infoDialogue, 2592, 348);
 
     // Une fois l'affichage qui dépend de la position de la caméra est fini, on se replace dans l'ancien repère de coordonnées.
-    popMatrix();
+    cv.popMatrix();
 
     hud.afficher();
 
     if (dialogue1 || dialogue2 || dialogue3) {
-      fill(50);
-      noStroke();
-      rectMode(CENTER);
-      rect(width/2, 35, 500, 32);
-      textSize(24);
-      textAlign(CENTER, CENTER);
-      fill(0);
-      text("Appuyer sur espace pour continuer", width/2+1, 33);
-      fill(255);
-      text("Appuyer sur espace pour continuer", width/2, 32);
+      cv.fill(50);
+      cv.noStroke();
+      cv.rectMode(CENTER);
+      cv.rect(cv.width/2, 35, 500, 32);
+      cv.textSize(24);
+      cv.textAlign(CENTER, CENTER);
+      cv.fill(0);
+      cv.text("Appuyez sur espace pour continuer", cv.width/2+1, 33);
+      cv.fill(255);
+      cv.text("Appuyez sur espace pour continuer", cv.width/2, 32);
       if (dialogue1)
-        image(imgDialogue1, 215, 535);
+        cv.image(imgDialogue1, 215, 535);
       else if (dialogue2)
-        image(imgDialogue2, 215, 535);
+        cv.image(imgDialogue2, 215, 535);
       else if (dialogue3)
-        image(imgDialogue3, 215, 535);
+        cv.image(imgDialogue3, 215, 535);
     }
 
     // Transition.
     if (!fade.tempsEcoule) {
-      noStroke();
+      cv.noStroke();
       float transparence = 255;
-      fill(0, 0, 0, 255);
+      cv.fill(0, 0, 0, 255);
       if (changeNiveauVille || changeNiveauBoss) {
         transparence = map(fade.compteur, 0, fade.temps, 0, 255);
-        fill(0, 0, 0, transparence);
+        cv.fill(0, 0, 0, transparence);
       }
-      rectMode(CORNER);
-      rect(0, 0, width, height);
+      cv.rectMode(CORNER);
+      cv.rect(0, 0, cv.width, cv.height);
     } else if (changeNiveauVille || changeNiveauBoss) {
       infoChargeNiveau(); // On charge le niveau;
     }
@@ -224,7 +226,7 @@ class NiveauVolcan {
         dialogue1 = false;
       } else if (dialogue2) {
         dialogue2 = false;
-      }else if (dialogue3) {
+      } else if (dialogue3) {
         dialogue3 = false;
       }
     } else if (fade.tempsEcoule && !dialogue1 && !changeNiveauVille && !dialogue2 && !changeNiveauBoss && !dialogue3) {
@@ -267,11 +269,27 @@ class NiveauVolcan {
   // Lorsque l'on revient dans ce niveau, on s'assure de reprendre ses actions misent en pause.
   void relancer() {
     musique.loop(); // On relance la musique de fond.
-    joueur.initNiveau(281, 4*height/5-joueur.h/2); // On replace le joueur dans le niveau.
+    joueur.initNiveau(281, 4*cv.height/5-joueur.h/2); // On replace le joueur dans le niveau.
     changeNiveauVille = false;
     fade.tempsEcoule = true;
     joueur.aligneDroite = true;
     dialogue1 = false;
     dialogue2 = false;
+  }
+
+  void reinitialiser() {
+    fade.tempsEcoule = true;
+    dialogue1 = false;
+    dialogue2 = false;
+    dialogue3 = false;
+    changeNiveauVille = false;
+    changeNiveauBoss = false;
+    bonus1.reinitialiser();
+    bonus2.reinitialiser();
+    bonus3.reinitialiser();
+    bonus4.reinitialiser();
+    for(Mercenaire m : ennemis){
+      m.reinitialiser();  
+    }
   }
 }

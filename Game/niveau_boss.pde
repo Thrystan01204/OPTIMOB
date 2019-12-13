@@ -68,8 +68,8 @@ class NiveauBoss {
       // Estimation des collisions.
       trouverPlateformeCandidate(plateformes); // On cherche un plateforme qui pourrait potentiellement enter en collision avec le joueur.
 
-      if (boss.x+w/2 > width) {
-        boss.x = width-boss.width()/2;
+      if (boss.x+w/2 > cv.width) {
+        boss.x = cv.width-boss.width()/2;
         boss.mirroir = false;
       } else if (boss.x-w/2 < 0) {
         boss.x = boss.width()/2;
@@ -126,13 +126,13 @@ class NiveauBoss {
       if (joueur.x-joueur.w/2 <= 0) {
         joueur.vx = 0;
         joueur.x = joueur.w/2;
-      } else if (joueur.x+joueur.w/2 >= width) {
+      } else if (joueur.x+joueur.w/2 >= cv.width) {
         joueur.vx = 0;
-        joueur.x = width - joueur.w/2;
+        joueur.x = cv.width - joueur.w/2;
       }
-      if (joueur.y + joueur.h/2 >= 4*height/5) {
+      if (joueur.y + joueur.h/2 >= 4*cv.height/5) {
         joueur.vy = 0;
-        joueur.y = 4*height/5-joueur.h/2;
+        joueur.y = 4*cv.height/5-joueur.h/2;
         joueur.surPlateforme = true;
         if (joueur.estPousse)
           joueur.estPousse = false;
@@ -154,88 +154,90 @@ class NiveauBoss {
     // Si le joueur est mort.
     if (joueur.vie <= 0) {
       niveau = 9;
+      gameOver.relancer();
       pause();
+      infoChargeNiveau();
     }
   }
 
   void afficher() {
     if (!intro) {
-      background(0);
-      image(fond, 0, 0);
+      cv.background(0);
+      cv.image(fond, 0, 0);
       if (!dialogue1 && !dialogue2 && !dialogue3 && !gagne && !dialogue4)
         boss.afficher();
       joueur.afficher();
       //********** DEBUGAGE *********//
       if (debug) {
         affichePlateformesDebug(plateformes);
-        rectMode(CENTER);
-        noFill();
-        stroke(255, 0, 0);
-        rect(boss.x, boss.y, w, h);
+        cv.rectMode(CENTER);
+        cv.noFill();
+        cv.stroke(255, 0, 0);
+        cv.rect(boss.x, boss.y, w, h);
       }
     } 
     else
       infoChargeNiveau(); // On charge le niveau;
-   if(dialogue4)
-      background(50);
+   if(dialogue4 || intro)
+      cv.background(50);
 
     if (intro || dialogue1 || dialogue2 || dialogue3 || dialogue4) {
-      fill(50);
-      noStroke();
-      rectMode(CENTER);
-      rect(width/2, 35, 500, 32);
-      textSize(24);
-      textAlign(CENTER, CENTER);
-      fill(0);
-      text("Appuyer sur espace pour continuer", width/2+1, 33);
-      fill(255);
-      text("Appuyer sur espace pour continuer", width/2, 32);
+      cv.fill(50);
+      cv.noStroke();
+      cv.rectMode(CENTER);
+      cv.rect(cv.width/2, 35, 500, 32);
+      cv.textSize(24);
+      cv.textAlign(CENTER, CENTER);
+      cv.fill(0);
+      cv.text("Appuyez sur espace pour continuer", cv.width/2+1, 33);
+      cv.fill(255);
+      cv.text("Appuyez sur espace pour continuer", cv.width/2, 32);
       if (intro)
-        image(imgIntro, 215, 535);
+        cv.image(imgIntro, 215, 535);
       else if (dialogue1)
-        image(imgDialogue1, 215, 535);
+        cv.image(imgDialogue1, 215, 535);
       else if (dialogue2)
-        image(imgDialogue2, 215, 535);
+        cv.image(imgDialogue2, 215, 535);
       else if (dialogue3)
-        image(imgDialogue3, 215, 535);
+        cv.image(imgDialogue3, 215, 535);
       else if (dialogue4)
-        image(imgDialogue4, 215, 535);
+        cv.image(imgDialogue4, 215, 535);
     }
 
     if ((dialogue1 || dialogue2 || dialogue3) && !intro) {
-      image(thibault, 1056, 435);
+      cv.image(thibault, 1056, 435);
     }
 
     if (!intro && !dialogue1 && !dialogue2 && !dialogue3 && !dialogue4 && !gagne){
       hud.afficher();
       //Vie du de thibault.
-      rectMode(CORNER);
-      noStroke();
-      fill(50);
-      rect(0,675, width, 38);
-      fill(255,0, 0);
-      float valeur = map(vie, 0, 100, 0, width);
-      rect(0, 675, valeur, 32);
-      fill(255);
-      rectMode(CENTER);
-      rect(width/2, 625, 200, 64);
-      fill(0);
-      textSize(24);
-      textAlign(CENTER, CENTER);
-      text("Thibault Omega", width/2, 625);
+      cv.rectMode(CORNER);
+      cv.noStroke();
+      cv.fill(50);
+      cv.rect(0,675, cv.width, 38);
+      cv.fill(255,0, 0);
+      float valeur = map(vie, 0, 100, 0, cv.width);
+      cv.rect(0, 675, valeur, 32);
+      cv.fill(255);
+      cv.rectMode(CENTER);
+      cv.rect(cv.width/2, 625, 200, 64);
+      cv.fill(0);
+      cv.textSize(24);
+      cv.textAlign(CENTER, CENTER);
+      cv.text("Thibault Omega", cv.width/2, 625);
     }
     
     // Transition.
     if (!fade.tempsEcoule) {
-      noStroke();
+      cv.noStroke();
       float transparence = 255;
-      fill(0, 0, 0, 255);
+      cv.fill(0, 0, 0, 255);
       if (gagne) {
         transparence = map(fade.compteur, 0, fade.temps, 0, 255);
-        fill(0, 0, 0, transparence);
+        cv.fill(0, 0, 0, transparence);
       }
-      rectMode(CORNER);
-      rect(0, 0, width, height);
+      cv.rectMode(CORNER);
+      cv.rect(0, 0, cv.width, cv.height);
     }
     
   }
@@ -279,13 +281,10 @@ class NiveauBoss {
     musiquePhase2.stop();
   }
 
-  void lancer() {
+  void relancer() {
+    reinitialiser();
     musiqueIntro.loop();
-    intro = true;
-    dialogue1 = true;
-    dialogue2 = true;
-    dialogue3 = true;
-    joueur.initNiveau(197, 4*height/5-joueur.h/2); // On replace le joueur dans le niveau.
+    joueur.initNiveau(197, 4*cv.height/5-joueur.h/2); // On replace le joueur dans le niveau.
     joueur.aligneDroite = true;
     joueur.balleMaxDistance = 720;
     joueur.vie = 100;
@@ -298,6 +297,7 @@ class NiveauBoss {
       dialogue3 = true;
       gagne = false;
       estBlesse = false;
+      phase2 = false;
       fade.tempsEcoule = true;
       pause();
       vie = 100;

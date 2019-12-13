@@ -2,6 +2,11 @@
 
 import processing.sound.*;  // Bibliothèque pour gérer les musiques.
 
+PGraphics cv; // IMPORTANT: TOUT LE JEU EST AFFICHE SUR CETTE SURFACE QUI A SON TOUR EST AFFICHEE EN PLEIN ECRAN, permet de redimensionner la fenêtre.
+// Dimensions d'affichage dans la fenêtre
+int widthAcutelle; 
+int heightActuelle;
+
 //-------------------------------------------------- AIDE AU DEBUGAGE ---------------------------------------------------------
 // Si cette variable est vraie, on affiche à l'écran les aides de débugage, à désactivé lors de la sortie du jeu
 boolean debug = false; 
@@ -56,13 +61,13 @@ void chargerNiveaux() {
 
   // Création de la caméra.
   camera = new Camera();
-  
+
   //Création du HUD.
   hud = new HUD();
 
   // Création du menu principal.
   menuPrincipal = new MenuPrincipal();
-  
+
   // Création du niveau d'introduction.
   niveauIntro = new NiveauIntro();
 
@@ -71,83 +76,101 @@ void chargerNiveaux() {
 
   // Création d'un niveau de test.
   niveauTest = new NiveauTest();
-  
+
   // Création du niveau ville.
   niveauVille = new NiveauVille();
-  
+
   // Création du niveau ermitage.
   niveauErmitage = new NiveauErmitage();
-  
+
   //Création du niveau volcan.
   niveauVolcan = new NiveauVolcan();
-  
+
   //Création du niveau boss.
   niveauBoss = new NiveauBoss();
-  
+
   //Création du game over.
   gameOver = new GameOver();
-  
+
   // On indique que le chargement est fini, pour pouvoir passer de l'écran de chargement au menu principal.
   chargementDuJeu = false;
 
   //On lance le niveau
-  if(niveau == 4)
+  if (niveau == 4)
     niveauVolcan.relancer();
-  else if(niveau == 0)
+  else if (niveau == 0)
     menuPrincipal.relancer();
-  else if(niveau == 1)
+  else if (niveau == 1)
     credits.relancer();
-  else if(niveau == 2)
+  else if (niveau == 2)
     niveauVille.relancer(true);
-  else if(niveau == 3)
+  else if (niveau == 3)
     niveauErmitage.relancer();
-  else if(niveau == 5)
+  else if (niveau == 5)
     niveauIntro.relancer();
-  else if(niveau == 9)
-    gameOver.lancer();
-  else if(niveau == 6)
-    niveauBoss.lancer();
+  else if (niveau == 9)
+    gameOver.relancer();
+  else if (niveau == 6)
+    niveauBoss.relancer();
 }
 
 
 // fonction pour détecter si la souris se trouve dans un rectangle, utile pour l'interface
 boolean sourisDansRectangle(float x1, float y1, float x2, float y2) {
-  return (x1 <= mouseX && mouseX <= x2 && y1 <= mouseY && mouseY <= y2);
+
+  float dx = abs(width-widthAcutelle)/2.0;
+  float dy = abs(height-heightActuelle)/2.0;
+
+  float mx = map(mouseX, dx, dx+widthAcutelle, 0, cv.width);
+  float my = map(mouseY, dy, dy+heightActuelle, 0, cv.height);
+
+  return (x1 <= mx && mx <= x2 && y1 <= my && my <= y2);
 }
 
-boolean collisionRectangles(float x1, float y1, float w1, float h1, float x2, float y2, float w2, float h2){
-   return !((x2-w2/2 >= x1 + w1/2) || (x2 + w2/2 <= x1-w1/2) || (y2-h2/2 >= y1 + h1/2) || (y2 + h2/2 <= y1-h1/2));
+boolean collisionRectangles(float x1, float y1, float w1, float h1, float x2, float y2, float w2, float h2) {
+  return !((x2-w2/2 >= x1 + w1/2) || (x2 + w2/2 <= x1-w1/2) || (y2-h2/2 >= y1 + h1/2) || (y2 + h2/2 <= y1-h1/2));
 }
- 
+
+//Permet de réinitialiser le jeu en cas de mort du joueur ou de fin de partie.
+void reinitialiserJeu(){
+  joueur.reinitialiser();
+  camera.reinitialiser();
+  niveauBoss.reinitialiser();
+  niveauErmitage.reinitialiser();
+  niveauIntro.reinitialiser();
+  niveauVille.reinitialiser();
+  niveauVolcan.reinitialiser();
+}
+
 
 // Permet d'afficher un écran de chargement du niveau, normalement ceci n'est pas nécéssaire car les niveaux sont déja préchargés lors du chargement du jeu.
 // Cependant, sur certaines machine, le moteur de rendu P2D (OPENGL) peu mettre beaucoup de temps à déterminer les ressources qui sont utilisées dans un niveau, donnant l'impression
 // que le jeu plante, ce qui est faux d'où cette fonction d'indication de chargement.
 // Sur un core m3, le changement de niveau prend environ 30 secondes.
-void infoChargeNiveau(){
-  background(50);
-  textAlign(CENTER, CENTER);
-  textSize(72);
-  fill(255);
-  text("CHARGEMENT DU NIVEAU", width/2, height/2);
-  textSize(24);
-  text("Cette opération peu prendre quelques secondes...ou minutes en fonction de votre matériel.", width/2, 3*height/4);
+void infoChargeNiveau() {
+  cv.background(50);
+  cv.textAlign(CENTER, CENTER);
+  cv.textSize(72);
+  cv.fill(255);
+  cv.text("CHARGEMENT DU NIVEAU", cv.width/2, cv.height/2);
+  cv.textSize(24);
+  cv.text("Cette opération peu prendre quelques secondes...ou minutes en fonction de votre matériel.", cv.width/2, 3*cv.height/4);
 }
 
-void collisionLimites(){
-  if(joueur.x-joueur.w/2 <= 0){
+void collisionLimites() {
+  if (joueur.x-joueur.w/2 <= 0) {
     joueur.vx = 0;
     joueur.x = joueur.w/2;
-  } else if(joueur.x+joueur.w/2 >= width*3){
+  } else if (joueur.x+joueur.w/2 >= cv.width*3) {
     joueur.vx = 0;
-    joueur.x = 3*width - joueur.w/2;
+    joueur.x = 3*cv.width - joueur.w/2;
   }
-  if(joueur.y + joueur.h/2 >= 4*height/5){
-      joueur.vy = 0;
-      joueur.y = 4*height/5-joueur.h/2;
-      joueur.surPlateforme = true;
-      if(joueur.estPousse)
-        joueur.estPousse = false;
+  if (joueur.y + joueur.h/2 >= 4*cv.height/5) {
+    joueur.vy = 0;
+    joueur.y = 4*cv.height/5-joueur.h/2;
+    joueur.surPlateforme = true;
+    if (joueur.estPousse)
+      joueur.estPousse = false;
   }
 }
 
@@ -202,7 +225,7 @@ void collisionPlateformes() {
         joueur.vy = 0;
         joueur.y = plateformeCandidate.y - joueur.h/2;
         joueur.surPlateforme = true;
-        if(joueur.estPousse)
+        if (joueur.estPousse)
           joueur.estPousse = false;
         return; // On arrête la fonction qui a fini son travail.
       }
@@ -218,12 +241,12 @@ void collisionPlateformes() {
 void affichePlateformesDebug(ArrayList<Plateforme> plateformes) {
   for (Plateforme p : plateformes) {
     if (p == plateformeCandidate) {
-      stroke(0, 255, 0);
-      line(joueur.x, joueur.y+joueur.h/2, joueur.x, p.y);
+      cv.stroke(0, 255, 0);
+      cv.line(joueur.x, joueur.y+joueur.h/2, joueur.x, p.y);
     } else {
-      stroke(255, 0, 0);
+      cv.stroke(255, 0, 0);
     }
-    line(p.x-p.w/2, p.y, p.x+p.w/2, p.y);
+    cv.line(p.x-p.w/2, p.y, p.x+p.w/2, p.y);
   }
 }
 
@@ -300,27 +323,35 @@ void collisionMurs() {
 void afficheMursDebug(ArrayList<Mur> murs) {
   for (Mur p : murs) {
     if (p == murDroitCandidat || p == murGaucheCandidat) {
-      stroke(0, 255, 0);
-      line(joueur.x, joueur.y, p.x, joueur.y);
+      cv.stroke(0, 255, 0);
+      cv.line(joueur.x, joueur.y, p.x, joueur.y);
     } else
-      stroke(255, 0, 0);
-    line(p.x, p.y-p.h/2, p.x, p.y+p.h/2);
+      cv.stroke(255, 0, 0);
+    cv.line(p.x, p.y-p.h/2, p.x, p.y+p.h/2);
   }
 }
 
 //************************************************************* Gestion du jeu ****************************************************************************//
 
 void setup() {
-  
+
   // Le jeu est écrit pour une résolution fixe de 1280x720 pixels (HD).
   // En général, P2D (opengl) est le plus stable, mais sur certains appareils, il peut mettre beaucoup de temps a s'initialiser ou a changer de niveau.
   // L'autre option est le moteur FX2D qui est aussi un moteur qui utilise l'accélération matérielle, il est basé sur JAVAFX, un système de rendu spécialisé dans la 2d,
   // Cependant, il peut y avoir des "saut de frames" ou des coupures du son. Sont chargement est instantané.
   // Il est recommander d' utiliser P2D.
-  
+
   // Remarque, P2D est le seul mode a implémenter correctement le comportement de keyPressed(), en effet, dans tout les autres modes, si l'on garde la touche enfoncée,
   // la méthode est continuellement exécutée.
   size(1280, 720, P2D);
+  surface.setResizable(true);
+  
+
+  widthAcutelle = 1280;
+  heightActuelle = 720;
+
+  cv = createGraphics(1280, 720, P2D);
+  
   logo = loadImage("chargement.png");
   // On charge tous les niveaux au début du jeu sur un autre thread pour pouvoir afficher une animation pendant le chargement.
   // Remarque: la fonction "thread" créé un thread et execute une méthode sur celui-ci, une fois la méthode executée, processing tue en automatique le thread.
@@ -330,28 +361,28 @@ void setup() {
 
 // Boucle du jeu, cette fonction est exécutée le plus rapidement possible (limité à 60 fois par secondes).
 void draw() {
+  cv.beginDraw();
   // Gestion de l'actualisation (et de l'affichage) des différents niveaux.
   if (chargementDuJeu) {
     // On affiche une animation indiquant que le jeu n'a pas planté et qu'il continue de se charger.
-    background(50);
-    fill(255);
-    textSize(72);
-    textAlign(CENTER, CENTER);
-    text("CHARGEMENT", width/2, height/4);
+    cv.background(50);
+    cv.fill(255);
+    cv.textSize(72);
+    cv.textAlign(CENTER, CENTER);
+    cv.text("CHARGEMENT", cv.width/2, cv.height/4);
 
     //On change de repère temporairement pour facilité la rotation.
-    pushMatrix();
-    translate(width/2, height/2+106);
-    rotate(millis()/1000.0); // la rotation dépend du temps écoulé et elle est 2PI périodique, d'où l'animation.
-    image(logo, -106, -106);
-    popMatrix(); // On se replace dans le repère original.
+    cv.pushMatrix();
+    cv.translate(cv.width/2, cv.height/2+106);
+    cv.rotate(millis()/1000.0); // la rotation dépend du temps écoulé et elle est 2PI périodique, d'où l'animation.
+    cv.image(logo, -106, -106);
+    cv.popMatrix(); // On se replace dans le repère original.
   } else if (niveau == 0) {
     // Actualisation du menu principal
     menuPrincipal.actualiser();
     menuPrincipal.afficher();
   } else if (niveau == 1) {
     // Actualisation des crédits
-    credits.actualiser();
     credits.afficher();
   } else if (niveau == 2) {
     // Actualisation du niveau de la ville (niveau 1)
@@ -359,25 +390,24 @@ void draw() {
     niveauVille.afficher();
   } else if (niveau == 9) {
     // Actualisation du game over
-    gameOver.actualiser();
     gameOver.afficher();
-  } else if(niveau == 5){
+  } else if (niveau == 5) {
     //Actualisation du niveau d'introduction.
     niveauIntro.actualiser();
     niveauIntro.afficher();
-  } else if(niveau == 3){
+  } else if (niveau == 3) {
     //Actualisation du niveau ermitage.
     niveauErmitage.actualiser();
     niveauErmitage.afficher();
-  }else if(niveau == 4){
+  } else if (niveau == 4) {
     //Actualisation du niveau volcan.
     niveauVolcan.actualiser();
     niveauVolcan.afficher();
-  }else if(niveau == 6){
+  } else if (niveau == 6) {
     //Actualisation du niveau volcan.
     niveauBoss.actualiser();
     niveauBoss.afficher();
-  }else if (niveau == 8) {
+  } else if (niveau == 8) {
     // Actualisation du niveau de test
     niveauTest.actualiser();
     niveauTest.afficher();
@@ -386,11 +416,22 @@ void draw() {
   //************** DEBUGAGE ************//
   if (debug) {
     // Affichage des FPS
-    textSize(32);
-    textAlign(CENTER, CENTER);
-    fill(255, 0, 0);
-    text(str(int(frameRate))+" FPS", width/2, 32);
+    cv.textSize(32);
+    cv.textAlign(CENTER, CENTER);
+    cv.fill(255, 0, 0);
+    cv.text(str(int(frameRate))+" FPS", cv.width/2, 32);
   }
+  cv.endDraw();
+
+  //On conserve le ratio d'affichage.
+  float ratioX= float(width)/1280.0;
+  float ratioY = float(height)/720.0;
+  float ratio = min(ratioX, ratioY);
+  widthAcutelle =(int) (1280.0*ratio);
+  heightActuelle =(int) (720.0*ratio);
+  background(0);
+  image(cv, width/2-widthAcutelle/2, height/2-heightActuelle/2, widthAcutelle, heightActuelle);
+  
 }
 
 
@@ -405,13 +446,13 @@ void keyReleased() {
   if (!chargementDuJeu) {
     if (niveau == 2)
       niveauVille.keyReleased();
-    else if(niveau == 5)
+    else if (niveau == 5)
       niveauIntro.keyReleased();
-    else if(niveau == 3)
+    else if (niveau == 3)
       niveauErmitage.keyReleased();
-    else if(niveau == 4)
+    else if (niveau == 4)
       niveauVolcan.keyReleased();
-    else if(niveau == 6)
+    else if (niveau == 6)
       niveauBoss.keyReleased();
     else if (niveau == 8)
       niveauTest.keyReleased();
@@ -421,8 +462,8 @@ void keyReleased() {
 void keyPressed() {
   if (!chargementDuJeu) {
     if (niveau == 1)
-      credits.retourMenuPrincipal();
-    else if(niveau == 5)
+      credits.keyPressed();
+    else if (niveau == 5)
       niveauIntro.keyPressed();
     else if (niveau == 2)
       niveauVille.keyPressed();
@@ -434,5 +475,7 @@ void keyPressed() {
       niveauBoss.keyPressed();
     else if (niveau == 8)
       niveauTest.keyPressed();
+    else if (niveau == 9)
+      gameOver.keyPressed();
   }
 }

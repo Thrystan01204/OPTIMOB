@@ -10,10 +10,10 @@ class Camera {
   // Initialisation.
   Camera() {
     // La caméra est au centre de l'écran.
-    x = width/2;
-    y = height/2;
+    x = cv.width/2;
+    y = cv.height/2;
     // On précise la marge d'inactivité.
-    margeY = height/6;
+    margeY = cv.height/6;
   }
   
   // Actualisation de la position de la caméra.
@@ -36,25 +36,31 @@ class Camera {
     }
     
     // Evidemment, on s'assure que la caméra ne sorte pas des limites du niveau.
-    if (x-width/2 < 0){
-      x = width/2;
+    if (x-cv.width/2 < 0){
+      x = cv.width/2;
       dx = 0;
-    } else if (x+width/2 > 3*width) {
+    } else if (x+cv.width/2 > 3*cv.width) {
       dx = 0;
-      x = 3*width-width/2;
+      x = 3*cv.width-cv.width/2;
     }
-    if (y-height/2 < -height){
+    if (y-cv.height/2 < -cv.height){
       dy = 0;
-      y = -height/2;
-    } else if (y+height/2 > height){
+      y = -cv.height/2;
+    } else if (y+cv.height/2 > cv.height){
       dy = 0;
-      y = height/2;
+      y = cv.height/2;
     }
   }
   
   // Permet de se placer dans le repère de la caméra lors de l'affichage d'un niveau, cela nous permet de continuer d'afficher les éléments dans le repère initial (donc avec des coordonées en absolues)
   // et de laisser processing calculer les translations pour transfomer les coordonnées en relatives.
   void deplaceRepere() {
-    translate(width/2 - x, height/2 - y); // L'opération qui effectue toute la magie.
+    cv.translate(cv.width/2 - x, cv.height/2 - y); // L'opération qui effectue toute la magie.
+  }
+  
+  void reinitialiser(){
+    // La caméra est au centre de l'écran.
+    x = cv.width/2;
+    y = cv.height/2;
   }
 }

@@ -45,9 +45,9 @@ class MenuPrincipal {
 
     // Si les nuages ne sont plus visibles, on les met de l'autre coté de l'écran.
     if (petitNuage.x+petitNuage.width()/2 < 0)
-      petitNuage.x = width+petitNuage.width()/2;
+      petitNuage.x = cv.width+petitNuage.width()/2;
     if (grosNuage.x+grosNuage.width()/2 < 0)
-      grosNuage.x = width+grosNuage.width()/2;
+      grosNuage.x = cv.width+grosNuage.width()/2;
 
     //On veut que la transition s'accelère pour donner plus rapidement accès a l'interface.
     if(transparence > 0){
@@ -61,7 +61,7 @@ class MenuPrincipal {
   //C'est ici que l' affichage du menu est gérée.
   void afficher() {
     // on affiche les différents éléments.
-    background(fond);
+    cv.background(fond);
     grosNuage.afficher();
     petitNuage.afficher();
 
@@ -72,10 +72,10 @@ class MenuPrincipal {
     // Si on est encore en transition (fade out) alors c'est que la transparence est > 0.
     if (transparence > 0) {
       // On affiche un rectangle noir d'opacité "transition" pour créer un effet de "fade out".
-      noStroke();
-      fill(0, 0, 0, transparence);
-      rectMode(CORNER);
-      rect(0, 0, width, height);
+      cv.noStroke();
+      cv.fill(0, 0, 0, transparence);
+      cv.rectMode(CORNER);
+      cv.rect(0, 0, cv.width, cv.height);
     }
   }
 
@@ -86,18 +86,18 @@ class MenuPrincipal {
 
     // on teste si la souris survole le bouton et que la transition est "fade out" est finie.
     if (sourisDansRectangle(x, y, x+w, y+h) && transparence <= 0)
-      tint(255, 0, 0); // si oui on bascule les couleurs vers le rouge.
+      cv.tint(255, 0, 0); // si oui on bascule les couleurs vers le rouge.
 
-    image(bouton, x, y); // On affiche le bouton.
-    noTint(); // On s'assure que l'on ne modifie plus la coloration.
+    cv.image(bouton, x, y); // On affiche le bouton.
+    cv.noTint(); // On s'assure que l'on ne modifie plus la coloration.
 
     //************************ DEBUGAGE ***************************//
     if (debug) {
       // On affiche la hitbox en cas de debugage.
-      noFill();
-      stroke(255, 0, 0);
-      rectMode(CORNER);
-      rect(x, y, w, h);
+      cv.noFill();
+      cv.stroke(255, 0, 0);
+      cv.rectMode(CORNER);
+      cv.rect(x, y, w, h);
     }
   }
 
@@ -117,11 +117,11 @@ class MenuPrincipal {
         credits.relancer(); // On relance le niveau crédit.
         
       } else if (sourisDansRectangle(541, 492, 541+w, 492+h)) { // Bouton nouvelle partie
+        reinitialiserJeu(); // On réinitialise le jeu.
         pause(); // On met en pause le menu.
         niveau = 5; //On indique au système de gestion des niveaux que l'on va au niveau d'introduction.
         infoChargeNiveau();  // On indique que le niveau charge.
         niveauIntro.relancer(); // On relance le tuto
-        
       } else if (sourisDansRectangle(541, 633, 541+w, 633+h)) { // Bouton quitter
         pause(); // On met en pause le menu.
         exit(); // On quitte le jeu.
@@ -139,4 +139,5 @@ class MenuPrincipal {
     transparence = 255; // On réinitialise la transition "fade out".
     musique.loop(); // On relance la musique.
   }
+  
 }

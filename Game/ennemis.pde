@@ -97,9 +97,9 @@ class Mercenaire {
     if (type != 3) {
       sonAttaque = new SoundFile(Game.this, "pistol.wav");
     } else {
-      sonAttaque = new SoundFile(Game.this, "swish_2.wav"); 
+      sonAttaque = new SoundFile(Game.this, "swish_2.wav");
     }
-    
+
     sonMeurt = new SoundFile(Game.this, "mort_mercenaire.wav");
 
     horlogeAttaqueCorps = new Horloge(1000); // Attente d'1 seconde.
@@ -112,7 +112,7 @@ class Mercenaire {
 
     // Effectivement quand on est mort on ne peut rien faire...
     if (vie > 0) {
-      
+
       // Si le joueur frappe et que l'ennemis est dans la hitbox de touche.
       if (joueur.spriteFrappe.anime) { 
         boolean collision;
@@ -125,22 +125,22 @@ class Mercenaire {
         if (collision && !estBlesse) {
           vie -=(int) (float(joueur.degats*joueur.level) * 2.0/float(level)); // On perd de la vie
           estBlesse = true;
-          if (vie <= 0){ // Si on est mort alors le joueur gagne de l'xp.
+          if (vie <= 0) { // Si on est mort alors le joueur gagne de l'xp.
             joueur.gagneXp(level);
             sonMeurt.play();
           }
         }
       } else {
-        estBlesse = false;  
+        estBlesse = false;
       }
-      
+
       //Si le joueur lui tire dessus:
-      if(joueur.aTire && !joueur.ennemiTouche){
+      if (joueur.aTire && !joueur.ennemiTouche) {
         boolean collision = collisionRectangles(joueur.balleX, joueur.balleY, joueur.balleW, joueur.balleH, x, y, w, h);
-        if(collision){
-            vie -=(int) (float(joueur.degats*joueur.level) * 2.0/float(level)); // On perd de la vie
-            joueur.ennemiTouche = true;
-            if (vie <= 0){ // Si on est mort alors le joueur gagne de l'xp.
+        if (collision) {
+          vie -=(int) (float(joueur.degats*joueur.level) * 2.0/float(level)); // On perd de la vie
+          joueur.ennemiTouche = true;
+          if (vie <= 0) { // Si on est mort alors le joueur gagne de l'xp.
             joueur.gagneXp(level);
             sonMeurt.play();
           }
@@ -219,7 +219,7 @@ class Mercenaire {
           else
             balleX -= balleVitesse;
 
-          if (abs(balleX-x) > balleMaxDeplacement){ // On peut re tirer.
+          if (abs(balleX-x) > balleMaxDeplacement) { // On peut re tirer.
             tire = false;
             balleCollision = true;
           }
@@ -245,7 +245,7 @@ class Mercenaire {
 
   // Gestion de l'affichage.
   void afficher() {
-    
+
     if (vie > 0) {
       if (aligneDroite) {
         spriteCourse.mirroir = false; // L'animation de course n'est pas inversée puisque par défaut elle est orientée vers la droite.
@@ -280,47 +280,54 @@ class Mercenaire {
       }
 
       //Barre de vie.
-      noStroke();
+      cv.noStroke();
       //fond de la barre de vie.
-      fill(50, 50, 50);
-      rectMode(CORNER);
-      rect(x-50, y-75, 100, 4);
+      cv.fill(50, 50, 50);
+      cv.rectMode(CORNER);
+      cv.rect(x-50, y-75, 100, 4);
 
       // Barre de vie.
-      fill(255, 0, 0);
-      rect(x-50, y-75, vie, 4);
+      cv.fill(255, 0, 0);
+      cv.rect(x-50, y-75, vie, 4);
 
       //Affichage du niveau
-      textSize(14);
-      textAlign(CENTER, TOP);
-      fill(0);
-      text("lvl "+str(level), x+1, y-74);
-      fill(255);
-      text("lvl "+str(level), x, y-75);
+      cv.textSize(14);
+      cv.textAlign(CENTER, TOP);
+      cv.fill(0);
+      cv.text("lvl "+str(level), x+1, y-74);
+      cv.fill(255);
+      cv.text("lvl "+str(level), x, y-75);
 
       // Affichage de la balle.
       if (tire && !balleCollision) {
-        rectMode(CENTER);
-        fill(255, 255, 0);
-        noStroke();
-        rect(balleX, y, balleW, balleH);
+        cv.rectMode(CENTER);
+        cv.fill(255, 255, 0);
+        cv.noStroke();
+        cv.rect(balleX, y, balleW, balleH);
       }
 
       //***************** DEBUGAGE ************ //
       if (debug) {
         // Affichage de la hitbox.
-        noFill();
-        stroke(255, 0, 0);
-        rectMode(CENTER);
-        rect(x, y, w, h);
+        cv.noFill();
+        cv.stroke(255, 0, 0);
+        cv.rectMode(CENTER);
+        cv.rect(x, y, w, h);
         // Affichage de la zone de déplacement.
-        stroke(0, 0, 255);
-        line(l1, y, l2, y);
+        cv.stroke(0, 0, 255);
+        cv.line(l1, y, l2, y);
         //Affichage du rayon de détection.
-        stroke(255, 0, 0);
+        cv.stroke(255, 0, 0);
         float dx = aligneDroite ? detection : - detection;
-        line(x, y-h/3, x+dx, y-h/3);
+        cv.line(x, y-h/3, x+dx, y-h/3);
       }
     }
+  }
+  void reinitialiser() {
+    vie = 100; // Quantité de vie.
+    estBlesse = false; // Permet d'eviter que le joueur le tue instantanément.
+    balleX = 0;
+    tire = false; // Permet de figer l'ennemi.
+    balleCollision = false; // Permet de cacher la balle et d'ignorer les collisions.
   }
 }

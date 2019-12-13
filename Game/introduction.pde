@@ -27,7 +27,7 @@ class NiveauIntro {
   SoundFile musiqueIntro; // Musique lors de l'histoire principale.
   SoundFile applaudissements; // Musique avant le ligne d'arrivée.
   SoundFile action; // Musique de transition vers le tuto.
-  
+
   Item bonus; // de la vie pour les noobs.
 
 
@@ -50,7 +50,9 @@ class NiveauIntro {
 
     musiqueIntro = new SoundFile(Game.this, "NiveauTuto/Memories.wav");
     applaudissements = new SoundFile(Game.this, "NiveauTuto/applaudissements.wav");
+    applaudissements.amp(0.5);
     action = new SoundFile(Game.this, "NiveauTuto/battleThemeA.wav");
+    action.amp(0.5);
 
     // Rondin de bois
     murs.add(new Mur(765, 560.25, 50));
@@ -78,7 +80,7 @@ class NiveauIntro {
     ennemis.add(m);
     ennemis.add(new Mercenaire(3394, 477, 0, 1));
     ennemis.add(new Mercenaire(2658.35, 576, 328.7, 2));
-    
+
     bonus = new PainBouchon(2879.5, 539.4);
 
     fade = new Horloge(2000);
@@ -118,7 +120,9 @@ class NiveauIntro {
     // Si le joueur est mort.
     if (joueur.vie <= 0) {
       niveau = 9;
+      gameOver.relancer();
       pause();
+      infoChargeNiveau();
     }
   }
 
@@ -183,37 +187,37 @@ class NiveauIntro {
   void afficher() {
     //Affichage des dialogues d'intro.
     if (enIntroduction) {
-      background(50);
-      textSize(24);
-      textAlign(CENTER, CENTER);
-      fill(0);
-      text("Appuyer sur espace pour continuer", width/2+1, 33);
-      fill(255);
-      text("Appuyer sur espace pour continuer", width/2, 32);
-      image(dialogues[numDialogue], 215, 535);
+      cv.background(50);
+      cv.textSize(24);
+      cv.textAlign(CENTER, CENTER);
+      cv.fill(0);
+      cv.text("Appuyez sur espace pour continuer", cv.width/2+1, 33);
+      cv.fill(255);
+      cv.text("Appuyez sur espace pour continuer", cv.width/2, 32);
+      cv.image(dialogues[numDialogue], 215, 535);
     } else {
-      background(85, 221, 255);
-      pushMatrix();
+      cv.background(85, 221, 255);
+      cv.pushMatrix();
       camera.deplaceRepere();
-      image(fond, 0, 0);
+      cv.image(fond, 0, 0);
       bonus.afficher();
       for (Mercenaire m : ennemis) {
         m.afficher();
       }
       joueur.afficher();
-      image(publique, 0, 618);
-      
+      cv.image(publique, 0, 618);
+
 
       boolean declancheurDialogue1 = collisionRectangles(joueur.x, joueur.y, joueur.w, joueur.h, 1961, 506.8, 200, 235);
       boolean declancheurDialogue2 = collisionRectangles(joueur.x, joueur.y, joueur.w, joueur.h, 3549.9, 506.8, 200, 235);
       boolean versNiveauVille = collisionRectangles(joueur.x, joueur.y, joueur.w, joueur.h, 3778, 570.5, 128.85, 118.9);
 
       if (declancheurDialogue1) {
-        image(infoDialogue, 1925, 346);
+        cv.image(infoDialogue, 1925, 346);
       } else if (declancheurDialogue2) {
-        image(infoDialogue, 3514.7, 327.3);
+        cv.image(infoDialogue, 3514.7, 327.3);
       } else if (versNiveauVille) {
-        image(infoDialogue, 3727.6, 428);
+        cv.image(infoDialogue, 3727.6, 428);
       }
 
       //********** DEBUGAGE *********//
@@ -221,20 +225,20 @@ class NiveauIntro {
         affichePlateformesDebug(plateformes);
         afficheMursDebug(murs);
       }
-      
-      popMatrix();
+
+      cv.popMatrix();
       if (lanceDialogue1 || lanceDialogue2) {
-        fill(50);
-        noStroke();
-        rectMode(CENTER);
-        rect(width/2, 35, 500, 32);
-        textSize(24);
-        textAlign(CENTER, CENTER);
-        fill(0);
-        text("Appuyer sur espace pour continuer", width/2+1, 33);
-        fill(255);
-        text("Appuyer sur espace pour continuer", width/2, 32);
-        image(dialogues[numDialogue], 215, 535);
+        cv.fill(50);
+        cv.noStroke();
+        cv.rectMode(CENTER);
+        cv.rect(cv.width/2, 35, 500, 32);
+        cv.textSize(24);
+        cv.textAlign(CENTER, CENTER);
+        cv.fill(0);
+        cv.text("Appuyez sur espace pour continuer", cv.width/2+1, 33);
+        cv.fill(255);
+        cv.text("Appuyez sur espace pour continuer", cv.width/2, 32);
+        cv.image(dialogues[numDialogue], 215, 535);
       }
 
       if (finDialogue1 || finDialogue2) {
@@ -244,15 +248,15 @@ class NiveauIntro {
 
     // Transition.
     if (!fade.tempsEcoule) {
-      noStroke();
+      cv.noStroke();
       float transparence = 255;
       if (!changeNiveauVille)
         transparence = map(fade.compteur, 0, fade.temps, 255, 10);
       else
         transparence = map(fade.compteur, 0, fade.temps, 10, 255);
-      fill(0, 0, 0, transparence);
-      rectMode(CORNER);
-      rect(0, 0, width, height);
+      cv.fill(0, 0, 0, transparence);
+      cv.rectMode(CORNER);
+      cv.rect(0, 0, cv.width, cv.height);
     } else if (changeNiveauVille) {
       infoChargeNiveau(); // On charge le niveau;
     }
@@ -267,10 +271,22 @@ class NiveauIntro {
   void relancer() {
     fade.lancer();
     musiqueIntro.loop();
-    numDialogue = 0;
+    reinitialiser();
+    joueur.initNiveau(150, 507);
+  }
+
+  void reinitialiser() {
     enIntroduction = true;
+    numDialogue = 0; // Position dans les dialogues.
     finDialogue1 = false;
     lanceDialogue1 = false;
-    joueur.initNiveau(150, 507);
+    finDialogue2 = false;
+    lanceDialogue2 = false;
+    changeNiveauVille = false;
+    fade.tempsEcoule = true;
+    bonus.reinitialiser();
+    for(Mercenaire m : ennemis){
+      m.reinitialiser();  
+    }
   }
 }

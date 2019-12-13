@@ -46,6 +46,10 @@ class Item {
   public void collisionJoueur(){
     
   }
+  
+  void reinitialiser(){
+      ramasse = false;
+  }
 }
 
 class PainBouchon extends Item {

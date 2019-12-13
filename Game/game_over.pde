@@ -1,31 +1,51 @@
-class GameOver{
-  Horloge temps;
-  
-  GameOver(){
-    temps = new Horloge(5000); // 5 secondes avant le retour au menu automatique.
-    temps.lancer();
+class GameOver {
+
+  SoundFile musique;
+  int transparence = 255;
+
+  GameOver() {
+    musique = new SoundFile(Game.this, "fin.wav");
   }
-  
-  void actualiser(){
-    if(temps.tempsEcoule){
-      exit();
+
+  void afficher() {
+    if(transparence > 0)
+      transparence -= 1;
+    cv.background(50);
+    cv.textSize(50);
+    cv.textAlign(CENTER, CENTER);
+    cv.fill(255, 0, 0);
+    cv.text("Vous avez perdu.", cv.width/2, cv.height/2);
+    cv.textSize(24);
+    cv.fill(255);
+    cv.text("Appuyez sur espace pour revenir au menu principal.", cv.width/2, 3*cv.height/4);
+    
+    // Si on est encore en transition (fade out) alors c'est que la transparence est > 0.
+    if (transparence > 0) {
+      // On affiche un rectangle noir d'opacité "transition" pour créer un effet de "fade out".
+      cv.noStroke();
+      cv.fill(0, 0, 0, transparence);
+      cv.rectMode(CORNER);
+      cv.rect(0, 0, cv.width, cv.height);
     }
-    temps.actualiser();
+    
   }
-  
-  void afficher(){
-    background(50);
-    textSize(50);
-    textAlign(CENTER, CENTER);
-    fill(255, 0, 0);
-    text("Vous avez perdu.", width/2, height/2);
-    textSize(24);
-    fill(255);
-    text("Le jeu se fermera automatiquement, relancer le si vous l'osez !", width/2, 3*height/4);
+
+  void keyPressed() {
+    if (key == ' ') {
+      pause();
+      //On revient au menu principal
+      infoChargeNiveau();
+      niveau = 0;
+      menuPrincipal.relancer();
+    }
   }
-  
-  void lancer(){
-    temps.lancer();
+
+  void relancer() {
+    musique.loop();
+    transparence = 255;
   }
-  
+
+  void pause() {
+    musique.stop();
+  }
 }

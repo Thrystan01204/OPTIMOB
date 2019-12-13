@@ -28,7 +28,7 @@ class NiveauVille {
   PImage infoCombinaison;
 
   Item combinaison;
-  
+
   Item bonus1;
   Item bonus2;
   Item bonus3;
@@ -44,7 +44,7 @@ class NiveauVille {
     dialogues = new PImage[2];
     dialogues[0] = loadImage("NiveauVille/thibault1.png");
     dialogues[1] = loadImage("NiveauVille/thibault2.png");
-    
+
     bonus1 = new PainBouchon(922, 219.5);
     bonus2 = new PainBouchon(2087, -337.5);
     bonus3 = new PainBouchon(3216, 227.9);
@@ -77,7 +77,7 @@ class NiveauVille {
     plateformes.add(new Plateforme(3202, 252, 215.75, false)); // p10
 
     musique = new SoundFile(Game.this, "NiveauVille/musique.wav");
-    musique.amp(0.5); // La musique étant trop forte, on baisse le volume.
+    musique.amp(0.35); // La musique étant trop forte, on baisse le volume.
 
     //Ennemis.
     Mercenaire m1 = new Mercenaire(2478, 574, 784, 3);
@@ -150,16 +150,18 @@ class NiveauVille {
     // Si le joueur est mort.
     if (joueur.vie <= 0) {
       niveau = 9;
+      gameOver.relancer();
       pause();
+      infoChargeNiveau();
     }
   }
 
   // Gestion de l'affichage du niveau.
   void afficher() {
-    background(170, 204, 255); // affichage du ciel.
+    cv.background(170, 204, 255); // affichage du ciel.
 
     // On vas effectuer l'affichage des éléments du niveau dans le repère de la caméra.
-    pushMatrix(); // On conserve en mémoire l'ancien repère.
+    cv.pushMatrix(); // On conserve en mémoire l'ancien repère.
 
     camera.deplaceRepere(); // On déplace le repère courant pour se placer dans le repère de la caméra, ce qui permet de "bouger" les éléments à afficher. Voir la classe "Camera".
 
@@ -167,8 +169,8 @@ class NiveauVille {
     // précédente.
     // Remarque 2: le repère initial est (0, 0) or les coordonnées de la boîte englobante du niveau dans ce repère sont: (0, -height) et (3*width, height);
 
-    image(montagnes, positionMontagesX, -height); // Affichage des montagnes.
-    image(fond, 0, -height); // Affichage des bâtiments et des plateformes.
+    cv.image(montagnes, positionMontagesX, -cv.height); // Affichage des montagnes.
+    cv.image(fond, 0, -cv.height); // Affichage des bâtiments et des plateformes.
     bonus1.afficher();
     bonus2.afficher();
     bonus3.afficher();
@@ -191,49 +193,49 @@ class NiveauVille {
     boolean versNiveauVolcan = collisionRectangles(joueur.x, joueur.y, joueur.w, joueur.h, 3767, 538, 128, 153);
 
     if (declancheurDialogue1)
-      image(infoDialogue, 929, 342);
+      cv.image(infoDialogue, 929, 342);
     else if (declancheurDialogue2)
-      image(infoDialogue, 1975, -189);
+      cv.image(infoDialogue, 1975, -189);
     else if (versNiveauErmitage)
-      image(infoDialogue, 38, 385);
+      cv.image(infoDialogue, 38, 385);
     else if (versNiveauVolcan)
-      image(infoDialogue, 3736, 402);
+      cv.image(infoDialogue, 3736, 402);
 
     // Une fois l'affichage qui dépend de la position de la caméra est fini, on se replace dans l'ancien repère de coordonnées.
-    popMatrix();
+    cv.popMatrix();
 
     hud.afficher();
 
     if (lanceDialogue1 || lanceDialogue2 || dialogueCombinaison) {
-      fill(50);
-      noStroke();
-      rectMode(CENTER);
-      rect(width/2, 35, 500, 32);
-      textSize(24);
-      textAlign(CENTER, CENTER);
-      fill(0);
-      text("Appuyer sur espace pour continuer", width/2+1, 33);
-      fill(255);
-      text("Appuyer sur espace pour continuer", width/2, 32);
-      if(dialogueCombinaison)
-        image(infoCombinaison, 215, 535);
+      cv.fill(50);
+      cv.noStroke();
+      cv.rectMode(CENTER);
+      cv.rect(cv.width/2, 35, 500, 32);
+      cv.textSize(24);
+      cv.textAlign(CENTER, CENTER);
+      cv.fill(0);
+      cv.text("Appuyez sur espace pour continuer", cv.width/2+1, 33);
+      cv.fill(255);
+      cv.text("Appuyez sur espace pour continuer", cv.width/2, 32);
+      if (dialogueCombinaison)
+        cv.image(infoCombinaison, 215, 535);
       else
-        image(dialogues[numDialogue], 215, 535);
+        cv.image(dialogues[numDialogue], 215, 535);
     }
 
     // Transition.
     if (!fade.tempsEcoule) {
-      noStroke();
+      cv.noStroke();
       float transparence = 255;
-      fill(0, 0, 0, 255);
+      cv.fill(0, 0, 0, 255);
       if (changeNiveauErmitage || changeNiveauVolcan) {
         transparence = map(fade.compteur, 0, fade.temps, 0, 255);
-        fill(0, 0, 0, transparence);
+        cv.fill(0, 0, 0, transparence);
       } else if (changeNiveauErmitage || changeNiveauVolcan) {
-        background(0);
+        cv.background(0);
       }
-      rectMode(CORNER);
-      rect(0, 0, width, height);
+      cv.rectMode(CORNER);
+      cv.rect(0, 0, cv.width, cv.height);
     } else if (changeNiveauVolcan || changeNiveauErmitage) {
       infoChargeNiveau(); // On charge le niveau;
     }
@@ -261,10 +263,9 @@ class NiveauVille {
       } 
       // Info combinaison
       else if (dialogueCombinaison) {
-      dialogueCombinaison = false;
+        dialogueCombinaison = false;
       }
-    } 
-     else if (fade.tempsEcoule && !lanceDialogue1 && !lanceDialogue2 && !dialogueCombinaison) {
+    } else if (fade.tempsEcoule && !lanceDialogue1 && !lanceDialogue2 && !dialogueCombinaison) {
       joueur.keyPressed();
     }
 
@@ -315,8 +316,28 @@ class NiveauVille {
     fade.tempsEcoule = false;
     changeNiveauVolcan = false;
     if (gauche) // Si on arrive de la gauche.
-      joueur.initNiveau(210, 4*height/5-joueur.h/2); // On replace le joueur dans le niveau.
+      joueur.initNiveau(210, 4*cv.height/5-joueur.h/2); // On replace le joueur dans le niveau.
     else
-      joueur.initNiveau(3770,4*height/5-joueur.h/2);
+      joueur.initNiveau(3770, 4*cv.height/5-joueur.h/2);
+  }
+
+  void reinitialiser() {
+    positionMontagesX = 0; // Position des montages pour l'effet parallax.
+    numDialogue = 0; // Position dans les dialogues.
+    finDialogue1 = true;
+    lanceDialogue1 = false;
+    finDialogue2 = true;
+    lanceDialogue2 = false;
+    changeNiveauErmitage = false;
+    changeNiveauVolcan = false;
+    fade.tempsEcoule = true;
+    dialogueCombinaison = false;
+    bonus1.reinitialiser();
+    bonus2.reinitialiser();
+    bonus3.reinitialiser();
+    combinaison.reinitialiser();
+    for(Mercenaire m : ennemis){
+      m.reinitialiser();  
+    }
   }
 }

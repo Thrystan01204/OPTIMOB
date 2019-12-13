@@ -85,22 +85,22 @@ class Sprite {
     
     // Si il faut inverser l'image sur son axe y:
     if (mirroir) {
-      pushMatrix(); // On conserve l'ancien repère de coordonnées.
-      scale(-1, 1); // On inverse le repère selon l'axe y
+      cv.pushMatrix(); // On conserve l'ancien repère de coordonnées.
+      cv.scale(-1, 1); // On inverse le repère selon l'axe y
       // Comme les coordonnées x sont elles aussi inversée, alors "x" devient "-x".
-      image(frames.get(frameActuelle), -x - demiW, y - demiH);
-      popMatrix(); // On restore l'ancien repère.
+      cv.image(frames.get(frameActuelle), -x - demiW, y - demiH);
+      cv.popMatrix(); // On restore l'ancien repère.
     } else {
       // Si non pas besoin de retourner l'image
-      image(frames.get(frameActuelle), x - demiW, y - demiH);
+      cv.image(frames.get(frameActuelle), x - demiW, y - demiH);
     }
 
     //************** DEBUGAGE ************//
     if (debug) {
-      noFill();
-      stroke(0, 0, 255);
-      rectMode(CENTER);
-      rect(x, y, demiW*2, demiH*2);
+      cv.noFill();
+      cv.stroke(0, 0, 255);
+      cv.rectMode(CENTER);
+      cv.rect(x, y, demiW*2, demiH*2);
     }
   }
 }
