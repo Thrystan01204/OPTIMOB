@@ -42,8 +42,8 @@ class NiveauIntro {
     dialogues[0] = loadImage("NiveauTuto/Dialogues/intro1.png");
     dialogues[1] = loadImage("NiveauTuto/Dialogues/intro2.png");
     dialogues[2] = loadImage("NiveauTuto/Dialogues/thibault1.png");
-    dialogues[3] = loadImage("niveauTuto/Dialogues/thibault2.png");
-    dialogues[4] = loadImage("niveauTuto/Dialogues/thibault3.png");
+    dialogues[3] = loadImage("NiveauTuto/Dialogues/thibault2.png");
+    dialogues[4] = loadImage("NiveauTuto/Dialogues/thibault3.png");
 
     fond = loadImage("NiveauTuto/fond.png");
     publique = loadImage("NiveauTuto/publique.png");
