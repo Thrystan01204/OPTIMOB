@@ -93,12 +93,7 @@ class MenuPrincipal {
     int h = bouton.height;
     int w = bouton.width;
 
-    // on teste si la souris survole le bouton et que la transition est "fade out" est finie.
-    if (sourisDansRectangle(x, y, x+w, y+h) && transparence <= 0)
-      cv.tint(255, 0, 0); // si oui on bascule les couleurs vers le rouge.
-
     cv.image(bouton, x, y); // On affiche le bouton.
-    cv.noTint(); // On s'assure que l'on ne modifie plus la coloration.
 
     //************************ DEBUGAGE ***************************//
     if (debug) {

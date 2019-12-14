@@ -208,6 +208,12 @@ class NiveauErmitage {
     } else if (changeNiveauVille) {
       infoChargeNiveau(); // On charge le niveau;
     }
+    
+    // Quand on est pas en dialogue on affiche l'ui
+    if(!dialogue1 && !dialogueSavate && !changeNiveauVille){
+      cv.image(ui, 0, 0);
+    }
+    
   }
 
   // Gestion des touches appuyées.

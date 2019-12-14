@@ -249,6 +249,9 @@ class NiveauBoss {
       cv.textSize(24);
       cv.textAlign(CENTER, CENTER);
       cv.text("Thibault Omega", cv.width/2, 625);
+      
+      // On affiche l'ui car on est en jeu.
+      cv.image(ui, 0, 0);
     }
     
     // Transition.

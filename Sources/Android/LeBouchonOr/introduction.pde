@@ -144,10 +144,9 @@ class NiveauIntro {
       infoChargeNiveau();
     }
   }
-
-  void keyPressed() {
-    if (key == ' ') {
-      if (enIntroduction) {
+  
+  void actualiseDialogues(){
+    if (enIntroduction) {
         numDialogue += 1;
         if (numDialogue  == 2 ) {
           enIntroduction = false;
@@ -172,7 +171,16 @@ class NiveauIntro {
           finDialogue2 = true;
           lanceDialogue2 = false;
         }
-      }
+      }  
+  }
+  
+  void mousePressed(){
+    actualiseDialogues();  
+  }
+
+  void keyPressed() {
+    if (key == ' ') {
+      actualiseDialogues();
     } else if (fade.tempsEcoule && !lanceDialogue1 && !lanceDialogue2 && !enIntroduction) {
       joueur.keyPressed();
     }
@@ -278,6 +286,11 @@ class NiveauIntro {
       cv.rect(0, 0, cv.width, cv.height);
     } else if (changeNiveauVille) {
       infoChargeNiveau(); // On charge le niveau;
+    }
+    
+    // Quand on est pas en dialogue on affiche l'ui
+    if(!lanceDialogue1 && !lanceDialogue2){
+      cv.image(ui, 0, 0);
     }
   }
 

@@ -251,6 +251,11 @@ class NiveauVille {
     } else if (changeNiveauVolcan || changeNiveauErmitage) {
       infoChargeNiveau(); // On charge le niveau;
     }
+    
+    // Quand on est pas en dialogue on affiche l'ui
+    if(finDialogue1 && finDialogue2 && !dialogueCombinaison && !changeNiveauErmitage && !changeNiveauVolcan){
+      cv.image(ui, 0, 0);
+    }
   }
 
   // Gestion des touches appuyées

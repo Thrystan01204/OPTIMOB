@@ -6,7 +6,7 @@ int loadingProgress = 917;
 
 PGraphics cv; // IMPORTANT: TOUT LE JEU EST AFFICHE SUR CETTE SURFACE QUI A SON TOUR EST AFFICHEE EN PLEIN ECRAN, permet de redimensionner la fenêtre.
 // Dimensions d'affichage dans la fenêtre
-int widthAcutelle; 
+int widthActuelle; 
 int heightActuelle;
 
 //-------------------------------------------------- AIDE AU DEBUGAGE ---------------------------------------------------------
@@ -119,10 +119,10 @@ void chargerNiveaux() {
 // fonction pour détecter si la souris se trouve dans un rectangle, utile pour l'interface
 boolean sourisDansRectangle(float x1, float y1, float x2, float y2) {
 
-  float dx = abs(width-widthAcutelle)/2.0;
+  float dx = abs(width-widthActuelle)/2.0;
   float dy = abs(height-heightActuelle)/2.0;
 
-  float mx = map(mouseX, dx, dx+widthAcutelle, 0, cv.width);
+  float mx = map(mouseX, dx, dx+widthActuelle, 0, cv.width);
   float my = map(mouseY, dy, dy+heightActuelle, 0, cv.height);
 
   return (x1 <= mx && mx <= x2 && y1 <= my && my <= y2);
@@ -348,7 +348,7 @@ void setup() {
   size(1280, 720, P2D);
   surface.setResizable(true);
 
-  widthAcutelle = 1280;
+  widthActuelle = 1280;
   heightActuelle = 720;
 
   cv = createGraphics(1280, 720, P2D);
@@ -434,10 +434,10 @@ void draw() {
   float ratioX= float(width)/1280.0;
   float ratioY = float(height)/720.0;
   float ratio = min(ratioX, ratioY);
-  widthAcutelle =(int) (1280.0*ratio);
+  widthActuelle =(int) (1280.0*ratio);
   heightActuelle =(int) (720.0*ratio);
   background(0);
-  image(cv, width/2-widthAcutelle/2, height/2-heightActuelle/2, widthAcutelle, heightActuelle);
+  image(cv, width/2-widthActuelle/2, height/2-heightActuelle/2, widthActuelle, heightActuelle);
 }
 
 

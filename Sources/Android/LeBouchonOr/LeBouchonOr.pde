@@ -2,12 +2,15 @@
 import processing.sound.*;  // Bibliothèque pour gérer les musiques.
 
 String loadingRessource = ""; // affichage de la ressource en chargement.
-int loadingProgress = 917;
+int loadingProgress = 918;
 
 PGraphics cv; // IMPORTANT: TOUT LE JEU EST AFFICHE SUR CETTE SURFACE QUI A SON TOUR EST AFFICHEE EN PLEIN ECRAN, permet de redimensionner la fenêtre.
 // Dimensions d'affichage dans la fenêtre
-int widthAcutelle; 
+int widthActuelle; 
 int heightActuelle;
+
+// android ui
+PImage ui;
 
 //-------------------------------------------------- AIDE AU DEBUGAGE ---------------------------------------------------------
 // Si cette variable est vraie, on affiche à l'écran les aides de débugage, à désactivé lors de la sortie du jeu
@@ -57,6 +60,10 @@ void chargerNiveaux() {
   // indicateur de dialogues.
   loadingRessource = "loading dialogue_info.png";
   infoDialogue = loadImage("dialogue_info.png");
+  loadingProgress--;
+
+  loadingRessource = "loading ui.png";
+  ui = loadImage("ui.png");
   loadingProgress--;
 
 
@@ -119,13 +126,24 @@ void chargerNiveaux() {
 // fonction pour détecter si la souris se trouve dans un rectangle, utile pour l'interface
 boolean sourisDansRectangle(float x1, float y1, float x2, float y2) {
 
-  float dx = abs(width-widthAcutelle)/2.0;
+  float dx = abs(width-widthActuelle)/2.0;
   float dy = abs(height-heightActuelle)/2.0;
 
-  float mx = map(mouseX, dx, dx+widthAcutelle, 0, cv.width);
+  float mx = map(mouseX, dx, dx+widthActuelle, 0, cv.width);
   float my = map(mouseY, dy, dy+heightActuelle, 0, cv.height);
 
   return (x1 <= mx && mx <= x2 && y1 <= my && my <= y2);
+}
+
+// fonction pour si l'on appuie sur un bouton.
+boolean pointDansCercle(float px, float py, float cx, float cy, float r){
+  float dx = abs(width-widthActuelle)/2.0;
+  float dy = abs(height-heightActuelle)/2.0;
+  
+  float mx = map(px, dx, dx+widthActuelle, 0, cv.width);
+  float my = map(py, dy, dy+heightActuelle, 0, cv.height);
+  
+  return (sq(mx-cx)+sq(my-cy) < sq(r));
 }
 
 boolean collisionRectangles(float x1, float y1, float w1, float h1, float x2, float y2, float w2, float h2) {
@@ -344,11 +362,11 @@ void setup() {
 
   // Remarque, P2D est le seul mode a implémenter correctement le comportement de keyPressed(), en effet, dans tout les autres modes, si l'on garde la touche enfoncée,
   // la méthode est continuellement exécutée.
-  
+
   fullScreen(P2D);
   orientation(LANDSCAPE);
 
-  widthAcutelle = 1280;
+  widthActuelle = 1280;
   heightActuelle = 720;
 
   cv = createGraphics(1280, 720, P2D);
@@ -371,16 +389,16 @@ void draw() {
     cv.textSize(72);
     cv.textAlign(CENTER, CENTER);
     cv.text("CHARGEMENT", cv.width/2, cv.height/4);
-    
-    cv.fill(255,0,0);
+
+    cv.fill(255, 0, 0);
     cv.rectMode(CORNER);
     float x = map(loadingProgress, 917, 0, 0, cv.width);
-    cv.rect(0,cv.height-32-24, x, 48);
-    
+    cv.rect(0, cv.height-32-24, x, 48);
+
     cv.textSize(24);
     cv.fill(255);
     cv.text(loadingRessource, cv.width/2, cv.height-32);
-    
+
 
     //On change de repère temporairement pour facilité la rotation.
     cv.pushMatrix();
@@ -427,17 +445,28 @@ void draw() {
     cv.textAlign(CENTER, CENTER);
     cv.fill(255, 0, 0);
     cv.text(str(int(frameRate))+" FPS", cv.width/2, 32);
+
+    // On affiche les points de contacts
+    for (int i = 0; i < touches.length; i++) {
+      float d = (100 + 100 * touches[i].area) * displayDensity;
+      fill(0, 255 * touches[i].pressure);
+      ellipse(touches[i].x, touches[i].y, d, d);
+      fill(255, 0, 0);
+      textSize(32);
+      text(touches[i].id, touches[i].x + d/2, touches[i].y - d/2);
+    }
   }
+
   cv.endDraw();
 
   //On conserve le ratio d'affichage.
   float ratioX= float(width)/1280.0;
   float ratioY = float(height)/720.0;
   float ratio = min(ratioX, ratioY);
-  widthAcutelle =(int) (1280.0*ratio);
+  widthActuelle =(int) (1280.0*ratio);
   heightActuelle =(int) (720.0*ratio);
   background(0);
-  image(cv, width/2-widthAcutelle/2, height/2-heightActuelle/2, widthAcutelle, heightActuelle);
+  image(cv, width/2-widthActuelle/2, height/2-heightActuelle/2, widthActuelle, heightActuelle);
 }
 
 
@@ -445,6 +474,8 @@ void mousePressed() {
   if (!chargementDuJeu) {
     if (niveau == 0)
       menuPrincipal.mousePressed();
+    else if (niveau == 5)
+      niveauIntro.mousePressed();
   }
 }
 

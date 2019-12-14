@@ -224,6 +224,12 @@ class NiveauVolcan {
     } else if (changeNiveauVille || changeNiveauBoss) {
       infoChargeNiveau(); // On charge le niveau;
     }
+    
+    // Quand on est pas en dialogue on affiche l'ui
+    if(!dialogue1 && !dialogue2 && !dialogue3 && !changeNiveauBoss && !changeNiveauVille){
+      cv.image(ui, 0, 0);
+    }
+    
   }
 
   // Gestion des touches appuyées.
