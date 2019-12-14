@@ -3,7 +3,7 @@
 import processing.sound.*;  // Bibliothèque pour gérer les musiques.
 //import cassette.audiofiles.SoundFile;
 
-String loadingRessource = "";
+String loadingRessource = ""; // affichage de la ressource en chargement.
 
 PGraphics cv; // IMPORTANT: TOUT LE JEU EST AFFICHE SUR CETTE SURFACE QUI A SON TOUR EST AFFICHEE EN PLEIN ECRAN, permet de redimensionner la fenêtre.
 // Dimensions d'affichage dans la fenêtre
