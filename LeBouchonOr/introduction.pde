@@ -41,26 +41,36 @@ class NiveauIntro {
     dialogues = new PImage[5];
     loadingRessource = "loading NiveauTuto/Dialogues/intro1.png";
     dialogues[0] = loadImage("NiveauTuto/Dialogues/intro1.png");
+    loadingProgress--;
     loadingRessource = "loading NiveauTuto/Dialogues/intro2.png";
     dialogues[1] = loadImage("NiveauTuto/Dialogues/intro2.png");
+    loadingProgress--;
     loadingRessource = "loading NiveauTuto/Dialogues/thibault1.png";
     dialogues[2] = loadImage("NiveauTuto/Dialogues/thibault1.png");
+    loadingProgress--;
     loadingRessource = "loading NiveauTuto/Dialogues/thibault2.png";
     dialogues[3] = loadImage("NiveauTuto/Dialogues/thibault2.png");
+    loadingProgress--;
     loadingRessource = "loading NiveauTuto/Dialogues/thibault3.png";
     dialogues[4] = loadImage("NiveauTuto/Dialogues/thibault3.png");
+    loadingProgress--;
     loadingRessource = "loading NiveauTuto/fond.png";
     fond = loadImage("NiveauTuto/fond.png");
+    loadingProgress--;
     loadingRessource = "loading NiveauTuto/publique.png";
     publique = loadImage("NiveauTuto/publique.png");
+    loadingProgress--;
     
     loadingRessource = "loading NiveauTuto/Memories.mp3";
     musiqueIntro = new SoundFile(LeBouchonOr.this, "NiveauTuto/Memories.mp3");
+    loadingProgress--;
     loadingRessource = "loading NiveauTuto/applaudissements.mp3";
     applaudissements = new SoundFile(LeBouchonOr.this, "NiveauTuto/applaudissements.mp3");
+    loadingProgress--;
     applaudissements.amp(0.5);
     loadingRessource = "loading NiveauTuto/battleThemeA.mp3";
     action = new SoundFile(LeBouchonOr.this, "NiveauTuto/battleThemeA.mp3");
+    loadingProgress--;
     action.amp(0.5);
 
     // Rondin de bois

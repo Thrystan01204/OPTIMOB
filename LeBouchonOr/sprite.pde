@@ -48,6 +48,7 @@ class Sprite {
   void chargeImage(String chemin) {
     loadingRessource = "loading "+chemin;
     frames.add(loadImage(chemin));
+    loadingProgress--;
   }
 
 

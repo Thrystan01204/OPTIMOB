@@ -44,8 +44,10 @@ class NiveauVille {
     dialogues = new PImage[2];
     loadingRessource = "loading NiveauVille/thibault1.png";
     dialogues[0] = loadImage("NiveauVille/thibault1.png");
+    loadingProgress--;
     loadingRessource = "loading NiveauVille/thibault2.png";
     dialogues[1] = loadImage("NiveauVille/thibault2.png");
+    loadingProgress--;
 
     bonus1 = new PainBouchon(922, 219.5);
     bonus2 = new PainBouchon(2087, -337.5);
@@ -53,12 +55,15 @@ class NiveauVille {
     
     loadingRessource = "loading NiveauVille/dialogue_combinaison.png";
     infoCombinaison = loadImage("NiveauVille/dialogue_combinaison.png");
+    loadingProgress--;
     combinaison = new Combinaison(1209.5, -562.5);
     
     loadingRessource = "loading NiveauVille/fond.png";
     fond = loadImage("NiveauVille/fond.png");
+    loadingProgress--;
     loadingRessource = "loading NiveauVille/montagnes.png";
     montagnes = loadImage("NiveauVille/montagnes.png");
+    loadingProgress--;
 
     //*************Mise en place des plateformes et murs *****************//
 
@@ -83,6 +88,7 @@ class NiveauVille {
     
     loadingRessource = "loading NiveauVille/musique.mp3";
     musique = new SoundFile(LeBouchonOr.this, "NiveauVille/musique.mp3");
+    loadingProgress--;
     musique.amp(0.35); // La musique étant trop forte, on baisse le volume.
 
     //Ennemis.

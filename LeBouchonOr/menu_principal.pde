@@ -23,13 +23,18 @@ class MenuPrincipal {
     // Chargement des ressources du niveau.
     loadingRessource = "loading MenuPrincipal/fond.png";
     fond = loadImage("MenuPrincipal/fond.png");
+    loadingProgress--;
     loadingRessource = "loading MenuPrincipal/bouton_quitter.png";
     boutonQuitter = loadImage("MenuPrincipal/bouton_quitter.png");
+    loadingProgress--;
     loadingRessource = "loading MenuPrincipal/bouton_nouvelle_partie.png";
     boutonNouvellePartie = loadImage("MenuPrincipal/bouton_nouvelle_partie.png");
+    loadingProgress--;
     boutonCredits = loadImage("MenuPrincipal/bouton_credits.png");
+    loadingProgress--;
     loadingRessource = "loading MenuPrincipal/musique.mp3";
     musique = new SoundFile(LeBouchonOr.this, "MenuPrincipal/musique.mp3");
+    loadingProgress--;
 
     //On initialise les nuages.
     petitNuage = new Sprite(288, 167);

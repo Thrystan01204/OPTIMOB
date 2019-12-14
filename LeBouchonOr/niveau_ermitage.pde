@@ -31,14 +31,18 @@ class NiveauErmitage {
     ennemis = new ArrayList<Mercenaire>();
     loadingRessource = "loading NiveauErmitage/fond.png";
     fond = loadImage("NiveauErmitage/fond.png");
+    loadingProgress--;
     loadingRessource = "loading NiveauErmitage/dialogue.png";
     infoSavate = loadImage("NiveauErmitage/dialogue.png");
+    loadingProgress--;
     loadingRessource = "loading NiveauErmitage/dialogue2.png";
     imgDialogue1 = loadImage("NiveauErmitage/dialogue2.png");
+    loadingProgress--;
 
     //*************Mise en place des plateformes et murs *****************//
     loadingRessource = "loading NiveauErmitage/musique.mp3";
     musique = new SoundFile(LeBouchonOr.this, "NiveauErmitage/musique.mp3");
+    loadingProgress--;
     musique.amp(0.5);
     plateformes.add(new Plateforme(3060, 382, 210, false)); //P1
     plateformes.add(new Plateforme(2724, 292, 288, false)); //P2

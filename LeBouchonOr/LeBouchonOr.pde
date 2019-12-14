@@ -1,9 +1,8 @@
 //************************************************** Déclaration des ressources du jeu **********************************************//
-
 import processing.sound.*;  // Bibliothèque pour gérer les musiques.
-//import cassette.audiofiles.SoundFile;
 
 String loadingRessource = ""; // affichage de la ressource en chargement.
+int loadingProgress = 917;
 
 PGraphics cv; // IMPORTANT: TOUT LE JEU EST AFFICHE SUR CETTE SURFACE QUI A SON TOUR EST AFFICHEE EN PLEIN ECRAN, permet de redimensionner la fenêtre.
 // Dimensions d'affichage dans la fenêtre
@@ -58,8 +57,9 @@ void chargerNiveaux() {
   // indicateur de dialogues.
   loadingRessource = "loading dialogue_info.png";
   infoDialogue = loadImage("dialogue_info.png");
-  
-  
+  loadingProgress--;
+
+
   // Création du joueur.
   joueur = new Joueur(-100, -100);
 
@@ -133,7 +133,7 @@ boolean collisionRectangles(float x1, float y1, float w1, float h1, float x2, fl
 }
 
 //Permet de réinitialiser le jeu en cas de mort du joueur ou de fin de partie.
-void reinitialiserJeu(){
+void reinitialiserJeu() {
   joueur.reinitialiser();
   camera.reinitialiser();
   niveauBoss.reinitialiser();
@@ -347,15 +347,15 @@ void setup() {
   
   size(1280, 720, P2D);
   surface.setResizable(true);
-  
+
   //fullScreen(P2D);
   //orientation(LANDSCAPE);
-  
+
   widthAcutelle = 1280;
   heightActuelle = 720;
 
   cv = createGraphics(1280, 720, P2D);
-  
+
   logo = loadImage("chargement.png");
   // On charge tous les niveaux au début du jeu sur un autre thread pour pouvoir afficher une animation pendant le chargement.
   // Remarque: la fonction "thread" créé un thread et execute une méthode sur celui-ci, une fois la méthode executée, processing tue en automatique le thread.
@@ -374,8 +374,16 @@ void draw() {
     cv.textSize(72);
     cv.textAlign(CENTER, CENTER);
     cv.text("CHARGEMENT", cv.width/2, cv.height/4);
+    
+    cv.fill(255,0,0);
+    cv.rectMode(CORNER);
+    float x = map(loadingProgress, 917, 0, 0, cv.width);
+    cv.rect(0,cv.height-32-24, x, 48);
+    
     cv.textSize(24);
+    cv.fill(255);
     cv.text(loadingRessource, cv.width/2, cv.height-32);
+    
 
     //On change de repère temporairement pour facilité la rotation.
     cv.pushMatrix();
@@ -433,7 +441,6 @@ void draw() {
   heightActuelle =(int) (720.0*ratio);
   background(0);
   image(cv, width/2-widthAcutelle/2, height/2-heightActuelle/2, widthAcutelle, heightActuelle);
-  
 }
 
 

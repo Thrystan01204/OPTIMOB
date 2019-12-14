@@ -99,12 +99,16 @@ class Joueur {
   
     loadingRessource = "loading Martin/saut.mp3";
     sonSaut = new SoundFile(LeBouchonOr.this, "Martin/saut.mp3");
+    loadingProgress--;
     loadingRessource = "loading Martin/frappe.mp3";
     sonFrappe = new SoundFile(LeBouchonOr.this, "Martin/frappe.mp3");
+    loadingProgress--;
     loadingRessource = "loading Martin/hit.mp3";
     sonBlesse = new SoundFile(LeBouchonOr.this, "Martin/hit.mp3");
+    loadingProgress--;
     loadingRessource = "loading Martin/tir.mp3";
     sonTir = new SoundFile(LeBouchonOr.this, "Martin/tir.mp3");
+    loadingProgress--;
 
     horlogeBlesse = new Horloge(1500); // On défini le chrono à 1 secondes.
   }

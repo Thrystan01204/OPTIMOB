@@ -20,8 +20,10 @@ class Credits {
   Credits() {
     loadingRessource = "loading fin.mp3";
     musique = new SoundFile(LeBouchonOr.this, "fin.mp3");
+    loadingProgress--;
     loadingRessource = "loading credits.png";
     img = loadImage("credits.png");
+    loadingProgress--;
   }
 
   void afficher() {

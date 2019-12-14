@@ -34,16 +34,21 @@ class NiveauVolcan {
     ennemis = new ArrayList<Mercenaire>();
     loadingRessource = "loading NiveauVolcan/fond.png";
     fond = loadImage("NiveauVolcan/fond.png");
+    loadingProgress--;
     loadingRessource = "loading NiveauVolcan/thibault1.png";
     imgDialogue1 = loadImage("NiveauVolcan/thibault1.png");
+    loadingProgress--;
     loadingRessource = "loading NiveauVolcan/thibault2.png";
     imgDialogue2 = loadImage("NiveauVolcan/thibault2.png");
+    loadingProgress--;
     loadingRessource = "loading NiveauVolcan/martin.png";
     imgDialogue3 = loadImage("NiveauVolcan/martin.png");
+    loadingProgress--;
 
     //*************Mise en place des plateformes et murs *****************//
     loadingRessource = "loading NiveauVolcan/musique.mp3";
     musique = new SoundFile(LeBouchonOr.this, "NiveauVolcan/musique.mp3");
+    loadingProgress--;
     musique.amp(0.75);
 
     bonus1 = new PainBouchon(2418, 553);

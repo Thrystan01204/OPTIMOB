@@ -97,12 +97,15 @@ class Mercenaire {
     if (type != 3) {
       loadingRessource = "loading pistol.mp3";
       sonAttaque = new SoundFile(LeBouchonOr.this, "pistol.mp3");
+      loadingProgress--;
     } else {
       loadingRessource = "loading swish_2.mp3";
       sonAttaque = new SoundFile(LeBouchonOr.this, "swish_2.mp3");
+      loadingProgress--;
     }
     loadingRessource = "loading mort_mercenaire.wav";
     sonMeurt = new SoundFile(LeBouchonOr.this, "mort_mercenaire.wav");
+    loadingProgress--;
 
     horlogeAttaqueCorps = new Horloge(1000); // Attente d'1 seconde.
     horlogeSeRetourner = new Horloge(4000); // Attente de 4 secondes

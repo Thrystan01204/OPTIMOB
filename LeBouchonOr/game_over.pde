@@ -6,6 +6,7 @@ class GameOver {
   GameOver() {
     loadingRessource = "loading fin.mp3";
     musique = new SoundFile(LeBouchonOr.this, "fin.mp3");
+    loadingProgress--;
   }
 
   void afficher() {

@@ -16,6 +16,7 @@ class Item {
     sprite = new Sprite(x,y);
     loadingRessource = "loading item.mp3";
     bruit = new SoundFile(LeBouchonOr.this, "item.mp3");
+    loadingProgress--;
   }
 
   void actualiser() {
