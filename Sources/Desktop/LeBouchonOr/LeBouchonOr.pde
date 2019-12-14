@@ -348,9 +348,6 @@ void setup() {
   size(1280, 720, P2D);
   surface.setResizable(true);
 
-  //fullScreen(P2D);
-  //orientation(LANDSCAPE);
-
   widthAcutelle = 1280;
   heightActuelle = 720;
 

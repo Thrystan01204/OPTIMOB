@@ -345,11 +345,8 @@ void setup() {
   // Remarque, P2D est le seul mode a implémenter correctement le comportement de keyPressed(), en effet, dans tout les autres modes, si l'on garde la touche enfoncée,
   // la méthode est continuellement exécutée.
   
-  size(1280, 720, P2D);
-  surface.setResizable(true);
-
-  //fullScreen(P2D);
-  //orientation(LANDSCAPE);
+  fullScreen(P2D);
+  orientation(LANDSCAPE);
 
   widthAcutelle = 1280;
   heightActuelle = 720;
