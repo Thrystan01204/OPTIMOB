@@ -1,5 +1,13 @@
-//************************************************** Déclaration des ressources du jeu **********************************************//
+// Vibrations
+import android.app.Activity;
+import android.content.Context;
+import android.os.Vibrator;
+import android.os.VibrationEffect;
+
+import android.view.MotionEvent; //Multi touch
+
 import processing.sound.*;  // Bibliothèque pour gérer les musiques.
+Activity act;
 
 String loadingRessource = ""; // affichage de la ressource en chargement.
 int loadingProgress = 918;
@@ -9,8 +17,17 @@ PGraphics cv; // IMPORTANT: TOUT LE JEU EST AFFICHE SUR CETTE SURFACE QUI A SON 
 int widthActuelle; 
 int heightActuelle;
 
-// android ui
-PImage ui;
+// android
+boolean invalideBouton = true;
+boolean enDialogue = false;
+PImage ui; // Image des boutons.
+int[] bouton = new int[7]; // Les 7 boutons présents à l'écran.
+// -1 = non appuié
+// 0
+// 1
+// .
+// .
+// . = id du pinteur (doigts)
 
 //-------------------------------------------------- AIDE AU DEBUGAGE ---------------------------------------------------------
 // Si cette variable est vraie, on affiche à l'écran les aides de débugage, à désactivé lors de la sortie du jeu
@@ -136,13 +153,13 @@ boolean sourisDansRectangle(float x1, float y1, float x2, float y2) {
 }
 
 // fonction pour si l'on appuie sur un bouton.
-boolean pointDansCercle(float px, float py, float cx, float cy, float r){
+boolean pointDansCercle(float px, float py, float cx, float cy, float r) {
   float dx = abs(width-widthActuelle)/2.0;
   float dy = abs(height-heightActuelle)/2.0;
-  
+
   float mx = map(px, dx, dx+widthActuelle, 0, cv.width);
   float my = map(py, dy, dy+heightActuelle, 0, cv.height);
-  
+
   return (sq(mx-cx)+sq(my-cy) < sq(r));
 }
 
@@ -365,6 +382,7 @@ void setup() {
 
   fullScreen(P2D);
   orientation(LANDSCAPE);
+  act = this.getActivity(); // Pour pouvoir faire vibrer le téléphone.
 
   widthActuelle = 1280;
   heightActuelle = 720;
@@ -372,6 +390,11 @@ void setup() {
   cv = createGraphics(1280, 720, P2D);
 
   logo = loadImage("chargement.png");
+
+  // On initialise les boutons.
+  for (int i=0; i<7; i++) bouton[i] = -1;
+
+
   // On charge tous les niveaux au début du jeu sur un autre thread pour pouvoir afficher une animation pendant le chargement.
   // Remarque: la fonction "thread" créé un thread et execute une méthode sur celui-ci, une fois la méthode executée, processing tue en automatique le thread.
   thread("chargerNiveaux");
@@ -436,7 +459,7 @@ void draw() {
     //Actualisation du niveau volcan.
     niveauBoss.actualiser();
     niveauBoss.afficher();
-  } 
+  }
 
   //************** DEBUGAGE ************//
   if (debug) {
@@ -457,6 +480,9 @@ void draw() {
     }
   }
 
+  if (!invalideBouton)
+    cv.image(ui, 0, 0);
+
   cv.endDraw();
 
   //On conserve le ratio d'affichage.
@@ -471,11 +497,15 @@ void draw() {
 
 
 void mousePressed() {
-  if (!chargementDuJeu) {
+  if (!chargementDuJeu && invalideBouton) {
+    Vibrator vibrer = (Vibrator)   act.getSystemService(Context.VIBRATOR_SERVICE);
+    vibrer.vibrate(50);
     if (niveau == 0)
       menuPrincipal.mousePressed();
-    else if (niveau == 5)
-      niveauIntro.mousePressed();
+    else if (niveau == 1)
+      credits.mousePressed();
+    else if (niveau == 9)
+      gameOver.mousePressed();
   }
 }
 
@@ -491,6 +521,25 @@ void keyReleased() {
       niveauVolcan.keyReleased();
     else if (niveau == 6)
       niveauBoss.keyReleased();
+  }
+}
+
+// Simule le comportement de keyReleased.
+void touchButtonUp(int id) {
+  for (int i=0; i <7; i++) {
+    if (bouton[i] == id) {
+      bouton[i] = -1;
+      if (niveau == 5)
+        niveauIntro.touchReleased(i);
+      else if (niveau == 2)
+        niveauVille.touchReleased(i);
+      else if (niveau == 3)
+        niveauErmitage.touchReleased(i);
+      else if (niveau == 4)
+        niveauVolcan.touchReleased(i);
+      else if (niveau == 6)
+        niveauBoss.touchReleased(i);
+    }
   }
 }
 
@@ -511,4 +560,87 @@ void keyPressed() {
     else if (niveau == 9)
       gameOver.keyPressed();
   }
+}
+
+// Simule le comportement de keyPressed.
+void touchButtonDown(int id, float px, float py) {
+  if (!chargementDuJeu && !invalideBouton) {
+    Vibrator vibrer = (Vibrator)   act.getSystemService(Context.VIBRATOR_SERVICE);
+    int idBouton = -1;
+    if (bouton[0] == -1 && pointDansCercle(px, py, 85.68, 635.75, 83.22)) {
+      bouton[0] = id;
+      idBouton = 0;
+    } else if (bouton[1] == -1 && pointDansCercle(px, py, 353.57, 635.75, 83.22)) {
+      bouton[1] = id;
+      idBouton = 1;
+    } else if (bouton[2] == -1 && pointDansCercle(px, py, 1143.94, 609.68, 90)) {
+      bouton[2] = id;
+      idBouton = 2;
+    } else if (bouton[3] == -1 && pointDansCercle(px, py, 920.64, 649, 56)) {
+      bouton[3] = id;
+      idBouton = 3;
+    } else if (bouton[4] == -1 && pointDansCercle(px, py, 973.69, 502.52, 54.2)) {
+      bouton[4] = id;
+      idBouton = 4;
+    } else if (bouton[5] == -1 && pointDansCercle(px, py, 1125.2, 424.1, 54.2)) {
+      bouton[5] = id;
+      idBouton = 5;
+    } else if (bouton[6] == -1 && pointDansCercle(px, py, 1202.36, 288, 51)) {
+      bouton[6] = id;
+      idBouton = 6;
+    }
+
+    if (idBouton != -1) {
+      vibrer.vibrate(50);
+      if (niveau == 5)
+        niveauIntro.touchPressed(idBouton);
+      else if (niveau == 2)
+        niveauVille.touchPressed(idBouton);
+      else if (niveau == 3)
+        niveauErmitage.touchPressed(idBouton);
+      else if (niveau == 4)
+        niveauVolcan.touchPressed(idBouton);
+      else if (niveau == 6)
+        niveauBoss.touchPressed(idBouton);
+    }
+  }
+}
+
+// Gestion du multi touch
+public boolean surfaceTouchEvent(MotionEvent me) {
+  int actionIndex = me.getActionIndex();
+  int actionId = me.getPointerId(actionIndex);
+  int actionMasked = me.getActionMasked();
+
+  switch(actionMasked) {
+    // Quand on presse l'écran
+  case MotionEvent.ACTION_DOWN:
+  case MotionEvent.ACTION_POINTER_DOWN:
+    //gestions des dialogues
+    if (invalideBouton) {
+      if (niveau == 5)
+        niveauIntro.actualiseDialogues();
+      else if (niveau == 2)
+        niveauVille.actualiseDialogues();
+      else if (niveau == 3)
+        niveauErmitage.actualiseDialogues();
+      else if (niveau == 4)
+        niveauVolcan.actualiseDialogues();
+      else if (niveau == 6)
+        niveauBoss.actualiseDialogues();
+    }
+    // gestion des boutons
+    touchButtonDown(actionId, me.getX(actionIndex), me.getY(actionIndex));
+    break;
+
+    // Quan on quitte l'écran
+  case MotionEvent.ACTION_UP:
+  case MotionEvent.ACTION_POINTER_UP:
+  case MotionEvent.ACTION_CANCEL:
+    touchButtonUp(actionId);
+    break;
+  }
+  // If you want the variables for motionX/motionY, mouseX/mouseY etc.
+  // to work properly, you'll need to call super.surfaceTouchEvent().
+  return super.surfaceTouchEvent(me);
 }

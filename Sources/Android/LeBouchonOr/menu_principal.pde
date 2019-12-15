@@ -19,7 +19,7 @@ class MenuPrincipal {
 
   // Initialisation de toutes les ressources utilisées pour le fonctionnement du menu.
   MenuPrincipal() {
-    
+
     // Chargement des ressources du niveau.
     loadingRessource = "loading MenuPrincipal/fond.png";
     fond = loadImage("MenuPrincipal/fond.png");
@@ -59,7 +59,7 @@ class MenuPrincipal {
       grosNuage.x = cv.width+grosNuage.width()/2;
 
     //On veut que la transition s'accelère pour donner plus rapidement accès a l'interface.
-    if(transparence > 0){
+    if (transparence > 0) {
       if (transparence < 100)
         transparence -= 4;
       else
@@ -119,7 +119,6 @@ class MenuPrincipal {
         niveau = 1; //On indique au système de gestion des niveaux que l'on va aux crédits.
         infoChargeNiveau(); // On indique que le niveau charge.
         credits.relancer(); // On relance le niveau crédit.
-        
       } else if (sourisDansRectangle(541, 492, 541+w, 492+h)) { // Bouton nouvelle partie
         reinitialiserJeu(); // On réinitialise le jeu.
         pause(); // On met en pause le menu.
@@ -140,8 +139,8 @@ class MenuPrincipal {
 
   // Lorsque l'on revient au menu principal, on s'assure que tout soit réinitialisé (cela permet d'éviter de réinstancier le menu).
   void relancer() {
+    invalideBouton = true;
     transparence = 255; // On réinitialise la transition "fade out".
     musique.loop(); // On relance la musique.
   }
-  
 }

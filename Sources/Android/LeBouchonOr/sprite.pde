@@ -24,9 +24,9 @@ class Sprite {
     x = (int) tx;
     y = (int) ty;
   }
-  
+
   // Permet de relancer une animation finie.
-  void reinitialiser(){
+  void reinitialiser() {
     frameActuelle = 0;
     anime = true;
   }
@@ -84,7 +84,7 @@ class Sprite {
     //************ Affichage de l'image actuelle ***************** //
     int demiW = width()/2;
     int demiH = height()/2;
-    
+
     // Si il faut inverser l'image sur son axe y:
     if (mirroir) {
       cv.pushMatrix(); // On conserve l'ancien repère de coordonnées.

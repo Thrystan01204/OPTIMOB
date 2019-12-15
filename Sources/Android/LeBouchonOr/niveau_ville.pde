@@ -52,12 +52,12 @@ class NiveauVille {
     bonus1 = new PainBouchon(922, 219.5);
     bonus2 = new PainBouchon(2087, -337.5);
     bonus3 = new PainBouchon(3216, 227.9);
-    
+
     loadingRessource = "loading NiveauVille/dialogue_combinaison.png";
     infoCombinaison = loadImage("NiveauVille/dialogue_combinaison.png");
     loadingProgress--;
     combinaison = new Combinaison(1209.5, -562.5);
-    
+
     loadingRessource = "loading NiveauVille/fond.png";
     fond = loadImage("NiveauVille/fond.png");
     loadingProgress--;
@@ -85,7 +85,7 @@ class NiveauVille {
     plateformes.add(new Plateforme(1999, -311, 584, false)); // p8
     plateformes.add(new Plateforme(2651, 30, 682, false)); // p9
     plateformes.add(new Plateforme(3202, 252, 215.75, false)); // p10
-    
+
     loadingRessource = "loading NiveauVille/musique.mp3";
     musique = new SoundFile(LeBouchonOr.this, "NiveauVille/musique.mp3");
     loadingProgress--;
@@ -124,6 +124,7 @@ class NiveauVille {
   // Gestion de la logique du niveau.
   void actualiser() {
     if (!changeNiveauErmitage && ! changeNiveauVolcan && !lanceDialogue1 && !lanceDialogue2 && !dialogueCombinaison) {
+      invalideBouton = false;
       // Estimation des collisions.
       trouverPlateformeCandidate(plateformes); // On cherche un plateforme qui pourrait potentiellement enter en collision avec le joueur.
       trouverMursCandidats(murs); // De même pour les murs a gauches et à droites du joueur.
@@ -140,6 +141,8 @@ class NiveauVille {
 
       camera.actualiser(); // On déplace la position de la caméra si nécessaire.
       positionMontagesX += camera.dx*0.125; // Pour donner un effet de parallax, on déplace un peu plus les montages que le fond.
+    } else {
+      invalideBouton = true;
     }
     // Après la transition on change de niveau.
     if (fade.tempsEcoule && changeNiveauErmitage) {
@@ -222,13 +225,13 @@ class NiveauVille {
       cv.fill(50);
       cv.noStroke();
       cv.rectMode(CENTER);
-      cv.rect(cv.width/2, 35, 500, 32);
+      cv.rect(cv.width/2, 45, 500, 32);
       cv.textSize(24);
       cv.textAlign(CENTER, CENTER);
       cv.fill(0);
-      cv.text("Appuyez sur espace pour continuer", cv.width/2+1, 33);
+      cv.text("Touchez l'ecran pour continuer", cv.width/2+1, 43);
       cv.fill(255);
-      cv.text("Appuyez sur espace pour continuer", cv.width/2, 32);
+      cv.text("Touchez l'ecran pour continuer", cv.width/2, 42);
       if (dialogueCombinaison)
         cv.image(infoCombinaison, 215, 535);
       else
@@ -251,37 +254,36 @@ class NiveauVille {
     } else if (changeNiveauVolcan || changeNiveauErmitage) {
       infoChargeNiveau(); // On charge le niveau;
     }
-    
-    // Quand on est pas en dialogue on affiche l'ui
-    if(finDialogue1 && finDialogue2 && !dialogueCombinaison && !changeNiveauErmitage && !changeNiveauVolcan){
-      cv.image(ui, 0, 0);
+  }
+
+  void actualiseDialogues() {
+    // Pemier dialogue.
+    if (lanceDialogue1) {
+      numDialogue += 1;
+      if (numDialogue  == 1 ) {
+        finDialogue1 = true;
+        lanceDialogue1 = false;
+      }
+    } 
+    // 2ème dialogue.
+    else if (lanceDialogue2) {
+      numDialogue += 1;
+      if (numDialogue == 2) {
+        numDialogue = 1; // Evite les bugs.
+        finDialogue2 = true;
+        lanceDialogue2 = false;
+      }
+    } 
+    // Info combinaison
+    else if (dialogueCombinaison) {
+      dialogueCombinaison = false;
     }
   }
 
   // Gestion des touches appuyées
   void keyPressed() {
     if (key == ' ') {
-      // Pemier dialogue.
-      if (lanceDialogue1) {
-        numDialogue += 1;
-        if (numDialogue  == 1 ) {
-          finDialogue1 = true;
-          lanceDialogue1 = false;
-        }
-      } 
-      // 2ème dialogue.
-      else if (lanceDialogue2) {
-        numDialogue += 1;
-        if (numDialogue == 2) {
-          numDialogue = 1; // Evite les bugs.
-          finDialogue2 = true;
-          lanceDialogue2 = false;
-        }
-      } 
-      // Info combinaison
-      else if (dialogueCombinaison) {
-        dialogueCombinaison = false;
-      }
+      actualiseDialogues();
     } else if (fade.tempsEcoule && !lanceDialogue1 && !lanceDialogue2 && !dialogueCombinaison) {
       joueur.keyPressed();
     }
@@ -308,6 +310,39 @@ class NiveauVille {
         fade.lancer();
         changeNiveauErmitage = true;
       } else if (k == 'E' && versNiveauVolcan && !changeNiveauVolcan) {
+        invalideBouton = true;
+        fade.lancer();
+        changeNiveauVolcan = true;
+      }
+    }
+  }
+
+  void touchPressed(int idBouton) {
+    if (fade.tempsEcoule && !lanceDialogue1 && !lanceDialogue2 && !dialogueCombinaison) {
+      joueur.touchPressed(idBouton);
+    }
+
+    // On réaffiche les dialogues.
+    if (finDialogue1 && finDialogue2 && !lanceDialogue1 && !lanceDialogue2 && !changeNiveauVolcan && !changeNiveauErmitage && !dialogueCombinaison) {
+
+      boolean declancheurDialogue1 = collisionRectangles(joueur.x, joueur.y, joueur.w, joueur.h, 965, 503.5, 118, 235);
+      boolean declancheurDialogue2 = collisionRectangles(joueur.x, joueur.y, joueur.w, joueur.h, 2011, -28.5, 100, 189);
+
+      boolean versNiveauErmitage = collisionRectangles(joueur.x, joueur.y, joueur.w, joueur.h, 70, 533, 128, 153);
+      boolean versNiveauVolcan = collisionRectangles(joueur.x, joueur.y, joueur.w, joueur.h, 3767, 538, 128, 153);
+
+      if (idBouton == 6 && declancheurDialogue1) {
+        lanceDialogue1 = true;
+        finDialogue1 = false;
+        numDialogue = 0;
+      } else if (idBouton == 6 && declancheurDialogue2) {
+        lanceDialogue2 = true;
+        finDialogue2 = false;
+        numDialogue = 1;
+      } else if (idBouton == 6 && versNiveauErmitage && !changeNiveauErmitage) {
+        fade.lancer();
+        changeNiveauErmitage = true;
+      } else if (idBouton == 6 && versNiveauVolcan && !changeNiveauVolcan) {
         fade.lancer();
         changeNiveauVolcan = true;
       }
@@ -316,9 +351,13 @@ class NiveauVille {
 
   // Gestion des touches relâchées.
   void keyReleased() {
-
     // Gestion des touches relâchées pour le joueur.
     joueur.keyReleased();
+  }
+
+  void touchReleased(int idBouton) {
+    // Gestion des touches relâchées pour le joueur.
+    joueur.touchReleased(idBouton);
   }
 
   // Permet de suspendre les actions du menu.
@@ -353,8 +392,8 @@ class NiveauVille {
     bonus2.reinitialiser();
     bonus3.reinitialiser();
     combinaison.reinitialiser();
-    for(Mercenaire m : ennemis){
-      m.reinitialiser();  
+    for (Mercenaire m : ennemis) {
+      m.reinitialiser();
     }
   }
 }

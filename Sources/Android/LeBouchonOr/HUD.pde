@@ -1,6 +1,7 @@
 class HUD {
 
-  HUD() {}
+  HUD() {
+  }
 
   void afficher() {
 
@@ -29,23 +30,23 @@ class HUD {
       cv.rect(0, 24, cv.width/4, 24);
       // Barre d'xp.
       cv.fill(0, 0, 255);
-      if(joueur.level < 10)
+      if (joueur.level < 10)
         valeur = map(joueur.xp, 0, joueur.xpMax, 0, cv.width/4);
       else
         valeur = cv.width/4;
       cv.rect(0, 24, valeur, 24);
-      
-      
+
+
       if (joueur.invulnerableLave) {
         // Affichage de l'invulnérabilité à la lave.
         cv.textSize(20);
         cv.textAlign(LEFT, TOP);
         cv.fill(0);
-        cv.text("Invulnérable à la lave", 49, 49);
+        cv.text("Invulnerable a la lave", 49, 49);
         cv.fill(255);
-        cv.text("Invulnérable à la lave", 48, 48);
+        cv.text("Invulnerable a la lave", 48, 48);
       }
-      if(joueur.superSaut){
+      if (joueur.superSaut) {
         // Affichage de la capacité de super saut.
         cv.textSize(20);
         cv.textAlign(LEFT, TOP);

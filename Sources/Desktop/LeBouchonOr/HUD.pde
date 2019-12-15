@@ -41,9 +41,9 @@ class HUD {
         cv.textSize(20);
         cv.textAlign(LEFT, TOP);
         cv.fill(0);
-        cv.text("Invulnérable à la lave", 49, 49);
+        cv.text("Invulnerable a la lave", 49, 49);
         cv.fill(255);
-        cv.text("Invulnérable à la lave", 48, 48);
+        cv.text("Invulnarable a la lave", 48, 48);
       }
       if(joueur.superSaut){
         // Affichage de la capacité de super saut.

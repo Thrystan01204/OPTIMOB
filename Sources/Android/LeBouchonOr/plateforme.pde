@@ -15,7 +15,7 @@ class Plateforme {
     w = tw;
     collisionPermanente = toujoursActive;
   }
-  
+
   // Permet de savoir si la hitbox du joueur et la plateforme sont superposées.
   boolean collisionPotentielle() {
     boolean faceGauche = joueur.x-joueur.w/2 >= x-w/2 && joueur.x-joueur.w/2 <= x+w/2;

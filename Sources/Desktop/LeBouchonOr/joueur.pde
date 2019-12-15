@@ -254,6 +254,7 @@ class Joueur {
         vy = -forceSaut;
 
       surPlateforme = false; // On quite la plateforme.
+      sonSaut.stop();
       sonSaut.play(); // On lance le son du saut.
     } 
     // Gestion du déplacement vers la droite. Si le joueur a été poussé, on ne peut pas modifier sa trajectoire.
@@ -273,6 +274,7 @@ class Joueur {
       descendPlateforme = true;
     } else if (k == 'K' && !spriteFrappe.anime && !estPousse) {
       //Le joueur frappe.
+      sonFrappe.stop();
       sonFrappe.play();
       spriteFrappe.reinitialiser();
     } else if (k == 'L' && !spriteTire.anime && !aTire) {
@@ -282,6 +284,7 @@ class Joueur {
       balleY = y;
       aTire = true;
       ennemiTouche = false;
+      sonTir.stop();
       sonTir.play();
       spriteTire.reinitialiser();
     }
@@ -319,6 +322,7 @@ class Joueur {
       horlogeBlesse.lancer(); // On relance le chrono.
       estPousse = true;
       enDeplacement = false;
+      sonBlesse.stop();
       sonBlesse.play();
     }
   }
@@ -353,6 +357,9 @@ class Joueur {
     enAttaqueLongue = false;
     estPousse = false;
     horlogeBlesse.tempsEcoule = true;
+    sonTir.stop();
+    sonBlesse.stop();
+    sonFrappe.stop();
     sonSaut.stop();
   }
 

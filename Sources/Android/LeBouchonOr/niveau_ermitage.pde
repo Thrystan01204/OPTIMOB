@@ -93,6 +93,7 @@ class NiveauErmitage {
   // Gestion de la logique du niveau.
   void actualiser() {
     if (!changeNiveauVille && !dialogueSavate && !dialogue1) {
+      invalideBouton = false;
       // Estimation des collisions.
       trouverPlateformeCandidate(plateformes); // On cherche un plateforme qui pourrait potentiellement enter en collision avec le joueur.
       trouverMursCandidats(murs); // De même pour les murs a gauches et à droites du joueur.
@@ -109,6 +110,8 @@ class NiveauErmitage {
       collisionLimites(); // On s'assure que le joueur ne sorte pas des limites du niveau.
 
       camera.actualiser(); // On déplace la position de la caméra si nécessaire.
+    } else {
+      invalideBouton = true;
     }
     // Après la transition on change de niveau.
     if (fade.tempsEcoule && changeNiveauVille) {
@@ -181,13 +184,13 @@ class NiveauErmitage {
       cv.fill(50);
       cv.noStroke();
       cv.rectMode(CENTER);
-      cv.rect(cv.width/2, 35, 500, 32);
+      cv.rect(cv.width/2, 45, 500, 32);
       cv.textSize(24);
       cv.textAlign(CENTER, CENTER);
       cv.fill(0);
-      cv.text("Appuyez sur espace pour continuer", cv.width/2+1, 33);
+      cv.text("Touchez l'ecran pour continuer", cv.width/2+1, 43);
       cv.fill(255);
-      cv.text("Appuyez sur espace pour continuer", cv.width/2, 32);
+      cv.text("Touchez l'ecran pour continuer", cv.width/2, 42);
       if (dialogueSavate)
         cv.image(infoSavate, 215, 535);
       else if (dialogue1)
@@ -208,27 +211,24 @@ class NiveauErmitage {
     } else if (changeNiveauVille) {
       infoChargeNiveau(); // On charge le niveau;
     }
-    
-    // Quand on est pas en dialogue on affiche l'ui
-    if(!dialogue1 && !dialogueSavate && !changeNiveauVille){
-      cv.image(ui, 0, 0);
+  }
+
+  void actualiseDialogues() {
+    // Pemier dialogue.
+    if (dialogueSavate) {
+      dialogueSavate = false;
+    } else if (dialogue1) {
+      dialogue1 = false;
     }
-    
   }
 
   // Gestion des touches appuyées.
   void keyPressed() {
     if (key == ' ') {
-      // Pemier dialogue.
-      if (dialogueSavate) {
-        dialogueSavate = false;
-      } else if (dialogue1) {
-        dialogue1 = false;
-      }
+      actualiseDialogues();
     } else if (fade.tempsEcoule && !dialogueSavate && !changeNiveauVille && !dialogue1) {
       joueur.keyPressed();
     }
-
     if (!dialogueSavate && !changeNiveauVille && !dialogue1) {
       char k = Character.toUpperCase((char) key);
       boolean versNiveauVille = collisionRectangles(joueur.x, joueur.y, joueur.w, joueur.h, 3764, 537, 130, 158);
@@ -243,10 +243,32 @@ class NiveauErmitage {
     }
   }
 
+  void touchPressed(int idBouton) {
+    if (fade.tempsEcoule && !dialogueSavate && !changeNiveauVille && !dialogue1) {
+      joueur.touchPressed(idBouton);
+    }
+    if (!dialogueSavate && !changeNiveauVille && !dialogue1) {
+      boolean versNiveauVille = collisionRectangles(joueur.x, joueur.y, joueur.w, joueur.h, 3764, 537, 130, 158);
+      boolean declancheurDialogue1 = collisionRectangles(joueur.x, joueur.y, joueur.w, joueur.h, 3279, 497, 130, 158);
+      if (idBouton == 6 && versNiveauVille) {
+        fade.lancer();
+        changeNiveauVille = true;
+      } 
+      if (idBouton == 6 && declancheurDialogue1) {
+        dialogue1 = true;
+      }
+    }
+  }
+
   // Gestion des touches relâchées.
   void keyReleased() {
     // Gestion des touches relâchées pour le joueur.
     joueur.keyReleased();
+  }
+
+  void touchReleased(int idBouton) {
+    // Gestion des touches relâchées pour le joueur.
+    joueur.touchReleased(idBouton);
   }
 
   // Permet de suspendre les actions du menu.
@@ -271,8 +293,8 @@ class NiveauErmitage {
     bonus1.reinitialiser();
     bonus2.reinitialiser();
     savate.reinitialiser();
-    for(Mercenaire m : ennemis){
-      m.reinitialiser();  
+    for (Mercenaire m : ennemis) {
+      m.reinitialiser();
     }
   }
 }

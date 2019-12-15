@@ -81,9 +81,10 @@ class NiveauBoss {
   }
 
   void actualiser() {
-    
+
     if (!intro && !dialogue1 && !dialogue2 && !dialogue3 && !gagne && fade.tempsEcoule && !dialogue4) {
-      if(vie <= 50 && !phase2){
+      invalideBouton = false;
+      if (vie <= 50 && !phase2) {
         phase2 = true;
         musiquePhase1.stop();
         musiquePhase2.loop();
@@ -104,7 +105,7 @@ class NiveauBoss {
       } else if (!boss.mirroir) {
         boss.x -= vx;
       }
-      
+
       if (joueur.spriteFrappe.anime) { 
         boolean collision;
         // La hitbox du joueur est orientée.
@@ -118,28 +119,28 @@ class NiveauBoss {
           estBlesse = true;
         }
       } else {
-        estBlesse = false;  
+        estBlesse = false;
       }
-      
+
       //Si le joueur lui tire dessus:
-      if(joueur.aTire && !joueur.ennemiTouche){
+      if (joueur.aTire && !joueur.ennemiTouche) {
         boolean collision = collisionRectangles(joueur.balleX, joueur.balleY, joueur.balleW, joueur.balleH, boss.x, boss.y, w, h);
-        if(collision && !joueur.ennemiTouche){
-            vie -= 5; // On perd de la vie
-            joueur.ennemiTouche = true;
-            if (vie <= 0){ // Si on est mort alors le joueur gagne de l'xp.
-              fade.lancer();
-              gagne = true;
+        if (collision && !joueur.ennemiTouche) {
+          vie -= 5; // On perd de la vie
+          joueur.ennemiTouche = true;
+          if (vie <= 0) { // Si on est mort alors le joueur gagne de l'xp.
+            fade.lancer();
+            gagne = true;
           }
         }
       }
-      
+
       boolean collisionJoueur = collisionRectangles(joueur.x, joueur.y, joueur.w, joueur.h, boss.x, boss.y, w, h);
-        // Si il y a eu une collision avec le joueur et que l'ennemi n'est pas "en cours" d'attaque, on blesse le joueur.
+      // Si il y a eu une collision avec le joueur et que l'ennemi n'est pas "en cours" d'attaque, on blesse le joueur.
       if (collisionJoueur) {
-          float direction = (joueur.x-boss.x)/abs(joueur.x-boss.y);
-          float repousse = 200 * direction;
-          joueur.degatsRecu((int) (100), repousse);
+        float direction = (joueur.x-boss.x)/abs(joueur.x-boss.y);
+        float repousse = 200 * direction;
+        joueur.degatsRecu((int) (100), repousse);
       }
 
       // On actualise le joueur: mouvements, état, etc. voir la classe "Joueur".
@@ -161,18 +162,20 @@ class NiveauBoss {
         if (joueur.estPousse)
           joueur.estPousse = false;
       }
-      
-      if(vie <=0){
-          gagne = true;
-          musiquePhase2.stop();
-          meurt.play();
-          fade.lancer();
+
+      if (vie <=0) {
+        gagne = true;
+        musiquePhase2.stop();
+        meurt.stop();
+        meurt.play();
+        fade.lancer();
       }
-      
+    } else {
+      invalideBouton = true;
     }
-    
-    if(fade.tempsEcoule && gagne){
-      dialogue4 = true;  
+
+    if (fade.tempsEcoule && gagne) {
+      dialogue4 = true;
     }
     fade.actualiser();
     // Si le joueur est mort.
@@ -199,23 +202,22 @@ class NiveauBoss {
         cv.stroke(255, 0, 0);
         cv.rect(boss.x, boss.y, w, h);
       }
-    } 
-    else
+    } else
       infoChargeNiveau(); // On charge le niveau;
-   if(dialogue4 || intro)
+    if (dialogue4 || intro)
       cv.background(50);
 
     if (intro || dialogue1 || dialogue2 || dialogue3 || dialogue4) {
       cv.fill(50);
       cv.noStroke();
       cv.rectMode(CENTER);
-      cv.rect(cv.width/2, 35, 500, 32);
+      cv.rect(cv.width/2, 45, 500, 32);
       cv.textSize(24);
       cv.textAlign(CENTER, CENTER);
       cv.fill(0);
-      cv.text("Appuyez sur espace pour continuer", cv.width/2+1, 33);
+      cv.text("Touchez l'ecran pour continuer", cv.width/2+1, 43);
       cv.fill(255);
-      cv.text("Appuyez sur espace pour continuer", cv.width/2, 32);
+      cv.text("Touchez l'ecran pour continuer", cv.width/2, 42);
       if (intro)
         cv.image(imgIntro, 215, 535);
       else if (dialogue1)
@@ -232,14 +234,14 @@ class NiveauBoss {
       cv.image(thibault, 1056, 435);
     }
 
-    if (!intro && !dialogue1 && !dialogue2 && !dialogue3 && !dialogue4 && !gagne){
+    if (!intro && !dialogue1 && !dialogue2 && !dialogue3 && !dialogue4 && !gagne) {
       hud.afficher();
       //Vie du de thibault.
       cv.rectMode(CORNER);
       cv.noStroke();
       cv.fill(50);
-      cv.rect(0,675, cv.width, 38);
-      cv.fill(255,0, 0);
+      cv.rect(0, 675, cv.width, 38);
+      cv.fill(255, 0, 0);
       float valeur = map(vie, 0, 100, 0, cv.width);
       cv.rect(0, 675, valeur, 32);
       cv.fill(255);
@@ -249,11 +251,8 @@ class NiveauBoss {
       cv.textSize(24);
       cv.textAlign(CENTER, CENTER);
       cv.text("Thibault Omega", cv.width/2, 625);
-      
-      // On affiche l'ui car on est en jeu.
-      cv.image(ui, 0, 0);
     }
-    
+
     // Transition.
     if (!fade.tempsEcoule) {
       cv.noStroke();
@@ -266,43 +265,56 @@ class NiveauBoss {
       cv.rectMode(CORNER);
       cv.rect(0, 0, cv.width, cv.height);
     }
-    
+  }
+
+  void actualiseDialogues() {
+    // Pemier dialogue.
+    if (intro) {
+      intro = false;
+    } else if (dialogue1) {
+      dialogue1 = false;
+    } else if (dialogue2) {
+      dialogue2 = false;
+    } else if (dialogue3) {
+      dialogue3 = false;
+      musiqueIntro.stop();
+      item.play();
+      musiquePhase1.loop();
+    } else if (dialogue4) {
+      dialogue4 = false;
+      musiqueIntro.stop();
+      niveau = 1;
+      infoChargeNiveau();
+      credits.relancer();
+    }
   }
 
   void keyPressed() {
     if (key == ' ') {
-      // Pemier dialogue.
-      if (intro) {
-        intro = false;
-      } else if (dialogue1) {
-        dialogue1 = false;
-      } else if (dialogue2) {
-        dialogue2 = false;
-      } else if (dialogue3) {
-        dialogue3 = false;
-        musiqueIntro.stop();
-        item.play();
-        musiquePhase1.loop();
-      } else if(dialogue4){
-        dialogue4 = false;
-        musiqueIntro.stop();
-        niveau = 1;
-        infoChargeNiveau();
-        credits.relancer();
-      }
+      actualiseDialogues();
     } else if (!dialogue1 && !intro && !dialogue2 && !dialogue3 && !gagne && fade.tempsEcoule) {
       joueur.keyPressed();
     }
   }
 
+  void touchPressed(int idBouton) {
+    if (!dialogue1 && !intro && !dialogue2 && !dialogue3 && !gagne && fade.tempsEcoule) {
+      joueur.touchPressed(idBouton);
+    }
+  }
+
   // Gestion des touches relâchées.
   void keyReleased() {
-
     // Gestion des touches relâchées pour le joueur.
     joueur.keyReleased();
   }
-  
-  void pause(){
+
+  void touchReleased(int idBouton) {
+    // Gestion des touches relâchées pour le joueur.
+    joueur.touchReleased(idBouton);
+  }
+
+  void pause() {
     musiqueIntro.stop();
     musiquePhase1.stop();
     musiquePhase2.stop();
@@ -316,19 +328,19 @@ class NiveauBoss {
     joueur.balleMaxDistance = 720;
     joueur.vie = 100;
   }
-  
-  void reinitialiser(){
-      intro = true;
-      dialogue1 = true;
-      dialogue2 = true;
-      dialogue3 = true;
-      gagne = false;
-      estBlesse = false;
-      phase2 = false;
-      fade.tempsEcoule = true;
-      pause();
-      vie = 100;
-      vx = 4;
-      boss.x = 1038;
+
+  void reinitialiser() {
+    intro = true;
+    dialogue1 = true;
+    dialogue2 = true;
+    dialogue3 = true;
+    gagne = false;
+    estBlesse = false;
+    phase2 = false;
+    fade.tempsEcoule = true;
+    pause();
+    vie = 100;
+    vx = 4;
+    boss.x = 1038;
   }
 }

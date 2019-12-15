@@ -132,6 +132,7 @@ class Mercenaire {
           estBlesse = true;
           if (vie <= 0) { // Si on est mort alors le joueur gagne de l'xp.
             joueur.gagneXp(level);
+            sonMeurt.stop();
             sonMeurt.play();
           }
         }
@@ -147,6 +148,7 @@ class Mercenaire {
           joueur.ennemiTouche = true;
           if (vie <= 0) { // Si on est mort alors le joueur gagne de l'xp.
             joueur.gagneXp(level);
+            sonMeurt.stop();
             sonMeurt.play();
           }
         }
@@ -193,6 +195,7 @@ class Mercenaire {
           float repousse = 200 * direction;
           aligneDroite = (direction > 0);
           joueur.degatsRecu((int) (degats*level/1.5), repousse);
+          sonAttaque.stop();
           sonAttaque.play();
           spriteAttaqueCorps.reinitialiser(); // On relance l'animation d'attaque. N'est effectif que si l'ennemi est de type 3, si non le sprite n'est pas affiché.  
           horlogeAttaqueCorps.lancer(); // On lance l'attente avant d'effectuer d'autres actions.
@@ -206,12 +209,14 @@ class Mercenaire {
             tire = true;
             balleX = x;
             balleCollision = false;
+            sonAttaque.stop();
             sonAttaque.play();
             spriteAttaquePistolet.reinitialiser();
           } else if (!aligneDroite && x-joueur.x >= 0 && x-joueur.x < detection) {
             tire = true;
             balleX = x;
             balleCollision = false;
+            sonAttaque.stop();
             sonAttaque.play();
             spriteAttaquePistolet.reinitialiser();
           }

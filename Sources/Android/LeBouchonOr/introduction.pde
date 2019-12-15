@@ -60,7 +60,7 @@ class NiveauIntro {
     loadingRessource = "loading NiveauTuto/publique.png";
     publique = loadImage("NiveauTuto/publique.png");
     loadingProgress--;
-    
+
     loadingRessource = "loading NiveauTuto/Memories.mp3";
     musiqueIntro = new SoundFile(LeBouchonOr.this, "NiveauTuto/Memories.mp3");
     loadingProgress--;
@@ -107,7 +107,8 @@ class NiveauIntro {
   }
 
   void actualiser() {
-    if (!enIntroduction && fade.tempsEcoule && !lanceDialogue1 && !lanceDialogue2) {
+    if (!enIntroduction && fade.tempsEcoule && !lanceDialogue1 && !lanceDialogue2 && !changeNiveauVille) {
+      invalideBouton = false;
       trouverPlateformeCandidate(plateformes);
       trouverMursCandidats(murs);
       for (Mercenaire m : ennemis) {
@@ -125,6 +126,8 @@ class NiveauIntro {
         applaudissements.stop();
         action.loop();
       }
+    } else {
+      invalideBouton = true;
     }
     // Après la transition on change de niveau.
     if (fade.tempsEcoule && changeNiveauVille) {
@@ -144,38 +147,34 @@ class NiveauIntro {
       infoChargeNiveau();
     }
   }
-  
-  void actualiseDialogues(){
+
+  void actualiseDialogues() {
     if (enIntroduction) {
-        numDialogue += 1;
-        if (numDialogue  == 2 ) {
-          enIntroduction = false;
-          musiqueIntro.stop();
-          applaudissements.loop();
-          fade.lancer();
-        }
-      } 
-      // Pemier dialogue.
-      else if (lanceDialogue1) {
-        numDialogue += 1;
-        if (numDialogue  == 4 ) {
-          finDialogue1 = true;
-          lanceDialogue1 = false;
-        }
-      } 
-      // 2ème dialogue.
-      else if (lanceDialogue2) {
-        numDialogue += 1;
-        if (numDialogue == 5) {
-          numDialogue = 0; // Evite les bugs
-          finDialogue2 = true;
-          lanceDialogue2 = false;
-        }
-      }  
-  }
-  
-  void mousePressed(){
-    actualiseDialogues();  
+      numDialogue += 1;
+      if (numDialogue  == 2 ) {
+        enIntroduction = false;
+        musiqueIntro.stop();
+        applaudissements.loop();
+        fade.lancer();
+      }
+    } 
+    // Pemier dialogue.
+    else if (lanceDialogue1) {
+      numDialogue += 1;
+      if (numDialogue  == 4 ) {
+        finDialogue1 = true;
+        lanceDialogue1 = false;
+      }
+    } 
+    // 2ème dialogue.
+    else if (lanceDialogue2) {
+      numDialogue += 1;
+      if (numDialogue == 5) {
+        numDialogue = 0; // Evite les bugs
+        finDialogue2 = true;
+        lanceDialogue2 = false;
+      }
+    }
   }
 
   void keyPressed() {
@@ -185,7 +184,7 @@ class NiveauIntro {
       joueur.keyPressed();
     }
     // On réaffiche les dialogues.
-    if (!lanceDialogue1 && !lanceDialogue2 &&(finDialogue1 || finDialogue2) && !changeNiveauVille && !enIntroduction) {
+    if (!lanceDialogue1 && !lanceDialogue2 && (finDialogue1 || finDialogue2) && !changeNiveauVille && !enIntroduction) {
       char k = Character.toUpperCase((char) key);
       boolean declancheurDialogue1 = collisionRectangles(joueur.x, joueur.y, joueur.w, joueur.h, 1961, 506.8, 200, 235);
       boolean declancheurDialogue2 = collisionRectangles(joueur.x, joueur.y, joueur.w, joueur.h, 3549.9, 506.8, 200, 235);
@@ -205,9 +204,39 @@ class NiveauIntro {
     }
   }
 
+  void touchPressed(int idBouton) {
+    if (fade.tempsEcoule && !lanceDialogue1 && !lanceDialogue2 && !enIntroduction) {
+      joueur.touchPressed(idBouton);
+    }
+    // On réaffiche les dialogues.
+    if (!lanceDialogue1 && !lanceDialogue2 &&(finDialogue1 || finDialogue2) && !changeNiveauVille && !enIntroduction) {
+      boolean declancheurDialogue1 = collisionRectangles(joueur.x, joueur.y, joueur.w, joueur.h, 1961, 506.8, 200, 235);
+      boolean declancheurDialogue2 = collisionRectangles(joueur.x, joueur.y, joueur.w, joueur.h, 3549.9, 506.8, 200, 235);
+      boolean versNiveauVille = collisionRectangles(joueur.x, joueur.y, joueur.w, joueur.h, 3778, 570.5, 128.85, 118.9);
+      if (idBouton == 6 && declancheurDialogue1) {
+        lanceDialogue1 = true;
+        finDialogue1 = false;
+        numDialogue = 2;
+      } else if (idBouton == 6 && declancheurDialogue2) {
+        lanceDialogue2 = true;
+        finDialogue2 = false;
+        numDialogue = 4;
+      } else if (idBouton == 6 && versNiveauVille) {
+        fade.lancer();
+        changeNiveauVille = true;
+      }
+    }
+  }
+
   void keyReleased() {
     if (!enIntroduction && fade.tempsEcoule) {
       joueur.keyReleased();
+    }
+  }
+
+  void touchReleased(int idBouton) {
+    if (!enIntroduction && fade.tempsEcoule) {
+      joueur.touchReleased(idBouton);
     }
   }
 
@@ -218,9 +247,9 @@ class NiveauIntro {
       cv.textSize(24);
       cv.textAlign(CENTER, CENTER);
       cv.fill(0);
-      cv.text("Appuyez sur espace pour continuer", cv.width/2+1, 33);
+      cv.text("Touchez l'ecran pour continuer", cv.width/2+1, 33);
       cv.fill(255);
-      cv.text("Appuyez sur espace pour continuer", cv.width/2, 32);
+      cv.text("Touchez l'ecran pour continuer", cv.width/2, 32);
       cv.image(dialogues[numDialogue], 215, 535);
     } else {
       cv.background(85, 221, 255);
@@ -258,13 +287,13 @@ class NiveauIntro {
         cv.fill(50);
         cv.noStroke();
         cv.rectMode(CENTER);
-        cv.rect(cv.width/2, 35, 500, 32);
+        cv.rect(cv.width/2, 45, 500, 32);
         cv.textSize(24);
         cv.textAlign(CENTER, CENTER);
         cv.fill(0);
-        cv.text("Appuyez sur espace pour continuer", cv.width/2+1, 33);
+        cv.text("Touchez l'ecran pour continuer", cv.width/2+1, 43);
         cv.fill(255);
-        cv.text("Appuyez sur espace pour continuer", cv.width/2, 32);
+        cv.text("Touchez l'ecran pour continuer", cv.width/2, 42);
         cv.image(dialogues[numDialogue], 215, 535);
       }
 
@@ -286,11 +315,6 @@ class NiveauIntro {
       cv.rect(0, 0, cv.width, cv.height);
     } else if (changeNiveauVille) {
       infoChargeNiveau(); // On charge le niveau;
-    }
-    
-    // Quand on est pas en dialogue on affiche l'ui
-    if(!lanceDialogue1 && !lanceDialogue2){
-      cv.image(ui, 0, 0);
     }
   }
 
@@ -317,8 +341,8 @@ class NiveauIntro {
     changeNiveauVille = false;
     fade.tempsEcoule = true;
     bonus.reinitialiser();
-    for(Mercenaire m : ennemis){
-      m.reinitialiser();  
+    for (Mercenaire m : ennemis) {
+      m.reinitialiser();
     }
   }
 }

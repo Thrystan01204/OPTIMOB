@@ -96,7 +96,7 @@ class Joueur {
     spriteTire = new Sprite(x, y);
     spriteTire.chargeAnimation("Martin/Tire/", 8, 4);
     spriteTire.vitesseAnimation = 45;
-  
+
     loadingRessource = "loading Martin/saut.mp3";
     sonSaut = new SoundFile(LeBouchonOr.this, "Martin/saut.mp3");
     loadingProgress--;
@@ -254,6 +254,7 @@ class Joueur {
         vy = -forceSaut;
 
       surPlateforme = false; // On quite la plateforme.
+      sonSaut.stop();
       sonSaut.play(); // On lance le son du saut.
     } 
     // Gestion du déplacement vers la droite. Si le joueur a été poussé, on ne peut pas modifier sa trajectoire.
@@ -273,6 +274,7 @@ class Joueur {
       descendPlateforme = true;
     } else if (k == 'K' && !spriteFrappe.anime && !estPousse) {
       //Le joueur frappe.
+      sonFrappe.stop();
       sonFrappe.play();
       spriteFrappe.reinitialiser();
     } else if (k == 'L' && !spriteTire.anime && !aTire) {
@@ -282,6 +284,7 @@ class Joueur {
       balleY = y;
       aTire = true;
       ennemiTouche = false;
+      sonTir.stop();
       sonTir.play();
       spriteTire.reinitialiser();
     }
@@ -290,6 +293,52 @@ class Joueur {
       joueur.vy = -forceSaut/2;
       joueur.vx = aligneDroite ? -vitesseDeplacement : vitesseDeplacement; 
       surPlateforme = false;
+    }
+  }
+
+  void touchPressed(int idBouton) {
+    // Gestion du saut si le joueur se trouve sur une plateforme.
+    if (idBouton == 2 && surPlateforme) {
+      // On applique une force verticale pour propulser le joueur en l'air.
+      if (superSaut)
+        vy = -forceSaut*1.25; 
+      else
+        vy = -forceSaut;
+
+      surPlateforme = false; // On quite la plateforme.
+      sonSaut.stop();
+      sonSaut.play(); // On lance le son du saut.
+    } 
+    // Gestion du déplacement vers la droite. Si le joueur a été poussé, on ne peut pas modifier sa trajectoire.
+    else if (idBouton == 1 && !estPousse) {
+      enDeplacement = true; // On est en train de se déplacer.
+      vx = vitesseDeplacement; // On se déplace à une vitesse constante vers la droite.
+      aligneDroite = true; // Le joueur est tourné vers la droite.
+    } 
+    // Gestion du déplacment vers la gauche. Si le joueur a été poussé, on ne peut pas modifier sa trajectoire.
+    else if (idBouton == 0 && !estPousse) {
+      enDeplacement = true; // On est en train de se déplacer. 
+      vx = -vitesseDeplacement; // On se déplace à une vitesse constante vers la gauche.
+      aligneDroite = false; // Le joueur est tourné vers la gauche.
+    } 
+    // Le joueur veut descendre de la plateforme.
+    else if (idBouton == 3) {
+      descendPlateforme = true;
+    } else if (idBouton == 4 && !spriteFrappe.anime && !estPousse) {
+      //Le joueur frappe.
+      sonFrappe.stop();
+      sonFrappe.play();
+      spriteFrappe.reinitialiser();
+    } else if (idBouton == 5 && !spriteTire.anime && !aTire) {
+      balleXInitiale = x;
+      balleDirection = aligneDroite ? 1 : -1;
+      balleX = x;
+      balleY = y;
+      aTire = true;
+      ennemiTouche = false;
+      sonTir.stop();
+      sonTir.play();
+      spriteTire.reinitialiser();
     }
   }
 
@@ -308,6 +357,17 @@ class Joueur {
     }
   }
 
+  void touchReleased(int idBouton) {
+    // Si on arrête le déplacement si on lache les touches pour se déplacer.
+    if (idBouton == 0 || idBouton == 1) {
+      enDeplacement = false;
+    } 
+    // Le joueur ne veut plus descendre des plateformes.
+    else if (idBouton == 3) {
+      descendPlateforme = false;
+    }
+  }
+
   // Le joueur reçoit des dégats.
   void degatsRecu(int degats, float force) {
     // On reçoit des dégats que si le temps de latence est écoulé.
@@ -319,7 +379,10 @@ class Joueur {
       horlogeBlesse.lancer(); // On relance le chrono.
       estPousse = true;
       enDeplacement = false;
+      sonBlesse.stop();
       sonBlesse.play();
+      Vibrator vibrer = (Vibrator)   act.getSystemService(Context.VIBRATOR_SERVICE);
+      vibrer.vibrate(200);
     }
   }
 
@@ -354,6 +417,8 @@ class Joueur {
     estPousse = false;
     horlogeBlesse.tempsEcoule = true;
     sonSaut.stop();
+    sonTir.stop();
+    sonFrappe.stop();
   }
 
   void reinitialiser() {

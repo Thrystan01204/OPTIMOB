@@ -64,6 +64,7 @@ class PainBouchon extends Item {
   void collisionJoueur(){
     if(joueur.vie < 100){
       ramasse = true;
+      bruit.stop();
       bruit.play();
       joueur.vie = 100;
     }

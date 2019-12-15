@@ -165,6 +165,7 @@ class NiveauBoss {
       if(vie <=0){
           gagne = true;
           musiquePhase2.stop();
+          meurt.stop();
           meurt.play();
           fade.lancer();
       }
