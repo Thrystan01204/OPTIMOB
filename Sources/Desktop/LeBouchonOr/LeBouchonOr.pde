@@ -2,7 +2,18 @@
 import processing.sound.*;  // Bibliothèque pour gérer les musiques.
 
 String loadingRessource = ""; // affichage de la ressource en chargement.
-int loadingProgress = 917;
+int loadingProgress = 261;
+
+//Animations redondantes
+PImage[] anim_mercenaire1_immobile, 
+  anim_mercenaire1_tire, 
+  anim_mercenaire2_course, 
+  anim_mercenaire2_immobile, 
+  anim_mercenaire2_tire, 
+  anim_mercenaire3_attaque, 
+  anim_mercenaire3_course;
+
+SoundFile musique_fin; // utilisé par les crédits et la mort du joueur.
 
 PGraphics cv; // IMPORTANT: TOUT LE JEU EST AFFICHE SUR CETTE SURFACE QUI A SON TOUR EST AFFICHEE EN PLEIN ECRAN, permet de redimensionner la fenêtre.
 // Dimensions d'affichage dans la fenêtre
@@ -54,6 +65,20 @@ PImage logo; // Image affichée lors du chargement
 
 // Fonction qui permet d'initialiser tout les niveaux en mémoire.
 void chargerNiveaux() {
+  
+  loadingRessource = "loading fin.mp3";
+  musique_fin = new SoundFile(LeBouchonOr.this, "fin.mp3");
+  loadingProgress--;
+  
+  //On charge les animations
+  anim_mercenaire1_immobile = chargeAnimation("Mercenaire1/Immobile/", 16, 4);
+  anim_mercenaire1_tire = chargeAnimation("Mercenaire1/Tire/", 8, 4);
+  anim_mercenaire2_course = chargeAnimation("Mercenaire2/Course/", 16, 4);
+  anim_mercenaire2_immobile = chargeAnimation("Mercenaire2/Immobile/", 16, 4);
+  anim_mercenaire2_tire = chargeAnimation("Mercenaire2/Tire/", 8, 4);
+  anim_mercenaire3_attaque = chargeAnimation("Mercenaire3/Attaque/", 8, 4);
+  anim_mercenaire3_course = chargeAnimation("Mercenaire3/Course/", 16, 4);
+  
   // indicateur de dialogues.
   loadingRessource = "loading dialogue_info.png";
   infoDialogue = loadImage("dialogue_info.png");
@@ -95,6 +120,7 @@ void chargerNiveaux() {
 
   // On indique que le chargement est fini, pour pouvoir passer de l'écran de chargement au menu principal.
   chargementDuJeu = false;
+  println(loadingProgress);
 
   //On lance le niveau
   if (niveau == 4)
@@ -374,7 +400,7 @@ void draw() {
     
     cv.fill(255,0,0);
     cv.rectMode(CORNER);
-    float x = map(loadingProgress, 917, 0, 0, cv.width);
+    float x = map(loadingProgress, 261, 0, 0, cv.width);
     cv.rect(0,cv.height-32-24, x, 48);
     
     cv.textSize(24);

@@ -4,10 +4,6 @@ class NiveauVille {
   ArrayList<Mercenaire> ennemis; // Liste des ennemis.
 
   PImage fond; // Image de fond (bâtiments et plateformes).
-  PImage montagnes; // Image pour le parallax.
-  float positionMontagesX = 0; // Position des montages pour l'effet parallax.
-
-  SoundFile musique; // Musique de fond.
 
 
   Horloge fade; // Transition vers les niveaux.
@@ -44,10 +40,10 @@ class NiveauVille {
     dialogues = new PImage[2];
     loadingRessource = "loading NiveauVille/thibault1.png";
     dialogues[0] = loadImage("NiveauVille/thibault1.png");
-    loadingProgress--;
+    loadingProgress++;
     loadingRessource = "loading NiveauVille/thibault2.png";
     dialogues[1] = loadImage("NiveauVille/thibault2.png");
-    loadingProgress--;
+    loadingProgress++;
 
     bonus1 = new PainBouchon(922, 219.5);
     bonus2 = new PainBouchon(2087, -337.5);
@@ -55,15 +51,12 @@ class NiveauVille {
 
     loadingRessource = "loading NiveauVille/dialogue_combinaison.png";
     infoCombinaison = loadImage("NiveauVille/dialogue_combinaison.png");
-    loadingProgress--;
+    loadingProgress++;
     combinaison = new Combinaison(1209.5, -562.5);
 
     loadingRessource = "loading NiveauVille/fond.png";
     fond = loadImage("NiveauVille/fond.png");
-    loadingProgress--;
-    loadingRessource = "loading NiveauVille/montagnes.png";
-    montagnes = loadImage("NiveauVille/montagnes.png");
-    loadingProgress--;
+    loadingProgress++;
 
     //*************Mise en place des plateformes et murs *****************//
 
@@ -85,11 +78,6 @@ class NiveauVille {
     plateformes.add(new Plateforme(1999, -311, 584, false)); // p8
     plateformes.add(new Plateforme(2651, 30, 682, false)); // p9
     plateformes.add(new Plateforme(3202, 252, 215.75, false)); // p10
-
-    loadingRessource = "loading NiveauVille/musique.mp3";
-    musique = new SoundFile(LeBouchonOr.this, "NiveauVille/musique.mp3");
-    loadingProgress--;
-    musique.amp(0.35); // La musique étant trop forte, on baisse le volume.
 
     //Ennemis.
     Mercenaire m1 = new Mercenaire(2478, 574, 784, 3);
@@ -140,7 +128,6 @@ class NiveauVille {
       collisionLimites(); // On s'assure que le joueur ne sorte pas des limites du niveau.
 
       camera.actualiser(); // On déplace la position de la caméra si nécessaire.
-      positionMontagesX += camera.dx*0.125; // Pour donner un effet de parallax, on déplace un peu plus les montages que le fond.
     } else {
       invalideBouton = true;
     }
@@ -184,7 +171,6 @@ class NiveauVille {
     // précédente.
     // Remarque 2: le repère initial est (0, 0) or les coordonnées de la boîte englobante du niveau dans ce repère sont: (0, -height) et (3*width, height);
 
-    cv.image(montagnes, positionMontagesX, -cv.height); // Affichage des montagnes.
     cv.image(fond, 0, -cv.height); // Affichage des bâtiments et des plateformes.
     bonus1.afficher();
     bonus2.afficher();
@@ -362,12 +348,12 @@ class NiveauVille {
 
   // Permet de suspendre les actions du menu.
   void pause() {
-    musique.stop(); // On stope la musique de fond.
+    music_ville.stop(); // On stope la musique de fond.
   }
 
   // Lorsque l'on revient dans ce niveau, on s'assure de reprendre ses actions misent en pause.
   void relancer(boolean gauche) {
-    musique.loop(); // On relance la musique de fond.
+    music_ville.loop(); // On relance la musique de fond.
     changeNiveauErmitage = false;
     fade.tempsEcoule = false;
     changeNiveauVolcan = false;
@@ -378,7 +364,6 @@ class NiveauVille {
   }
 
   void reinitialiser() {
-    positionMontagesX = 0; // Position des montages pour l'effet parallax.
     numDialogue = 0; // Position dans les dialogues.
     finDialogue1 = true;
     lanceDialogue1 = false;

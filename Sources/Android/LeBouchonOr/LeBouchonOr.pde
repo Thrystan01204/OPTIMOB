@@ -1,23 +1,58 @@
-// Vibrations
-import android.app.Activity;
 import android.content.Context;
 import android.os.Vibrator;
 import android.os.VibrationEffect;
-
-import android.view.MotionEvent; //Multi touch
-
-import processing.sound.*;  // Bibliothèque pour gérer les musiques.
-Activity act;
+import android.view.MotionEvent;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
+import android.media.AudioAttributes;
+import android.content.res.AssetFileDescriptor;
+import android.os.Build;
+import android.media.AudioManager;
+import java.io.IOException;
 
 String loadingRessource = ""; // affichage de la ressource en chargement.
-int loadingProgress = 918;
+int loadingProgress = 0;
+
+// Musiques
+SoundFile music_menu, 
+  music_boss_phase1, 
+  music_boss_phase2, 
+  music_boss_cinematique, 
+  music_ermitage, 
+  music_ville, 
+  music_volcan, 
+  music_tuto_applaudissements, 
+  music_tuto_battle, 
+  music_tuto_memories, 
+  music_fin;
+
+//Animations redondantes
+PImage[] anim_mercenaire1_immobile, 
+  anim_mercenaire1_tire, 
+  anim_mercenaire2_course, 
+  anim_mercenaire2_immobile, 
+  anim_mercenaire2_tire, 
+  anim_mercenaire3_attaque, 
+  anim_mercenaire3_course;
+
+
+// bruitages
+MySoundPool soundPool;
+int 
+  sound_tir, 
+  sound_saut, 
+  sound_hit, 
+  sound_frappe, 
+  sound_item, 
+  sound_mort, 
+  sound_pistol, 
+  sound_swish;
 
 PGraphics cv; // IMPORTANT: TOUT LE JEU EST AFFICHE SUR CETTE SURFACE QUI A SON TOUR EST AFFICHEE EN PLEIN ECRAN, permet de redimensionner la fenêtre.
 // Dimensions d'affichage dans la fenêtre
 int widthActuelle; 
 int heightActuelle;
 
-// android
 boolean invalideBouton = true;
 boolean enDialogue = false;
 PImage ui; // Image des boutons.
@@ -33,7 +68,6 @@ int[] bouton = new int[7]; // Les 7 boutons présents à l'écran.
 // Si cette variable est vraie, on affiche à l'écran les aides de débugage, à désactivé lors de la sortie du jeu
 boolean debug = false; 
 //-----------------------------------------------------------------------------------------------------------------------------
-
 
 //----------------------------------- Variables globales pour la gestion des niveaux ------------------------------------------
 int niveau = 0; // permet de savoir dans quel niveau on se trouve
@@ -74,15 +108,88 @@ PImage logo; // Image affichée lors du chargement
 
 // Fonction qui permet d'initialiser tout les niveaux en mémoire.
 void chargerNiveaux() {
+
+  //On charge les animations
+  anim_mercenaire1_immobile = chargeAnimation("Mercenaire1/Immobile/", 16, 4);
+  anim_mercenaire1_tire = chargeAnimation("Mercenaire1/Tire/", 8, 4);
+  anim_mercenaire2_course = chargeAnimation("Mercenaire2/Course/", 16, 4);
+  anim_mercenaire2_immobile = chargeAnimation("Mercenaire2/Immobile/", 16, 4);
+  anim_mercenaire2_tire = chargeAnimation("Mercenaire2/Tire/", 8, 4);
+  anim_mercenaire3_attaque = chargeAnimation("Mercenaire3/Attaque/", 8, 4);
+  anim_mercenaire3_course = chargeAnimation("Mercenaire3/Course/", 16, 4);
+
+  //On charge les bruitages
+  soundPool = new MySoundPool();
+  loadingRessource = "Martin/tir.mp3";
+  sound_tir = soundPool.load("Martin/tir.mp3");
+  loadingProgress++;
+  loadingRessource = "Martin/saut.mp3";
+  sound_saut = soundPool.load("Martin/saut.mp3");
+  loadingProgress++;
+  loadingRessource = "Martin/hit.mp3";
+  sound_hit = soundPool.load("Martin/hit.mp3");
+  loadingProgress++;
+  loadingRessource = "Martin/frappe.mp3";
+  sound_frappe = soundPool.load("Martin/frappe.mp3");
+  loadingProgress++;
+  loadingRessource = "item.mp3";
+  sound_item = soundPool.load("item.mp3");
+  loadingProgress++;
+  loadingRessource = "mort_mercenaire.wav";
+  sound_mort = soundPool.load("mort_mercenaire.wav");
+  loadingProgress++;
+  loadingRessource = "pistol.mp3";
+  sound_pistol = soundPool.load("pistol.mp3");
+  loadingProgress++;
+  loadingRessource = "swish_2.mp3";
+  sound_swish = soundPool.load("swish_2.mp3");
+  loadingProgress++;
+
+
+  // On charge les musiques
+  loadingRessource = "MenuPrincipal/musique.mp3";
+  music_menu = new SoundFile("MenuPrincipal/musique.mp3");
+  loadingProgress++;
+  loadingRessource = "NiveauVolcan/musique.mp3";
+  music_volcan = new SoundFile("NiveauVolcan/musique.mp3");
+  loadingProgress++;
+  loadingRessource = "NiveauErmitage/musique.mp";
+  music_ermitage = new SoundFile("NiveauErmitage/musique.mp3");
+  loadingProgress++;
+  loadingRessource = "NiveauVille/musique.mp3";
+  music_ville = new SoundFile("NiveauVille/musique.mp3");
+  loadingProgress++;
+  loadingRessource = "NiveauTuto/Memories.mp3";
+  music_tuto_memories = new SoundFile("NiveauTuto/Memories.mp3");
+  loadingProgress++;
+  loadingRessource = "NiveauTuto/applaudissements.mp3";
+  music_tuto_applaudissements = new SoundFile("NiveauTuto/applaudissements.mp3");
+  loadingProgress++;
+  loadingRessource = "NiveauTuto/battleThemeA.mp3";
+  music_tuto_battle = new SoundFile("NiveauTuto/battleThemeA.mp3");
+  loadingProgress++;
+  loadingRessource = "NiveauBoss/musique_cinematique.mp3";
+  music_boss_cinematique = new SoundFile("NiveauBoss/musique_cinematique.mp3");
+  loadingProgress++;
+  loadingRessource = "NiveauBoss/phase1.mp3";
+  music_boss_phase1 = new SoundFile("NiveauBoss/phase1.mp3");
+  loadingProgress++;
+  loadingRessource = "NiveauBoss/phase2.mp3";
+  music_boss_phase2 = new SoundFile("NiveauBoss/phase2.mp3");
+  loadingProgress++;
+  loadingRessource = "fin.mp3";
+  music_fin = new SoundFile("fin.mp3");
+  loadingProgress++;
+
   // indicateur de dialogues.
   loadingRessource = "loading dialogue_info.png";
   infoDialogue = loadImage("dialogue_info.png");
-  loadingProgress--;
+  loadingProgress++;
 
+  // L'interface tactile
   loadingRessource = "loading ui.png";
   ui = loadImage("ui.png");
-  loadingProgress--;
-
+  loadingProgress++;
 
   // Création du joueur.
   joueur = new Joueur(-100, -100);
@@ -128,7 +235,7 @@ void chargerNiveaux() {
   else if (niveau == 1)
     credits.relancer();
   else if (niveau == 2)
-    niveauVille.relancer(true);
+    niveauVille.relancer(true); // true = le joueur commence à gauche.
   else if (niveau == 3)
     niveauErmitage.relancer();
   else if (niveau == 5)
@@ -142,27 +249,31 @@ void chargerNiveaux() {
 
 // fonction pour détecter si la souris se trouve dans un rectangle, utile pour l'interface
 boolean sourisDansRectangle(float x1, float y1, float x2, float y2) {
+  // Comme on conserve l'aspet et le ration du jeu, et que l'affichage est centrée, il faut effectuer quelques transformations:
 
-  float dx = abs(width-widthActuelle)/2.0;
+  // Décalage de l'origine de l'écran vers celui de l'affichage.
+  float dx = abs(width-widthActuelle)/2.0; 
   float dy = abs(height-heightActuelle)/2.0;
-
+  // On adapte l'intervalle des valeurs prisent pour correspondre à celui de l'affichage.
   float mx = map(mouseX, dx, dx+widthActuelle, 0, cv.width);
   float my = map(mouseY, dy, dy+heightActuelle, 0, cv.height);
-
   return (x1 <= mx && mx <= x2 && y1 <= my && my <= y2);
 }
 
-// fonction pour si l'on appuie sur un bouton.
+// Permet de tester si on point se touve dans un cercle (point dont les coordonnées sont dans le repère de l'écran).
 boolean pointDansCercle(float px, float py, float cx, float cy, float r) {
+  // Comme on conserve l'aspet et le ration du jeu, et que l'affichage est centrée, il faut effectuer quelques transformations:
+
+  // Décalage de l'origine de l'écran vers celui de l'affichage.
   float dx = abs(width-widthActuelle)/2.0;
   float dy = abs(height-heightActuelle)/2.0;
-
+  // On adapte l'intervalle des valeurs prisent pour correspondre à celui de l'affichage.
   float mx = map(px, dx, dx+widthActuelle, 0, cv.width);
   float my = map(py, dy, dy+heightActuelle, 0, cv.height);
-
   return (sq(mx-cx)+sq(my-cy) < sq(r));
 }
 
+// Permet de tester si 2 rectangle se superposent.
 boolean collisionRectangles(float x1, float y1, float w1, float h1, float x2, float y2, float w2, float h2) {
   return !((x2-w2/2 >= x1 + w1/2) || (x2 + w2/2 <= x1-w1/2) || (y2-h2/2 >= y1 + h1/2) || (y2 + h2/2 <= y1-h1/2));
 }
@@ -190,9 +301,10 @@ void infoChargeNiveau() {
   cv.fill(255);
   cv.text("CHARGEMENT DU NIVEAU", cv.width/2, cv.height/2);
   cv.textSize(24);
-  cv.text("Cette opération peu prendre quelques secondes...ou minutes en fonction de votre matériel.", cv.width/2, 3*cv.height/4);
+  cv.text("Cette operation peu prendre quelques secondes...ou minutes en fonction de votre materiel.", cv.width/2, 3*cv.height/4);
 }
 
+// Evite que le joueur sorte des limites de la map.
 void collisionLimites() {
   if (joueur.x-joueur.w/2 <= 0) {
     joueur.vx = 0;
@@ -369,6 +481,10 @@ void afficheMursDebug(ArrayList<Mur> murs) {
 
 //************************************************************* Gestion du jeu ****************************************************************************//
 
+void settings(){
+  fullScreen(P2D);
+}
+
 void setup() {
 
   // Le jeu est écrit pour une résolution fixe de 1280x720 pixels (HD).
@@ -379,11 +495,6 @@ void setup() {
 
   // Remarque, P2D est le seul mode a implémenter correctement le comportement de keyPressed(), en effet, dans tout les autres modes, si l'on garde la touche enfoncée,
   // la méthode est continuellement exécutée.
-
-  fullScreen(P2D);
-  orientation(LANDSCAPE);
-  act = this.getActivity(); // Pour pouvoir faire vibrer le téléphone.
-
   widthActuelle = 1280;
   heightActuelle = 720;
 
@@ -415,7 +526,7 @@ void draw() {
 
     cv.fill(255, 0, 0);
     cv.rectMode(CORNER);
-    float x = map(loadingProgress, 917, 0, 0, cv.width);
+    float x = map(loadingProgress, 0, 205, 0, cv.width);
     cv.rect(0, cv.height-32-24, x, 48);
 
     cv.textSize(24);
@@ -498,8 +609,8 @@ void draw() {
 
 void mousePressed() {
   if (!chargementDuJeu && invalideBouton) {
-    Vibrator vibrer = (Vibrator)   act.getSystemService(Context.VIBRATOR_SERVICE);
-    vibrer.vibrate(50);
+    Vibrator vibrer = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+    vibrer.vibrate(25);
     if (niveau == 0)
       menuPrincipal.mousePressed();
     else if (niveau == 1)
@@ -565,7 +676,7 @@ void keyPressed() {
 // Simule le comportement de keyPressed.
 void touchButtonDown(int id, float px, float py) {
   if (!chargementDuJeu && !invalideBouton) {
-    Vibrator vibrer = (Vibrator)   act.getSystemService(Context.VIBRATOR_SERVICE);
+    Vibrator vibrer = (Vibrator)   getActivity().getSystemService(Context.VIBRATOR_SERVICE);
     int idBouton = -1;
     if (bouton[0] == -1 && pointDansCercle(px, py, 85.68, 635.75, 83.22)) {
       bouton[0] = id;
@@ -591,7 +702,7 @@ void touchButtonDown(int id, float px, float py) {
     }
 
     if (idBouton != -1) {
-      vibrer.vibrate(50);
+      vibrer.vibrate(25);
       if (niveau == 5)
         niveauIntro.touchPressed(idBouton);
       else if (niveau == 2)
@@ -606,10 +717,11 @@ void touchButtonDown(int id, float px, float py) {
   }
 }
 
+
 // Gestion du multi touch
 public boolean surfaceTouchEvent(MotionEvent me) {
-  int actionIndex = me.getActionIndex();
-  int actionId = me.getPointerId(actionIndex);
+  int actionIndex = me.getActionIndex(); 
+  int actionId = me.getPointerId(actionIndex); // id unique du pointeur
   int actionMasked = me.getActionMasked();
 
   switch(actionMasked) {
@@ -637,10 +749,41 @@ public boolean surfaceTouchEvent(MotionEvent me) {
   case MotionEvent.ACTION_UP:
   case MotionEvent.ACTION_POINTER_UP:
   case MotionEvent.ACTION_CANCEL:
-    touchButtonUp(actionId);
+    touchButtonUp(actionId); // On lache un bouton ?
     break;
   }
-  // If you want the variables for motionX/motionY, mouseX/mouseY etc.
-  // to work properly, you'll need to call super.surfaceTouchEvent().
-  return super.surfaceTouchEvent(me);
+  return super.surfaceTouchEvent(me); // Obligatoire pour que les autres fonctions de processing fonctionnent (mousePressed, etc)
+}
+
+
+// On libère les ressources
+void onPause() {
+  music_menu.stop();
+  music_volcan.stop();
+  music_ermitage.stop();
+  music_ville.stop();
+  music_tuto_memories.stop();
+  music_tuto_applaudissements.stop();
+  music_tuto_battle.stop();
+  music_boss_cinematique.stop();
+  music_boss_phase1.stop();
+  music_boss_phase2.stop();
+  music_fin.stop();
+  super.onPause();
+}
+
+void onDestroy() {
+  soundPool.release();
+  music_menu.release();
+  music_volcan.release();
+  music_ermitage.release();
+  music_ville.release();
+  music_tuto_memories.release();
+  music_tuto_applaudissements.release();
+  music_tuto_battle.release();
+  music_boss_cinematique.release();
+  music_boss_phase1.release();
+  music_boss_phase2.release();
+  music_fin.release();
+  super.onDestroy();
 }

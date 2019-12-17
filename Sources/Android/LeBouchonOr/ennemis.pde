@@ -28,10 +28,6 @@ class Mercenaire {
   boolean tire; // Permet de figer l'ennemi.
   boolean balleCollision = false; // Permet de cacher la balle et d'ignorer les collisions.
 
-  SoundFile sonAttaque;
-  SoundFile sonMeurt;
-
-
   private int type; // Le type de mercenaire, ils ont des comportements légèrements différents.
   // 1 = mercenaire immobile, il ne fait que tirer lorsque le joueur est a porté et frappe le joueur si il sont superposées.
   // 2 = mercenaire qui peut bouger, tirer et frapper le joueur.
@@ -82,31 +78,6 @@ class Mercenaire {
     spriteImmobile.loop = true;
     spriteImmobile.anime = true;
 
-    // On charge les ressources nécessaires.
-    if (type == 3) {
-      spriteCourse.chargeAnimation("Mercenaire3/Course/", 16, 4);
-      spriteAttaqueCorps.chargeAnimation("Mercenaire3/Attaque/", 16, 4);
-    } else if (type == 1) {
-      spriteAttaquePistolet.chargeAnimation("Mercenaire1/Tire/", 8, 4);
-      spriteImmobile.chargeAnimation("Mercenaire1/Immobile/", 16, 4);
-    } else if (type == 2) {
-      spriteCourse.chargeAnimation("Mercenaire2/Course/", 16, 4);
-      spriteAttaquePistolet.chargeAnimation("Mercenaire2/Tire/", 8, 4);
-      spriteImmobile.chargeAnimation("Mercenaire2/Immobile/", 16, 4);
-    }
-    if (type != 3) {
-      loadingRessource = "loading pistol.mp3";
-      sonAttaque = new SoundFile(LeBouchonOr.this, "pistol.mp3");
-      loadingProgress--;
-    } else {
-      loadingRessource = "loading swish_2.mp3";
-      sonAttaque = new SoundFile(LeBouchonOr.this, "swish_2.mp3");
-      loadingProgress--;
-    }
-    loadingRessource = "loading mort_mercenaire.wav";
-    sonMeurt = new SoundFile(LeBouchonOr.this, "mort_mercenaire.wav");
-    loadingProgress--;
-
     horlogeAttaqueCorps = new Horloge(1000); // Attente d'1 seconde.
     horlogeSeRetourner = new Horloge(4000); // Attente de 4 secondes
   }
@@ -132,8 +103,7 @@ class Mercenaire {
           estBlesse = true;
           if (vie <= 0) { // Si on est mort alors le joueur gagne de l'xp.
             joueur.gagneXp(level);
-            sonMeurt.stop();
-            sonMeurt.play();
+            soundPool.play(sound_mort);
           }
         }
       } else {
@@ -148,8 +118,7 @@ class Mercenaire {
           joueur.ennemiTouche = true;
           if (vie <= 0) { // Si on est mort alors le joueur gagne de l'xp.
             joueur.gagneXp(level);
-            sonMeurt.stop();
-            sonMeurt.play();
+            soundPool.play(sound_mort);
           }
         }
       }
@@ -195,8 +164,7 @@ class Mercenaire {
           float repousse = 200 * direction;
           aligneDroite = (direction > 0);
           joueur.degatsRecu((int) (degats*level/1.5), repousse);
-          sonAttaque.stop();
-          sonAttaque.play();
+          soundPool.play(sound_swish);
           spriteAttaqueCorps.reinitialiser(); // On relance l'animation d'attaque. N'est effectif que si l'ennemi est de type 3, si non le sprite n'est pas affiché.  
           horlogeAttaqueCorps.lancer(); // On lance l'attente avant d'effectuer d'autres actions.
         }
@@ -209,15 +177,13 @@ class Mercenaire {
             tire = true;
             balleX = x;
             balleCollision = false;
-            sonAttaque.stop();
-            sonAttaque.play();
+            soundPool.play(sound_pistol);
             spriteAttaquePistolet.reinitialiser();
           } else if (!aligneDroite && x-joueur.x >= 0 && x-joueur.x < detection) {
             tire = true;
             balleX = x;
             balleCollision = false;
-            sonAttaque.stop();
-            sonAttaque.play();
+            soundPool.play(sound_pistol);
             spriteAttaquePistolet.reinitialiser();
           }
         }
@@ -273,20 +239,29 @@ class Mercenaire {
       // Si on est en attaque.
       if (!horlogeAttaqueCorps.tempsEcoule && type == 3) {
         spriteAttaqueCorps.changeCoordonnee(x, y);
-        spriteAttaqueCorps.afficher();
+        spriteAttaqueCorps.afficher(anim_mercenaire3_attaque);
       } 
       // si non il se peut que l'on tire.
       else if (type != 3 && tire) {
         spriteAttaquePistolet.changeCoordonnee(x, y);
-        spriteAttaquePistolet.afficher();
+        if (type == 1)
+          spriteAttaquePistolet.afficher(anim_mercenaire1_tire);
+        else
+          spriteAttaquePistolet.afficher(anim_mercenaire2_tire);
       }
       // Si non on est en déplacement. Uniquement pour les ennemis 2 et 3.
       else if (type != 1) {
         spriteCourse.changeCoordonnee(x, y);
-        spriteCourse.afficher();
+        if (type == 2)
+          spriteCourse.afficher(anim_mercenaire2_course);
+        else
+          spriteCourse.afficher(anim_mercenaire3_course);
       } else if (type != 3) { // Si non, on est immobile.
         spriteImmobile.changeCoordonnee(x, y);
-        spriteImmobile.afficher();
+        if (type == 1)
+          spriteAttaquePistolet.afficher(anim_mercenaire1_immobile);
+        else
+          spriteAttaquePistolet.afficher(anim_mercenaire2_immobile);
       }
 
       //Barre de vie.

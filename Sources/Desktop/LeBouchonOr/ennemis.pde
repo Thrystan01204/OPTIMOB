@@ -82,18 +82,6 @@ class Mercenaire {
     spriteImmobile.loop = true;
     spriteImmobile.anime = true;
 
-    // On charge les ressources nécessaires.
-    if (type == 3) {
-      spriteCourse.chargeAnimation("Mercenaire3/Course/", 16, 4);
-      spriteAttaqueCorps.chargeAnimation("Mercenaire3/Attaque/", 16, 4);
-    } else if (type == 1) {
-      spriteAttaquePistolet.chargeAnimation("Mercenaire1/Tire/", 8, 4);
-      spriteImmobile.chargeAnimation("Mercenaire1/Immobile/", 16, 4);
-    } else if (type == 2) {
-      spriteCourse.chargeAnimation("Mercenaire2/Course/", 16, 4);
-      spriteAttaquePistolet.chargeAnimation("Mercenaire2/Tire/", 8, 4);
-      spriteImmobile.chargeAnimation("Mercenaire2/Immobile/", 16, 4);
-    }
     if (type != 3) {
       loadingRessource = "loading pistol.mp3";
       sonAttaque = new SoundFile(LeBouchonOr.this, "pistol.mp3");
@@ -273,20 +261,29 @@ class Mercenaire {
       // Si on est en attaque.
       if (!horlogeAttaqueCorps.tempsEcoule && type == 3) {
         spriteAttaqueCorps.changeCoordonnee(x, y);
-        spriteAttaqueCorps.afficher();
+        spriteAttaqueCorps.afficher(anim_mercenaire3_attaque);
       } 
       // si non il se peut que l'on tire.
       else if (type != 3 && tire) {
         spriteAttaquePistolet.changeCoordonnee(x, y);
-        spriteAttaquePistolet.afficher();
+        if (type == 1)
+          spriteAttaquePistolet.afficher(anim_mercenaire1_tire);
+        else
+          spriteAttaquePistolet.afficher(anim_mercenaire2_tire);
       }
       // Si non on est en déplacement. Uniquement pour les ennemis 2 et 3.
       else if (type != 1) {
         spriteCourse.changeCoordonnee(x, y);
-        spriteCourse.afficher();
+        if (type == 2)
+          spriteCourse.afficher(anim_mercenaire2_course);
+        else
+          spriteCourse.afficher(anim_mercenaire3_course);
       } else if (type != 3) { // Si non, on est immobile.
         spriteImmobile.changeCoordonnee(x, y);
-        spriteImmobile.afficher();
+        if (type == 1)
+          spriteAttaquePistolet.afficher(anim_mercenaire1_immobile);
+        else
+          spriteAttaquePistolet.afficher(anim_mercenaire2_immobile);
       }
 
       //Barre de vie.

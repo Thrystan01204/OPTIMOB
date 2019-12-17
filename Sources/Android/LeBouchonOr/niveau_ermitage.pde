@@ -13,8 +13,6 @@ class NiveauErmitage {
   PImage infoSavate; // Description des savates magiques.
   PImage imgDialogue1;
 
-  SoundFile musique; // Musique de fond.
-
   Horloge fade; // Transition vers les niveaux.
 
   boolean dialogueSavate = false;
@@ -31,19 +29,15 @@ class NiveauErmitage {
     ennemis = new ArrayList<Mercenaire>();
     loadingRessource = "loading NiveauErmitage/fond.png";
     fond = loadImage("NiveauErmitage/fond.png");
-    loadingProgress--;
+    loadingProgress++;
     loadingRessource = "loading NiveauErmitage/dialogue.png";
     infoSavate = loadImage("NiveauErmitage/dialogue.png");
-    loadingProgress--;
+    loadingProgress++;
     loadingRessource = "loading NiveauErmitage/dialogue2.png";
     imgDialogue1 = loadImage("NiveauErmitage/dialogue2.png");
-    loadingProgress--;
+    loadingProgress++;
 
     //*************Mise en place des plateformes et murs *****************//
-    loadingRessource = "loading NiveauErmitage/musique.mp3";
-    musique = new SoundFile(LeBouchonOr.this, "NiveauErmitage/musique.mp3");
-    loadingProgress--;
-    musique.amp(0.5);
     plateformes.add(new Plateforme(3060, 382, 210, false)); //P1
     plateformes.add(new Plateforme(2724, 292, 288, false)); //P2
     Mercenaire m2 = new Mercenaire(2724, 292, 288, 3);
@@ -273,12 +267,12 @@ class NiveauErmitage {
 
   // Permet de suspendre les actions du menu.
   void pause() {
-    musique.stop(); // On stope la musique de fond.
+    music_ermitage.stop(); // On stope la musique de fond.
   }
 
   // Lorsque l'on revient dans ce niveau, on s'assure de reprendre ses actions misent en pause.
   void relancer() {
-    musique.loop(); // On relance la musique de fond.
+    music_ermitage.loop(); // On relance la musique de fond.
     joueur.initNiveau(3488, 4*cv.height/5-joueur.h/2); // On replace le joueur dans le niveau.
     changeNiveauVille = false;
     fade.tempsEcoule = true;

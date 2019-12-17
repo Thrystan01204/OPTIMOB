@@ -312,7 +312,6 @@ class NiveauBoss {
     joueur.initNiveau(197, 4*cv.height/5-joueur.h/2); // On replace le joueur dans le niveau.
     joueur.aligneDroite = true;
     joueur.balleMaxDistance = 720;
-    joueur.vie = 100;
   }
   
   void reinitialiser(){

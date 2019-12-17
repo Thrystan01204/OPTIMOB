@@ -39,10 +39,6 @@ class Joueur {
   boolean aTire = false; // Permet de savoir quand pouvoir re tirer.
   boolean ennemiTouche = false; // Permet de désactiver le collision avec la balle et son affiche si elle a touchée un ennemi.
 
-  SoundFile sonSaut;  // Son lorsque le joueur saute.
-  SoundFile sonFrappe; // Son lorsque le joueur frappe.
-  SoundFile sonBlesse; // Son lorsque le joueur est blessé.
-  SoundFile sonTir; // Son lorsque le joueur tire.
 
   boolean aligneDroite = true; // Permet de savoir quand il faut retourner les sprites et dans quelle direction il faut tirer les projectiles.
 
@@ -96,19 +92,6 @@ class Joueur {
     spriteTire = new Sprite(x, y);
     spriteTire.chargeAnimation("Martin/Tire/", 8, 4);
     spriteTire.vitesseAnimation = 45;
-
-    loadingRessource = "loading Martin/saut.mp3";
-    sonSaut = new SoundFile(LeBouchonOr.this, "Martin/saut.mp3");
-    loadingProgress--;
-    loadingRessource = "loading Martin/frappe.mp3";
-    sonFrappe = new SoundFile(LeBouchonOr.this, "Martin/frappe.mp3");
-    loadingProgress--;
-    loadingRessource = "loading Martin/hit.mp3";
-    sonBlesse = new SoundFile(LeBouchonOr.this, "Martin/hit.mp3");
-    loadingProgress--;
-    loadingRessource = "loading Martin/tir.mp3";
-    sonTir = new SoundFile(LeBouchonOr.this, "Martin/tir.mp3");
-    loadingProgress--;
 
     horlogeBlesse = new Horloge(1500); // On défini le chrono à 1 secondes.
   }
@@ -254,8 +237,7 @@ class Joueur {
         vy = -forceSaut;
 
       surPlateforme = false; // On quite la plateforme.
-      sonSaut.stop();
-      sonSaut.play(); // On lance le son du saut.
+      soundPool.play(sound_saut); // On lance le son du saut.
     } 
     // Gestion du déplacement vers la droite. Si le joueur a été poussé, on ne peut pas modifier sa trajectoire.
     else if (k == 'D' && !estPousse) {
@@ -274,8 +256,7 @@ class Joueur {
       descendPlateforme = true;
     } else if (k == 'K' && !spriteFrappe.anime && !estPousse) {
       //Le joueur frappe.
-      sonFrappe.stop();
-      sonFrappe.play();
+      soundPool.play(sound_frappe);
       spriteFrappe.reinitialiser();
     } else if (k == 'L' && !spriteTire.anime && !aTire) {
       balleXInitiale = x;
@@ -284,8 +265,7 @@ class Joueur {
       balleY = y;
       aTire = true;
       ennemiTouche = false;
-      sonTir.stop();
-      sonTir.play();
+      soundPool.play(sound_tir);
       spriteTire.reinitialiser();
     }
     // ************************************ DEBUGAGE **************************//
@@ -306,8 +286,7 @@ class Joueur {
         vy = -forceSaut;
 
       surPlateforme = false; // On quite la plateforme.
-      sonSaut.stop();
-      sonSaut.play(); // On lance le son du saut.
+      soundPool.play(sound_saut); // On lance le son du saut.
     } 
     // Gestion du déplacement vers la droite. Si le joueur a été poussé, on ne peut pas modifier sa trajectoire.
     else if (idBouton == 1 && !estPousse) {
@@ -326,8 +305,7 @@ class Joueur {
       descendPlateforme = true;
     } else if (idBouton == 4 && !spriteFrappe.anime && !estPousse) {
       //Le joueur frappe.
-      sonFrappe.stop();
-      sonFrappe.play();
+      soundPool.play(sound_frappe);
       spriteFrappe.reinitialiser();
     } else if (idBouton == 5 && !spriteTire.anime && !aTire) {
       balleXInitiale = x;
@@ -336,8 +314,7 @@ class Joueur {
       balleY = y;
       aTire = true;
       ennemiTouche = false;
-      sonTir.stop();
-      sonTir.play();
+      soundPool.play(sound_tir);
       spriteTire.reinitialiser();
     }
   }
@@ -379,9 +356,8 @@ class Joueur {
       horlogeBlesse.lancer(); // On relance le chrono.
       estPousse = true;
       enDeplacement = false;
-      sonBlesse.stop();
-      sonBlesse.play();
-      Vibrator vibrer = (Vibrator)   act.getSystemService(Context.VIBRATOR_SERVICE);
+      soundPool.play(sound_hit);
+      Vibrator vibrer = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
       vibrer.vibrate(200);
     }
   }
@@ -416,9 +392,6 @@ class Joueur {
     enAttaqueLongue = false;
     estPousse = false;
     horlogeBlesse.tempsEcoule = true;
-    sonSaut.stop();
-    sonTir.stop();
-    sonFrappe.stop();
   }
 
   void reinitialiser() {

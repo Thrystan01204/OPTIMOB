@@ -11,9 +11,6 @@ class MenuPrincipal {
   PImage boutonNouvellePartie;
   PImage boutonCredits;
 
-  // la musique de fond.
-  SoundFile musique;
-
   // Entier qui représente l'opacité du cache de l'écran, c'est la transition "fade out" vers le menu.
   int transparence = 255;
 
@@ -23,18 +20,16 @@ class MenuPrincipal {
     // Chargement des ressources du niveau.
     loadingRessource = "loading MenuPrincipal/fond.png";
     fond = loadImage("MenuPrincipal/fond.png");
-    loadingProgress--;
+    loadingProgress++;
     loadingRessource = "loading MenuPrincipal/bouton_quitter.png";
     boutonQuitter = loadImage("MenuPrincipal/bouton_quitter.png");
-    loadingProgress--;
+    loadingProgress++;
     loadingRessource = "loading MenuPrincipal/bouton_nouvelle_partie.png";
     boutonNouvellePartie = loadImage("MenuPrincipal/bouton_nouvelle_partie.png");
-    loadingProgress--;
+    loadingProgress++;
+    loadingRessource = "loading MenuPrincipal/bouton_credits.png";
     boutonCredits = loadImage("MenuPrincipal/bouton_credits.png");
-    loadingProgress--;
-    loadingRessource = "loading MenuPrincipal/musique.mp3";
-    musique = new SoundFile(LeBouchonOr.this, "MenuPrincipal/musique.mp3");
-    loadingProgress--;
+    loadingProgress++;
 
     //On initialise les nuages.
     petitNuage = new Sprite(288, 167);
@@ -134,13 +129,13 @@ class MenuPrincipal {
 
   // Permet de suspendre les actions du menu.
   void pause() {
-    musique.stop(); // On arrête la muique de fond.
+    music_menu.stop(); // On arrête la muique de fond.
   }
 
   // Lorsque l'on revient au menu principal, on s'assure que tout soit réinitialisé (cela permet d'éviter de réinstancier le menu).
   void relancer() {
     invalideBouton = true;
     transparence = 255; // On réinitialise la transition "fade out".
-    musique.loop(); // On relance la musique.
+    music_menu.loop(); // On relance la musique.
   }
 }

@@ -1,12 +1,8 @@
 class GameOver {
 
-  SoundFile musique;
   int transparence = 255;
 
   GameOver() {
-    loadingRessource = "loading fin.mp3";
-    musique = new SoundFile(LeBouchonOr.this, "fin.mp3");
-    loadingProgress--;
   }
 
   void afficher() {
@@ -17,9 +13,12 @@ class GameOver {
     cv.textAlign(CENTER, CENTER);
     cv.fill(255, 0, 0);
     cv.text("Vous avez perdu.", cv.width/2, cv.height/2);
-    cv.textSize(24);
-    cv.fill(255);
-    cv.text("Touchez l'ecran pour revenir au menu principal.", cv.width/2, 3*cv.height/4);
+
+    if (transparence <=0 ) {
+      cv.textSize(24);
+      cv.fill(255);
+      cv.text("Touchez l'ecran pour revenir au menu principal.", cv.width/2, 3*cv.height/4);
+    }
 
     // Si on est encore en transition (fade out) alors c'est que la transparence est > 0.
     if (transparence > 0) {
@@ -54,11 +53,11 @@ class GameOver {
 
   void relancer() {
     invalideBouton = true;
-    musique.loop();
+    music_fin.loop();
     transparence = 255;
   }
 
   void pause() {
-    musique.stop();
+    music_fin.stop();
   }
 }

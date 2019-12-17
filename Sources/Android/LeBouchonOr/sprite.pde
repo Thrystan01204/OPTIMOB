@@ -30,7 +30,7 @@ class Sprite {
     frameActuelle = 0;
     anime = true;
   }
-
+  
   // Pemet de chager une séquence d'images.
   // chemin = chemin du dossier
   // n = nombre d'image - 1 (le format généré par blender est de 1 à n)
@@ -48,7 +48,7 @@ class Sprite {
   void chargeImage(String chemin) {
     loadingRessource = "loading "+chemin;
     frames.add(loadImage(chemin));
-    loadingProgress--;
+    loadingProgress++;
   }
 
 
@@ -62,7 +62,6 @@ class Sprite {
     return frames.get(frameActuelle).height;
   }
 
-  // Permet d'afficher le sprite
   void afficher() {
     if (anime) {
       // Si il y a une animation,
@@ -105,4 +104,65 @@ class Sprite {
       cv.rect(x, y, demiW*2, demiH*2);
     }
   }
+
+  //Permet d'afficher un sprite avec une animation en mémoire.
+  void afficher(PImage[] tab) {
+    if (anime) {
+      // Si il y a une animation,
+      // On regarde si le temps d'attente entre 2 images est respecté.
+      if (millis()-compteur > vitesseAnimation) {
+        compteur = millis(); // On réinitialise le compteur
+
+        // Gestion de la boucle / arrêt de l'animation.
+        if (frameActuelle < tab.length-1) {
+          frameActuelle++;
+        } else if (loop) { // Si on boucle l'animation.
+          frameActuelle = 0;
+        } else { // Si non, l'animation se termine.
+          anime = false;
+        }
+      }
+    }
+
+    //************ Affichage de l'image actuelle ***************** //
+    int demiW = tab[frameActuelle].width/2;
+    int demiH = tab[frameActuelle].height/2;
+
+    // Si il faut inverser l'image sur son axe y:
+    if (mirroir) {
+      cv.pushMatrix(); // On conserve l'ancien repère de coordonnées.
+      cv.scale(-1, 1); // On inverse le repère selon l'axe y
+      // Comme les coordonnées x sont elles aussi inversée, alors "x" devient "-x".
+      cv.image(tab[frameActuelle], -x - demiW, y - demiH);
+      cv.popMatrix(); // On restore l'ancien repère.
+    } else {
+      // Si non pas besoin de retourner l'image
+      cv.image(tab[frameActuelle], x - demiW, y - demiH);
+    }
+
+    //************** DEBUGAGE ************//
+    if (debug) {
+      cv.noFill();
+      cv.stroke(0, 0, 255);
+      cv.rectMode(CENTER);
+      cv.rect(x, y, demiW*2, demiH*2);
+    }
+  }
+}
+
+// Pemet de chager une séquence d'images.
+// chemin = chemin du dossier
+// n = nombre d'image - 1 (le format généré par blender est de 1 à n)
+// format = le nombre de chiffres du format du nom des images (ex: format = 4 => 0001, 0002, ... 0016)
+
+PImage[] chargeAnimation(String chemin, int n, int format) {
+  PImage[] frames = new PImage[n];
+  for (int i=0; i < n; i++) {
+    // nf(i, format) formate le nombre "i" pour un affichage à "format" chiffres.
+    String path = chemin+nf(i+1, format)+".png";
+    loadingRessource = "loading "+path;
+    frames[i] = loadImage(path);
+    loadingProgress++;
+  }
+  return frames;
 }

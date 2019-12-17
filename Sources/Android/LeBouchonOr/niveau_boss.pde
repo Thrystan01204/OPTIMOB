@@ -22,11 +22,6 @@ class NiveauBoss {
   // Boss
   boolean phase2 = false;
   float vx = 4;
-  SoundFile musiquePhase1;
-  SoundFile musiquePhase2;
-  SoundFile musiqueIntro;
-  SoundFile meurt;
-  SoundFile item;
   Sprite boss;
   float vie = 100;
   float w = 151;
@@ -34,46 +29,32 @@ class NiveauBoss {
 
   NiveauBoss() {
     plateformes = new ArrayList<Plateforme>();
-    loadingRessource = "loading NiveauBoss/musique_cinematique.mp3";
-    musiqueIntro = new SoundFile(LeBouchonOr.this, "NiveauBoss/musique_cinematique.mp3");
-    loadingProgress--;
-    loadingRessource = "loading NiveauBoss/phase1.mp3";
-    musiquePhase1 = new SoundFile(LeBouchonOr.this, "NiveauBoss/phase1.mp3");
-    loadingProgress--;
-    loadingRessource = "loading NiveauBoss/phase2.mp3";
-    musiquePhase2 = new SoundFile(LeBouchonOr.this, "NiveauBoss/phase2.mp3");
-    loadingProgress--;
-    loadingRessource = "loading mort_mercenaire.wav";
-    meurt = new SoundFile(LeBouchonOr.this, "mort_mercenaire.wav");
-    loadingProgress--;
-    loadingRessource = "loading item.mp3";
-    item = new SoundFile(LeBouchonOr.this, "item.mp3");
-    loadingProgress--;
     loadingRessource = "loading NiveauBoss/intro.png";
     imgIntro = loadImage("NiveauBoss/intro.png");
-    loadingProgress--;
+    loadingProgress++;
     loadingRessource = "loading NiveauBoss/thibault1.png";
     imgDialogue1 = loadImage("NiveauBoss/thibault1.png");
-    loadingProgress--;
+    loadingProgress++;
     loadingRessource = "loading NiveauBoss/thibault2.png";
     imgDialogue2 = loadImage("NiveauBoss/thibault2.png");
-    loadingProgress--;
+    loadingProgress++;
     loadingRessource = "loading NiveauBoss/thibault3.png";
     imgDialogue3 = loadImage("NiveauBoss/thibault3.png");
-    loadingProgress--;
+    loadingProgress++;
     loadingRessource = "loading NiveauBoss/fin.png";
     imgDialogue4 = loadImage("NiveauBoss/fin.png");
-    loadingProgress--;
+    loadingProgress++;
     loadingRessource = "loading thibault.png";
     thibault = loadImage("thibault.png");
-    loadingProgress--;
+    loadingProgress++;
     loadingRessource = "loading NiveauBoss/fond.png";
     fond = loadImage("NiveauBoss/fond.png");
-    loadingProgress--;
+    loadingProgress++;
     plateformes.add(new Plateforme(355, 410, 398, false));
     plateformes.add(new Plateforme(325.5, 193, 246, false));
     plateformes.add(new Plateforme(966, 410, 398, false));
     plateformes.add(new Plateforme(1006, 193, 246, false));
+    
     boss = new Sprite(1038, 382.5);
     boss.chargeImage("NiveauBoss/boss.png");
     fade = new Horloge(2000);
@@ -86,8 +67,8 @@ class NiveauBoss {
       invalideBouton = false;
       if (vie <= 50 && !phase2) {
         phase2 = true;
-        musiquePhase1.stop();
-        musiquePhase2.loop();
+        music_boss_phase1.stop();
+        music_boss_phase2.loop();
         vx = 6.5;
       }
       // Estimation des collisions.
@@ -165,9 +146,8 @@ class NiveauBoss {
 
       if (vie <=0) {
         gagne = true;
-        musiquePhase2.stop();
-        meurt.stop();
-        meurt.play();
+        music_boss_phase2.stop();
+        soundPool.play(sound_mort);
         fade.lancer();
       }
     } else {
@@ -277,12 +257,11 @@ class NiveauBoss {
       dialogue2 = false;
     } else if (dialogue3) {
       dialogue3 = false;
-      musiqueIntro.stop();
-      item.play();
-      musiquePhase1.loop();
+      music_boss_cinematique.stop();
+      soundPool.play(sound_item);
+      music_boss_phase1.loop();
     } else if (dialogue4) {
       dialogue4 = false;
-      musiqueIntro.stop();
       niveau = 1;
       infoChargeNiveau();
       credits.relancer();
@@ -315,18 +294,17 @@ class NiveauBoss {
   }
 
   void pause() {
-    musiqueIntro.stop();
-    musiquePhase1.stop();
-    musiquePhase2.stop();
+    music_boss_cinematique.stop();
+    music_boss_phase1.stop();
+    music_boss_phase2.stop();
   }
 
   void relancer() {
     reinitialiser();
-    musiqueIntro.loop();
+    music_boss_cinematique.loop();
     joueur.initNiveau(197, 4*cv.height/5-joueur.h/2); // On replace le joueur dans le niveau.
     joueur.aligneDroite = true;
     joueur.balleMaxDistance = 720;
-    joueur.vie = 100;
   }
 
   void reinitialiser() {

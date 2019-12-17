@@ -1,29 +1,27 @@
 class Credits {
 
   // Vitesse de défilement des crédits.
-  float speed = 1.20;
+  float speed = 0.7;
 
   // Position du pavé de texte.
   float y = 641;
 
   //Crédits
   PImage img;
-
+  
+  String[] lines;
 
   // Entier qui représente l'opacité du cache de l'écran, c'est la transition "fade out" vers les crédits.
   int transparence = 255;
 
-  // Musique de fond.
-  SoundFile musique;
-
   // Initialisation
   Credits() {
-    loadingRessource = "loading fin.mp3";
-    musique = new SoundFile(LeBouchonOr.this, "fin.mp3");
-    loadingProgress--;
     loadingRessource = "loading credits.png";
     img = loadImage("credits.png");
-    loadingProgress--;
+    loadingProgress++;
+    loadingRessource = "credits.txt";
+    lines = loadStrings("credits.txt");
+    loadingProgress++;
   }
 
   void afficher() {
@@ -31,21 +29,32 @@ class Credits {
     if (transparence > 0)
       transparence -= 1;
 
-    if (y+img.height < 0)
+    if (y+img.height+lines.length*32 < 0)
       retourAuMenu();
 
 
     cv.background(50);
     //Crédits
-    cv.image(img, 178, y);
-
-    cv.fill(0);
-    cv.rectMode(CENTER);
-    cv.rect(cv.width/2, cv.height-16, cv.width, 32);
-    cv.textAlign(CENTER, CENTER);
+    cv.image(img, cv.width/2-img.width/2, y);
+    
     cv.textSize(24);
-    cv.fill(255, 0, 0);
-    cv.text("Touchez l'ecran pour revenir au menu principal.", cv.width/2, cv.height-20);
+    cv.fill(255);
+    cv.textAlign(CENTER, CENTER);
+    for(int i=0; i < lines.length; i++){
+      float yy = 200+y+i*32;
+      if(yy < cv.height+32 && yy > 32)
+        cv.text(lines[i], cv.width/2, yy);
+    }
+
+    if (transparence <= 0) {
+      cv.fill(0);
+      cv.rectMode(CENTER);
+      cv.rect(cv.width/2, cv.height-16, cv.width, 32);
+      cv.textAlign(CENTER, CENTER);
+      cv.textSize(24);
+      cv.fill(255, 0, 0);
+      cv.text("Touchez l'ecran pour revenir au menu principal.", cv.width/2, cv.height-20);
+    }
 
 
     // Si on est encore en transition (fade out) alors c'est que la transparence est > 0.
@@ -81,13 +90,13 @@ class Credits {
   // Relance le niveau.
   void relancer() {
     invalideBouton = true;
-    musique.loop();
+    music_fin.loop();
     y = 641;
     transparence = 255;
   }
 
   // Met en pause le niveau.
   void pause() {
-    musique.stop();
+    music_fin.stop();
   }
 }

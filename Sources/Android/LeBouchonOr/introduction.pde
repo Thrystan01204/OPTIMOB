@@ -23,14 +23,7 @@ class NiveauIntro {
   PImage fond;
   PImage publique;
 
-
-  SoundFile musiqueIntro; // Musique lors de l'histoire principale.
-  SoundFile applaudissements; // Musique avant le ligne d'arrivée.
-  SoundFile action; // Musique de transition vers le tuto.
-
   Item bonus; // de la vie pour les noobs.
-
-
 
 
   NiveauIntro() {
@@ -41,37 +34,25 @@ class NiveauIntro {
     dialogues = new PImage[5];
     loadingRessource = "loading NiveauTuto/Dialogues/intro1.png";
     dialogues[0] = loadImage("NiveauTuto/Dialogues/intro1.png");
-    loadingProgress--;
+    loadingProgress++;
     loadingRessource = "loading NiveauTuto/Dialogues/intro2.png";
     dialogues[1] = loadImage("NiveauTuto/Dialogues/intro2.png");
-    loadingProgress--;
+    loadingProgress++;
     loadingRessource = "loading NiveauTuto/Dialogues/thibault1.png";
     dialogues[2] = loadImage("NiveauTuto/Dialogues/thibault1.png");
-    loadingProgress--;
+    loadingProgress++;
     loadingRessource = "loading NiveauTuto/Dialogues/thibault2.png";
     dialogues[3] = loadImage("NiveauTuto/Dialogues/thibault2.png");
-    loadingProgress--;
+    loadingProgress++;
     loadingRessource = "loading NiveauTuto/Dialogues/thibault3.png";
     dialogues[4] = loadImage("NiveauTuto/Dialogues/thibault3.png");
-    loadingProgress--;
+    loadingProgress++;
     loadingRessource = "loading NiveauTuto/fond.png";
     fond = loadImage("NiveauTuto/fond.png");
-    loadingProgress--;
+    loadingProgress++;
     loadingRessource = "loading NiveauTuto/publique.png";
     publique = loadImage("NiveauTuto/publique.png");
-    loadingProgress--;
-
-    loadingRessource = "loading NiveauTuto/Memories.mp3";
-    musiqueIntro = new SoundFile(LeBouchonOr.this, "NiveauTuto/Memories.mp3");
-    loadingProgress--;
-    loadingRessource = "loading NiveauTuto/applaudissements.mp3";
-    applaudissements = new SoundFile(LeBouchonOr.this, "NiveauTuto/applaudissements.mp3");
-    loadingProgress--;
-    applaudissements.amp(0.5);
-    loadingRessource = "loading NiveauTuto/battleThemeA.mp3";
-    action = new SoundFile(LeBouchonOr.this, "NiveauTuto/battleThemeA.mp3");
-    loadingProgress--;
-    action.amp(0.5);
+    loadingProgress++;
 
     // Rondin de bois
     murs.add(new Mur(765, 560.25, 50));
@@ -123,8 +104,8 @@ class NiveauIntro {
       // On entame le dialogue avec tibault.
       if (joueur.x > 1757 && !finDialogue1) {
         lanceDialogue1 = true;
-        applaudissements.stop();
-        action.loop();
+        music_tuto_applaudissements.stop();
+        music_tuto_battle.loop();
       }
     } else {
       invalideBouton = true;
@@ -153,8 +134,8 @@ class NiveauIntro {
       numDialogue += 1;
       if (numDialogue  == 2 ) {
         enIntroduction = false;
-        musiqueIntro.stop();
-        applaudissements.loop();
+        music_tuto_memories.stop();
+        music_tuto_applaudissements.loop();
         fade.lancer();
       }
     } 
@@ -319,14 +300,14 @@ class NiveauIntro {
   }
 
   void pause() {
-    applaudissements.stop();
-    musiqueIntro.stop();
-    action.stop();
+    music_tuto_applaudissements.stop();
+    music_tuto_memories.stop();
+    music_tuto_battle.stop();
   }
 
   void relancer() {
     fade.lancer();
-    musiqueIntro.loop();
+    music_tuto_memories.loop();
     reinitialiser();
     joueur.initNiveau(150, 507);
   }

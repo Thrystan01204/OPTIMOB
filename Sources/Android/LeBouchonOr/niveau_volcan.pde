@@ -11,8 +11,6 @@ class NiveauVolcan {
 
   PImage fond; // Image de fond.
 
-  SoundFile musique; // Musique de fond.
-
   Horloge fade; // Transition vers les niveaux.
 
   boolean dialogue1 = false;
@@ -34,23 +32,18 @@ class NiveauVolcan {
     ennemis = new ArrayList<Mercenaire>();
     loadingRessource = "loading NiveauVolcan/fond.png";
     fond = loadImage("NiveauVolcan/fond.png");
-    loadingProgress--;
+    loadingProgress++;
     loadingRessource = "loading NiveauVolcan/thibault1.png";
     imgDialogue1 = loadImage("NiveauVolcan/thibault1.png");
-    loadingProgress--;
+    loadingProgress++;
     loadingRessource = "loading NiveauVolcan/thibault2.png";
     imgDialogue2 = loadImage("NiveauVolcan/thibault2.png");
-    loadingProgress--;
+    loadingProgress++;
     loadingRessource = "loading NiveauVolcan/martin.png";
     imgDialogue3 = loadImage("NiveauVolcan/martin.png");
-    loadingProgress--;
+    loadingProgress++;
 
     //*************Mise en place des plateformes et murs *****************//
-    loadingRessource = "loading NiveauVolcan/musique.mp3";
-    musique = new SoundFile(LeBouchonOr.this, "NiveauVolcan/musique.mp3");
-    loadingProgress--;
-    musique.amp(0.75);
-
     bonus1 = new PainBouchon(2418, 553);
     bonus2 = new PainBouchon(3485, 506);
     bonus3 = new PainBouchon(3196, 506);
@@ -77,8 +70,6 @@ class NiveauVolcan {
     Mercenaire m5 = new Mercenaire(1708, 576, 656, 2);
     m5.level = 10;
     ennemis.add(m5);
-
-
 
     fade = new Horloge(2000);
     fade.tempsEcoule = true;
@@ -310,12 +301,12 @@ class NiveauVolcan {
 
   // Permet de suspendre les actions du menu.
   void pause() {
-    musique.stop(); // On stope la musique de fond.
+    music_volcan.stop(); // On stope la musique de fond.
   }
 
   // Lorsque l'on revient dans ce niveau, on s'assure de reprendre ses actions misent en pause.
   void relancer() {
-    musique.loop(); // On relance la musique de fond.
+    music_volcan.loop(); // On relance la musique de fond.
     joueur.initNiveau(281, 4*cv.height/5-joueur.h/2); // On replace le joueur dans le niveau.
     changeNiveauVille = false;
     fade.tempsEcoule = true;
