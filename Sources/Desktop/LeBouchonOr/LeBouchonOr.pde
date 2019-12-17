@@ -2,7 +2,7 @@
 import processing.sound.*;  // Bibliothèque pour gérer les musiques.
 
 String loadingRessource = ""; // affichage de la ressource en chargement.
-int loadingProgress = 261;
+int loadingProgress = 260;
 
 //Animations redondantes
 PImage[] anim_mercenaire1_immobile, 
@@ -120,7 +120,6 @@ void chargerNiveaux() {
 
   // On indique que le chargement est fini, pour pouvoir passer de l'écran de chargement au menu principal.
   chargementDuJeu = false;
-  println(loadingProgress);
 
   //On lance le niveau
   if (niveau == 4)
@@ -181,7 +180,7 @@ void infoChargeNiveau() {
   cv.fill(255);
   cv.text("CHARGEMENT DU NIVEAU", cv.width/2, cv.height/2);
   cv.textSize(24);
-  cv.text("Cette opération peu prendre quelques secondes...ou minutes en fonction de votre matériel.", cv.width/2, 3*cv.height/4);
+  cv.text("Cette operation peu prendre quelques secondes...ou minutes en fonction de votre materiel.", cv.width/2, 3*cv.height/4);
 }
 
 void collisionLimites() {
@@ -400,7 +399,7 @@ void draw() {
     
     cv.fill(255,0,0);
     cv.rectMode(CORNER);
-    float x = map(loadingProgress, 261, 0, 0, cv.width);
+    float x = map(loadingProgress, 260, 0, 0, cv.width);
     cv.rect(0,cv.height-32-24, x, 48);
     
     cv.textSize(24);

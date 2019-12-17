@@ -4,8 +4,6 @@ class NiveauVille {
   ArrayList<Mercenaire> ennemis; // Liste des ennemis.
 
   PImage fond; // Image de fond (bâtiments et plateformes).
-  PImage montagnes; // Image pour le parallax.
-  float positionMontagesX = 0; // Position des montages pour l'effet parallax.
 
   SoundFile musique; // Musique de fond.
 
@@ -60,9 +58,6 @@ class NiveauVille {
     
     loadingRessource = "loading NiveauVille/fond.png";
     fond = loadImage("NiveauVille/fond.png");
-    loadingProgress--;
-    loadingRessource = "loading NiveauVille/montagnes.png";
-    montagnes = loadImage("NiveauVille/montagnes.png");
     loadingProgress--;
 
     //*************Mise en place des plateformes et murs *****************//
@@ -139,7 +134,6 @@ class NiveauVille {
       collisionLimites(); // On s'assure que le joueur ne sorte pas des limites du niveau.
 
       camera.actualiser(); // On déplace la position de la caméra si nécessaire.
-      positionMontagesX += camera.dx*0.125; // Pour donner un effet de parallax, on déplace un peu plus les montages que le fond.
     }
     // Après la transition on change de niveau.
     if (fade.tempsEcoule && changeNiveauErmitage) {
@@ -181,7 +175,6 @@ class NiveauVille {
     // précédente.
     // Remarque 2: le repère initial est (0, 0) or les coordonnées de la boîte englobante du niveau dans ce repère sont: (0, -height) et (3*width, height);
 
-    cv.image(montagnes, positionMontagesX, -cv.height); // Affichage des montagnes.
     cv.image(fond, 0, -cv.height); // Affichage des bâtiments et des plateformes.
     bonus1.afficher();
     bonus2.afficher();
@@ -334,7 +327,6 @@ class NiveauVille {
   }
 
   void reinitialiser() {
-    positionMontagesX = 0; // Position des montages pour l'effet parallax.
     numDialogue = 0; // Position dans les dialogues.
     finDialogue1 = true;
     lanceDialogue1 = false;
