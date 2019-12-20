@@ -72,3 +72,6 @@ Another Volcano by Marty Opsahl https://soundcloud.com/megapixelmusic licensed C
 MorningAttack by Vishwa Jay licensed CC0: https://opengameart.org/content/doom-in-the-morning
 
 Death Is Just Another Path by Otto Halmén licensed CC-BY 3.0 or OGA-BY 3.0: https://opengameart.org/content/death-is-just-another-path
+
+<h3>Remerciements:</h3>
+Olivier Sebastien
