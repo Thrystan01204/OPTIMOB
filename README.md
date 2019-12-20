@@ -1,10 +1,10 @@
-# LE BOUCHON D'OR
+<h1> LE BOUCHON D'OR </h1>
 
 Projet de fin d'UE IHM:
 Créer un RPG de tourisme à l'île de la Réunion en Processing
 
 
-Réalisé par l'équipe OPTIMOB:
+<h2>Réalisé par l'équipe OPTIMOB:</h2>
 Pierre Jaffuer
 Olivier Vee
 Ibnou Issouffa
@@ -13,34 +13,34 @@ Matthieu Mehon Shit Li
 Ronico Billy
 
 
-Chef de projet:
+<h3>Chef de projet:</h3>
 Pierre Jaffuer
 
 
-Responsable design:
+<h3>Responsable design:</h3>
 Olivier Vee
 
 
-Programmation:
+<h3>Programmation:</h3>
 Pierre Jaffuer
 
 
-Animations:
+<h3>Animations:</h3>
 Pierre Jaffuer
 
 
-Graphismes:
+<h3>Graphismes:</h3>
 Olivier Vee
 Ibnou Issouffa
 Tristan Le Lidec
 Matthieu Mehon Shit Li
 
 
-Dialogues:
+<h3>Dialogues:</h3>
 Ronico Billy
 
 
-Sons et Musiques:
+<h3>Sons et Musiques:</h3>
 adventure by syncopika licensed CC-BY 3.0: https://opengameart.org/content/adventure
 
 Valiant Genericus (Effort Noises) by tinsin licensed CC-BY 3.0 or CC-BY-SA 3.0: https://opengameart.org/content/generic-hero-effort-noises
