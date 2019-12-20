@@ -5,11 +5,11 @@ Créer un RPG de tourisme à l'île de la Réunion en Processing
 
 
 <h2>Réalisé par l'équipe OPTIMOB:</h2>
-Pierre Jaffuer
-Olivier Vee
-Ibnou Issouffa
-Tristan Le Lidec
-Matthieu Mehon Shit Li
+Pierre Jaffuer,
+Olivier Vee,
+Ibnou Issouffa,
+Tristan Le Lidec,
+Matthieu Mehon Shit Li,
 Ronico Billy
 
 
@@ -30,9 +30,9 @@ Pierre Jaffuer
 
 
 <h3>Graphismes:</h3>
-Olivier Vee
-Ibnou Issouffa
-Tristan Le Lidec
+Olivier Vee,
+Ibnou Issouffa,
+Tristan Le Lidec,
 Matthieu Mehon Shit Li
 
 
