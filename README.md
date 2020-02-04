@@ -9,7 +9,7 @@ Pierre Jaffuer,
 Olivier Vee,
 Ibnou Issouffa,
 Tristan Le Lidec,
-Matthieu Mehon Shit Li,
+Matthieu Mehong Shit Li,
 Ronico Billy
 
 
